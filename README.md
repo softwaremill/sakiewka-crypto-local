@@ -1,4 +1,6 @@
-# sakiewka-client
+# sakiewka-crypto-local
+
+Local api.
 
 ### Usage:
 
