@@ -29,10 +29,9 @@ const getUser = async () => {
       password: 'abcd'
     })
 
-  const responseBody = JSON.parse(response.body)
   return {
     login,
-    token: responseBody.data.token
+    token: response.body.data.token
   }
 }
 
@@ -46,8 +45,7 @@ const getWalletId = async (token: string) => {
       userPubKey: '123'
     })
 
-  const responseBody = JSON.parse(response.body)
-  return responseBody.data.id
+  return response.body.data.id
 }
 
 describe('server', () => {
@@ -97,10 +95,9 @@ describe('server', () => {
           password: 'abcd'
         })
 
-      const responseBody = JSON.parse(response.body)
 
       expect(response.status).to.be.equal(200)
-      expect(responseBody.data).to.be.empty
+      expect(response.body.data).to.be.empty
     })
   })
 
@@ -145,11 +142,10 @@ describe('server', () => {
           password: 'abcd'
         })
 
-      const responseBody = JSON.parse(response.body)
 
       expect(response.status).to.be.equal(200)
-      expect(responseBody.data.token).to.be.a('string')
-      expect(responseBody.data.token).to.have.lengthOf(64)
+      expect(response.body.data.token).to.be.a('string')
+      expect(response.body.data.token).to.have.lengthOf(64)
     })
   })
 
@@ -169,12 +165,11 @@ describe('server', () => {
         .get(`/${constants.BASE_API_PATH}/user/info`)
         .set('Authorization', `Bearer ${token}`)
 
-      const responseBody = JSON.parse(response.body)
 
       expect(response.status).to.be.equal(200)
-      expect(responseBody.data.email).to.be.equal(login)
-      expect(responseBody.data.token).to.have.lengthOf(64)
-      expect(responseBody.data.tokenInfo.expiry).to.be.a('string')
+      expect(response.body.data.email).to.be.equal(login)
+      expect(response.body.data.token).to.have.lengthOf(64)
+      expect(response.body.data.tokenInfo.expiry).to.be.a('string')
     })
   })
 
@@ -216,11 +211,10 @@ describe('server', () => {
           userPubKey: '123'
         })
 
-      const responseBody = JSON.parse(response.body)
 
       expect(response.status).to.be.equal(200)
-      expect(responseBody.data.id).to.have.lengthOf(64)
-      expect(responseBody.data.servicePubKey).to.be.a('string')
+      expect(response.body.data.id).to.have.lengthOf(64)
+      expect(response.body.data.servicePubKey).to.be.a('string')
     })
   })
 
@@ -241,16 +235,15 @@ describe('server', () => {
         .get(`/${constants.BASE_API_PATH}/btc/wallet/${walletId}`)
         .set('Authorization', `Bearer ${token}`)
 
-      const responseBody = JSON.parse(response.body)
 
       expect(response.status).to.be.equal(200)
-      expect(responseBody.data).to.haveOwnProperty('id')
-      expect(responseBody.data).to.haveOwnProperty('label')
-      expect(responseBody.data).to.haveOwnProperty('currency')
-      expect(responseBody.data).to.haveOwnProperty('created')
-      expect(responseBody.data.id).to.equal(walletId)
-      expect(responseBody.data.label).to.equal('testLabel')
-      expect(responseBody.data.currency).to.equal('BTC')
+      expect(response.body.data).to.haveOwnProperty('id')
+      expect(response.body.data).to.haveOwnProperty('label')
+      expect(response.body.data).to.haveOwnProperty('currency')
+      expect(response.body.data).to.haveOwnProperty('created')
+      expect(response.body.data.id).to.equal(walletId)
+      expect(response.body.data.label).to.equal('testLabel')
+      expect(response.body.data.currency).to.equal('BTC')
     })
   })
 
@@ -274,7 +267,6 @@ describe('server', () => {
         .get(`/${constants.BASE_API_PATH}/btc/wallet`)
         .set('Authorization', `Bearer ${token}`)
 
-      const responseBody = JSON.parse(response.body)
 
       expect(response.status).to.be.equal(200)
     })
@@ -300,14 +292,13 @@ describe('server', () => {
       const response = await supertest(app)
         .post(`/${constants.BASE_API_PATH}/btc/key/create`)
 
-      const responseBody = JSON.parse(response.body)
 
       expect(response.status).to.be.equal(200)
-      expect(responseBody.data).to.haveOwnProperty('keypair')
-      expect(responseBody.data.keypair).to.haveOwnProperty('pubKey')
-      expect(responseBody.data.keypair).to.haveOwnProperty('privKey')
-      expect(responseBody.data.keypair.pubKey).to.have.lengthOf(111)
-      expect(responseBody.data.keypair.privKey).to.have.lengthOf(111)
+      expect(response.body.data).to.haveOwnProperty('keypair')
+      expect(response.body.data.keypair).to.haveOwnProperty('pubKey')
+      expect(response.body.data.keypair).to.haveOwnProperty('privKey')
+      expect(response.body.data.keypair.pubKey).to.have.lengthOf(111)
+      expect(response.body.data.keypair.privKey).to.have.lengthOf(111)
     })
 
     it('should return encrypted key', async () => {
@@ -319,14 +310,13 @@ describe('server', () => {
           passphrase: 'abcd'
         })
 
-      const responseBody = JSON.parse(response.body)
 
       expect(response.status).to.be.equal(200)
-      expect(responseBody.data).to.haveOwnProperty('keypair')
-      expect(responseBody.data.keypair).to.haveOwnProperty('pubKey')
-      expect(responseBody.data.keypair).to.haveOwnProperty('privKey')
-      expect(responseBody.data.keypair.pubKey).to.have.lengthOf(111)
-      expect(responseBody.data.keypair.privKey).to.have.lengthOf(298)
+      expect(response.body.data).to.haveOwnProperty('keypair')
+      expect(response.body.data.keypair).to.haveOwnProperty('pubKey')
+      expect(response.body.data.keypair).to.haveOwnProperty('privKey')
+      expect(response.body.data.keypair.pubKey).to.have.lengthOf(111)
+      expect(response.body.data.keypair.privKey).to.have.lengthOf(298)
     })
   })
 })
