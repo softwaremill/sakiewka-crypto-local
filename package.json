@@ -3,16 +3,15 @@
   "version": "1.0.0",
   "description": "Client-side Sakiewka app",
   "scripts": {
-    "postinstall": "cd node_modules/sjcl && ./configure --with-sha512 && make sjcl.js",
     "test": "jest --forceExit --coverage --verbose",
     "test-unit": "jest --forceExit --coverage --verbose --testPathIgnorePatterns=\"src/api/\"",
-    "watch-test": "npm run test -- --watchAll",
+    "watch-test": "NODE_ENV=dev npm run test -- --watchAll",
     "watch-test-unit": "npm run test-unit -- --watchAll",
     "build": "tsc",
     "watch": "tsc -w",
     "serve": "node dist/local-api/server.js",
-    "serve-debug": "nodemon --inspect dist/local-api/server.js",
-    "watch-debug": "concurrently \"npm run watch\" \"npm run serve-debug\""
+    "serve-debug": "NODE_ENV=dev DEBUG=* nodemon --inspect dist/local-api/server.js",
+    "watch-debug": "NODE_ENV=dev DEBUG=* concurrently \"npm run watch\" \"npm run serve-debug\""
   },
   "repository": {
     "type": "git",
