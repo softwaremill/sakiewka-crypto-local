@@ -64,6 +64,13 @@ describe('server', () => {
     })
   })
 
+  describe('404', () => {
+    it('should properly handle 404 error', async () => {
+      const response = await supertest(app).get('/some-route')
+      expect(response.status).to.be.equal(404)
+    })
+  })
+
   describe('/user/register', () => {
     it('should not accept incomplete request', async () => {
       const response = await supertest(app)
@@ -94,7 +101,6 @@ describe('server', () => {
           login: `testlogin${randomString()}`,
           password: 'abcd'
         })
-
 
       expect(response.status).to.be.equal(200)
       expect(response.body.data).to.be.empty
@@ -142,7 +148,6 @@ describe('server', () => {
           password: 'abcd'
         })
 
-
       expect(response.status).to.be.equal(200)
       expect(response.body.data.token).to.be.a('string')
       expect(response.body.data.token).to.have.lengthOf(64)
@@ -164,7 +169,6 @@ describe('server', () => {
       const response = await supertest(app)
         .get(`/${constants.BASE_API_PATH}/user/info`)
         .set('Authorization', `Bearer ${token}`)
-
 
       expect(response.status).to.be.equal(200)
       expect(response.body.data.email).to.be.equal(login)
@@ -211,7 +215,6 @@ describe('server', () => {
           userPubKey: '123'
         })
 
-
       expect(response.status).to.be.equal(200)
       expect(response.body.data.id).to.have.lengthOf(64)
       expect(response.body.data.servicePubKey).to.be.a('string')
@@ -234,7 +237,6 @@ describe('server', () => {
       const response = await supertest(app)
         .get(`/${constants.BASE_API_PATH}/btc/wallet/${walletId}`)
         .set('Authorization', `Bearer ${token}`)
-
 
       expect(response.status).to.be.equal(200)
       expect(response.body.data).to.haveOwnProperty('id')
@@ -267,7 +269,6 @@ describe('server', () => {
         .get(`/${constants.BASE_API_PATH}/btc/wallet`)
         .set('Authorization', `Bearer ${token}`)
 
-
       expect(response.status).to.be.equal(200)
     })
   })
@@ -292,7 +293,6 @@ describe('server', () => {
       const response = await supertest(app)
         .post(`/${constants.BASE_API_PATH}/btc/key/create`)
 
-
       expect(response.status).to.be.equal(200)
       expect(response.body.data).to.haveOwnProperty('keypair')
       expect(response.body.data.keypair).to.haveOwnProperty('pubKey')
@@ -309,7 +309,6 @@ describe('server', () => {
         .send({
           passphrase: 'abcd'
         })
-
 
       expect(response.status).to.be.equal(200)
       expect(response.body.data).to.haveOwnProperty('keypair')
