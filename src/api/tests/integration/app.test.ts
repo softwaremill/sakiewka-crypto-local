@@ -45,7 +45,7 @@ const getWalletId = async (token: string) => {
       userPubKey: '123'
     })
 
-  return response.body.data.id
+  return response.body.data.walletId
 }
 
 describe('server', () => {
@@ -204,7 +204,7 @@ describe('server', () => {
     })
 
     it('should create wallet', async () => {
-      const { token, login } = await getUser()
+      const { token } = await getUser()
 
       const response = await supertest(app)
         .post(`/${constants.BASE_API_PATH}/btc/wallet/create`)
@@ -216,8 +216,8 @@ describe('server', () => {
         })
 
       expect(response.status).to.be.equal(200)
-      expect(response.body.data.id).to.have.lengthOf(64)
-      expect(response.body.data.servicePubKey).to.be.a('string')
+      expect(response.body.data.user.pubKey).to.eq('123')
+      expect(response.body.data.backup.privKey).to.have.lengthOf(111)
     })
   })
 
