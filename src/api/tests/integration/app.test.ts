@@ -259,17 +259,18 @@ describe('server', () => {
     })
 
     it('should return list of wallets', async () => {
-      // TODO: Backend api returns 404
-      return
-
       const { token } = await getUser()
       const walletId = await getWalletId(token)
 
       const response = await supertest(app)
-        .get(`/${constants.BASE_API_PATH}/btc/wallet`)
+        .get(`/${constants.BASE_API_PATH}/btc/wallet?limit=20`)
         .set('Authorization', `Bearer ${token}`)
 
       expect(response.status).to.be.equal(200)
+      expect(response.body.data).to.haveOwnProperty('wallets')
+      expect(response.body.data.wallets).to.have.lengthOf(1)
+      expect(response.body.data.wallets[0].label).to.eq('testLabel')
+      expect(response.body.data.wallets[0].id).to.eq(walletId)
     })
   })
 

@@ -14,7 +14,9 @@ const listWallets = async (req: Request, res: Response) => {
     return errorResponse(res, constants.API_ERROR.BAD_REQUEST, validationErrors[0])
   }
 
-  const backendResponse = await backendApi.listWallets(req.header('authorization'))
+  const backendResponse = await backendApi.listWallets(
+    req.header('authorization'), req.query.limit, req.query.nextPageToken
+  )
 
   // TODO: check if there was no errors during backend request
   jsonResponse(res, { ...backendResponse })
