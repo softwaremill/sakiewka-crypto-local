@@ -1,27 +1,14 @@
 import { Request } from 'express'
-import { RequestModel } from '../types/api'
+import { ObjectSchema, ValidationError } from 'joi'
 
-export default (request: Request, model: RequestModel) => {
-  const modelProperties = Object.keys(model.fields)
-  const requestProperties = Object.keys(request.body)
+export default (request: Request, model: ObjectSchema, authRequired?: boolean) => {
+  const { error } = model.validate(request.body)
 
-  const errors = []
+  if (error) return error.details.map((err: ValidationError) => err.message)
 
-  requestProperties.forEach((reqestProp: string) => {
-    if (!model.fields[reqestProp]) errors.push(`Property ${reqestProp} is not supported.`)
-  })
+  if (authRequired && !request.rawHeaders.includes('Authorization')) {
+    return ['Request header Authorization is required.']
+  }
 
-  modelProperties.forEach((modelProperty: string) => {
-    if (!request.body[modelProperty] && model.fields[modelProperty].required) {
-      errors.push(`Property ${modelProperty} is required.`)
-    }
-  })
-
-  model.headers.forEach((modelHeader: string) => {
-    if (!request.rawHeaders.includes(modelHeader)) {
-      errors.push(`Request header ${modelHeader} is required.`)
-    }
-  })
-
-  return errors
+  return []
 }

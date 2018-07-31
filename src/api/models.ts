@@ -1,82 +1,30 @@
-export const registerRequest = {
-  fields: {
-    password: {
-      required: true,
-      type: 'string'
-    },
-    login: {
-      required: true,
-      type: 'string'
-    }
-  },
-  headers: []
-}
+import Joi, { SchemaMap } from 'joi'
 
-export const loginRequest = {
-  fields: {
-    password: {
-      required: true,
-      type: 'string'
-    },
-    login: {
-      required: true,
-      type: 'string'
-    }
-  },
-  headers: []
-}
+const createSchema = (object: SchemaMap) => Joi.object().keys(object)
 
-export const infoRequest = {
-  fields: {},
-  headers: [
-    'Authorization'
-  ]
-}
+export const registerRequest = createSchema({
+  password: Joi.string().required(),
+  login: Joi.string().required()
+})
 
-export const createWalletRequest = {
-  fields: {
-    label: {
-      required: true,
-      type: 'string'
-    },
-    userPubKey: {
-      required: false,
-      type: 'string'
-    },
-    backupPubKey: {
-      required: false,
-      type: 'string'
-    },
-    passphrase: {
-      required: true,
-      type: 'string'
-    }
-  },
-  headers: [
-    'Authorization'
-  ]
-}
+export const loginRequest = createSchema({
+  password: Joi.string().required(),
+  login: Joi.string().required()
+})
 
-export const getWalletRequest = {
-  fields: {},
-  headers: [
-    'Authorization'
-  ]
-}
+export const infoRequest = createSchema({})
 
-export const listWalletsRequest = {
-  fields: {},
-  headers: [
-    'Authorization'
-  ]
-}
+export const createWalletRequest = createSchema({
+  label: Joi.string().required(),
+  userPubKey: Joi.string(),
+  backupPubKey: Joi.string(),
+  passphrase: Joi.string().required()
+})
 
-export const createKeyRequest = {
-  fields: {
-    passphrase: {
-      required: false,
-      type: 'string'
-    }
-  },
-  headers: []
-}
+export const getWalletRequest = createSchema({})
+
+export const listWalletsRequest = createSchema({})
+
+export const createKeyRequest = createSchema({
+  passphrase: Joi.string()
+})

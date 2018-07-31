@@ -28,6 +28,8 @@
     "@types/mocha": "^5.2.4",
     "@types/node": "^10.5.2",
     "@types/node-fetch": "^2.1.1",
+    "@types/bitcoinjs-lib": "^3.4.0",
+    "@types/joi": "^13.4.0",
     "chai": "^4.1.2",
     "concurrently": "^3.6.0",
     "jest": "^23.4.0",
@@ -40,12 +42,12 @@
     "typescript": "^2.9.2"
   },
   "dependencies": {
-    "@types/bitcoinjs-lib": "^3.4.0",
     "@types/sjcl": "^1.0.28",
     "bitcoinjs-lib": "^3.3.2",
     "body-parser": "^1.18.3",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
+    "joi": "^13.5.2",
     "node-fetch": "^2.1.2",
     "sakiewka-crypto": "git@github.com:softwaremill/sakiewka-crypto.git"
   }

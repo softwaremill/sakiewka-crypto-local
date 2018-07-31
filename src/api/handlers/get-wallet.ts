@@ -8,7 +8,7 @@ import validate from '../validate'
 const { backendApi, constants } = sakiewkaCrypto
 
 const getWallet = async (req: Request, res: Response) => {
-  const validationErrors = validate(req, getWalletRequest)
+  const validationErrors = validate(req, getWalletRequest, true)
 
   if (validationErrors.length > 0) {
     return errorResponse(res, constants.API_ERROR.BAD_REQUEST, validationErrors[0])

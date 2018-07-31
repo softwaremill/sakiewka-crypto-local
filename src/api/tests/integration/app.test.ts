@@ -78,7 +78,7 @@ describe('server', () => {
         .send({ login: 'testLogin' })
 
       expect(response.status).to.be.equal(400)
-      expect(response.body.error.message).to.be.equal('Property password is required.')
+      expect(response.body.error.message).to.be.equal('"password" is required')
     })
 
     it('should not accept extra paramters', async () => {
@@ -91,7 +91,7 @@ describe('server', () => {
         })
 
       expect(response.status).to.be.equal(400)
-      expect(response.body.error.message).to.be.equal('Property extraProp is not supported.')
+      expect(response.body.error.message).to.be.equal('"extraProp" is not allowed')
     })
 
     it('should register user', async () => {
@@ -114,7 +114,7 @@ describe('server', () => {
         .send({ login: 'testLogin' })
 
       expect(response.status).to.be.equal(400)
-      expect(response.body.error.message).to.be.equal('Property password is required.')
+      expect(response.body.error.message).to.be.equal('"password" is required')
     })
 
     it('should not accept extra paramters', async () => {
@@ -127,7 +127,7 @@ describe('server', () => {
         })
 
       expect(response.status).to.be.equal(400)
-      expect(response.body.error.message).to.be.equal('Property extraProp is not supported.')
+      expect(response.body.error.message).to.be.equal('"extraProp" is not allowed')
     })
 
     it('should login user', async () => {
@@ -184,7 +184,7 @@ describe('server', () => {
         .set('Authorization', `Bearer abc`)
 
       expect(response.status).to.be.equal(400)
-      expect(response.body.error.message).to.be.equal('Property label is required.')
+      expect(response.body.error.message).to.be.equal('"label" is required')
     })
 
     it('should not accept extra parameters', async () => {
@@ -200,7 +200,7 @@ describe('server', () => {
         })
 
       expect(response.status).to.be.equal(400)
-      expect(response.body.error.message).to.be.equal('Property extraProp is not supported.')
+      expect(response.body.error.message).to.be.equal('"extraProp" is not allowed')
     })
 
     it('should create wallet', async () => {
@@ -285,7 +285,7 @@ describe('server', () => {
         })
 
       expect(response.status).to.be.equal(400)
-      expect(response.body.error.message).to.be.equal('Property extraProp is not supported.')
+      expect(response.body.error.message).to.be.equal('"extraProp" is not allowed')
     })
 
     it('should return keys', async () => {
