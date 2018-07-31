@@ -78,7 +78,7 @@ describe('server', () => {
         .send({ login: 'testLogin' })
 
       expect(response.status).to.be.equal(400)
-      expect(response.body.message).to.be.equal('Property password is required.')
+      expect(response.body.error.message).to.be.equal('Property password is required.')
     })
 
     it('should not accept extra paramters', async () => {
@@ -91,7 +91,7 @@ describe('server', () => {
         })
 
       expect(response.status).to.be.equal(400)
-      expect(response.body.message).to.be.equal('Property extraProp is not supported.')
+      expect(response.body.error.message).to.be.equal('Property extraProp is not supported.')
     })
 
     it('should register user', async () => {
@@ -114,7 +114,7 @@ describe('server', () => {
         .send({ login: 'testLogin' })
 
       expect(response.status).to.be.equal(400)
-      expect(response.body.message).to.be.equal('Property password is required.')
+      expect(response.body.error.message).to.be.equal('Property password is required.')
     })
 
     it('should not accept extra paramters', async () => {
@@ -127,7 +127,7 @@ describe('server', () => {
         })
 
       expect(response.status).to.be.equal(400)
-      expect(response.body.message).to.be.equal('Property extraProp is not supported.')
+      expect(response.body.error.message).to.be.equal('Property extraProp is not supported.')
     })
 
     it('should login user', async () => {
@@ -160,7 +160,7 @@ describe('server', () => {
         .get(`/${constants.BASE_API_PATH}/user/info`)
 
       expect(response.status).to.be.equal(400)
-      expect(response.body.message).to.be.equal('Request header Authorization is required.')
+      expect(response.body.error.message).to.be.equal('Request header Authorization is required.')
     })
 
     it('should fetch user info', async () => {
@@ -184,7 +184,7 @@ describe('server', () => {
         .set('Authorization', `Bearer abc`)
 
       expect(response.status).to.be.equal(400)
-      expect(response.body.message).to.be.equal('Property label is required.')
+      expect(response.body.error.message).to.be.equal('Property label is required.')
     })
 
     it('should not accept extra parameters', async () => {
@@ -200,7 +200,7 @@ describe('server', () => {
         })
 
       expect(response.status).to.be.equal(400)
-      expect(response.body.message).to.be.equal('Property extraProp is not supported.')
+      expect(response.body.error.message).to.be.equal('Property extraProp is not supported.')
     })
 
     it('should create wallet', async () => {
@@ -227,7 +227,7 @@ describe('server', () => {
         .get(`/${constants.BASE_API_PATH}/btc/wallet/1234`)
 
       expect(response.status).to.be.equal(400)
-      expect(response.body.message).to.be.equal('Request header Authorization is required.')
+      expect(response.body.error.message).to.be.equal('Request header Authorization is required.')
     })
 
     it('should get wallet', async () => {
@@ -255,7 +255,7 @@ describe('server', () => {
         .get(`/${constants.BASE_API_PATH}/btc/wallet`)
 
       expect(response.status).to.be.equal(400)
-      expect(response.body.message).to.be.equal('Request header Authorization is required.')
+      expect(response.body.error.message).to.be.equal('Request header Authorization is required.')
     })
 
     it('should return list of wallets', async () => {
@@ -285,7 +285,7 @@ describe('server', () => {
         })
 
       expect(response.status).to.be.equal(400)
-      expect(response.body.message).to.be.equal('Property extraProp is not supported.')
+      expect(response.body.error.message).to.be.equal('Property extraProp is not supported.')
     })
 
     it('should return keys', async () => {
