@@ -11,6 +11,7 @@
     "no-void-expression": false,
     "no-redundant-jsdoc": false,
     "prefer-type-cast": false,
+    "import-name": false,
     "trailing-comma": [
       true,
       {
