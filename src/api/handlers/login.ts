@@ -15,9 +15,8 @@ const login = async (req: Request, res: Response) => {
   }
 
   const { login, password } = req.body
-  crypto.hashSha512(password)
 
-  const backendResponse = await backendApi.login(login, crypto.hashSha512(password))
+  const backendResponse = await backendApi.login(login, crypto.hashPassword(password))
 
   // TODO: check if there was no errors during backend request
   const token = backendResponse.token

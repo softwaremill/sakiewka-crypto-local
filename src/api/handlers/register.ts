@@ -16,7 +16,7 @@ const register = async (req: Request, res: Response) => {
 
   const { login, password } = req.body
 
-  const backendResponse = await backendApi.register(login, crypto.hashSha512(password))
+  const backendResponse = await backendApi.register(login, crypto.hashPassword(password))
 
   // TODO: check if there was no errors during backend request
   jsonResponse(res, backendResponse)
