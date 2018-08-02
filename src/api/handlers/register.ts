@@ -5,7 +5,7 @@ import { registerRequest } from '../models'
 import { jsonResponse, errorResponse } from '../response'
 import validate from '../validate'
 
-const { constants, backendApi, crypto } = sakiewkaCrypto
+const { constants, user, crypto } = sakiewkaCrypto
 
 const register = async (req: Request, res: Response) => {
   const validationErrors = validate(req, registerRequest)
@@ -16,7 +16,7 @@ const register = async (req: Request, res: Response) => {
 
   const { login, password } = req.body
 
-  const backendResponse = await backendApi.register(login, crypto.hashPassword(password))
+  const backendResponse = await user.register(login, crypto.hashPassword(password))
 
   // TODO: check if there was no errors during backend request
   jsonResponse(res, backendResponse)

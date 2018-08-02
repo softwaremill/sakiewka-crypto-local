@@ -5,7 +5,7 @@ import { jsonResponse, errorResponse } from '../response'
 import { createKeyRequest } from '../models'
 import validate from '../validate'
 
-const { backendApi, constants, wallet } = sakiewkaCrypto
+const { constants, key } = sakiewkaCrypto
 
 const createKey = async (req: Request, res: Response) => {
   const validationErrors = validate(req, createKeyRequest)
@@ -14,14 +14,14 @@ const createKey = async (req: Request, res: Response) => {
     return errorResponse(res, constants.API_ERROR.BAD_REQUEST, validationErrors[0])
   }
 
-  const newKeypair = wallet.generateNewKeypair()
+  const newKeyPair = key.generateNewKeyPair()
 
   if (req.body.passphrase) {
-    const encryptedKeypair = wallet.encryptKeyPair(newKeypair, req.body.passphrase)
-    return jsonResponse(res, { keypair: encryptedKeypair })
+    const encryptedKeyPair = key.encryptKeyPair(newKeyPair, req.body.passphrase)
+    return jsonResponse(res, { keyPair: encryptedKeyPair })
   }
 
-  jsonResponse(res, { keypair: newKeypair })
+  jsonResponse(res, { keyPair: newKeyPair })
 }
 
 export default createKey

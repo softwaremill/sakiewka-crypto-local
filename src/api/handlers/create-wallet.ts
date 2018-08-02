@@ -5,7 +5,7 @@ import { jsonResponse, errorResponse } from '../response'
 import { createWalletRequest } from '../models'
 import validate from '../validate'
 
-const { backendApi, constants, wallet, utils } = sakiewkaCrypto
+const { constants, wallet } = sakiewkaCrypto
 
 const crateWallet = async (req: Request, res: Response) => {
   const validationErrors = validate(req, createWalletRequest, true)

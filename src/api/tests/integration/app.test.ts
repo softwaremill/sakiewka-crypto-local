@@ -350,11 +350,11 @@ describe('server', () => {
         .post(`/${constants.BASE_API_PATH}/btc/key/create`)
 
       expect(response.status).to.be.equal(200)
-      expect(response.body.data).to.haveOwnProperty('keypair')
-      expect(response.body.data.keypair).to.haveOwnProperty('pubKey')
-      expect(response.body.data.keypair).to.haveOwnProperty('prvKey')
-      expect(response.body.data.keypair.pubKey).to.have.lengthOf(111)
-      expect(response.body.data.keypair.prvKey).to.have.lengthOf(111)
+      expect(response.body.data).to.haveOwnProperty('keyPair')
+      expect(response.body.data.keyPair).to.haveOwnProperty('pubKey')
+      expect(response.body.data.keyPair).to.haveOwnProperty('prvKey')
+      expect(response.body.data.keyPair.pubKey).to.have.lengthOf(111)
+      expect(response.body.data.keyPair.prvKey).to.have.lengthOf(111)
     })
 
     it('should return encrypted key', async () => {
@@ -365,11 +365,11 @@ describe('server', () => {
         })
 
       expect(response.status).to.be.equal(200)
-      expect(response.body.data).to.haveOwnProperty('keypair')
-      expect(response.body.data.keypair).to.haveOwnProperty('pubKey')
-      expect(response.body.data.keypair).to.haveOwnProperty('prvKey')
-      expect(response.body.data.keypair.pubKey).to.have.lengthOf(111)
-      expect(response.body.data.keypair.prvKey).to.have.lengthOf(298)
+      expect(response.body.data).to.haveOwnProperty('keyPair')
+      expect(response.body.data.keyPair).to.haveOwnProperty('pubKey')
+      expect(response.body.data.keyPair).to.haveOwnProperty('prvKey')
+      expect(response.body.data.keyPair.pubKey).to.have.lengthOf(111)
+      expect(response.body.data.keyPair.prvKey).to.have.lengthOf(298)
     })
   })
 })

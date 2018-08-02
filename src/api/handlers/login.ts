@@ -5,7 +5,7 @@ import { jsonResponse, errorResponse } from '../response'
 import { loginRequest } from '../models'
 import validate from '../validate'
 
-const { constants, crypto, backendApi } = sakiewkaCrypto
+const { constants, crypto, user } = sakiewkaCrypto
 
 const login = async (req: Request, res: Response) => {
   const validationErrors = validate(req, loginRequest)
@@ -16,7 +16,7 @@ const login = async (req: Request, res: Response) => {
 
   const { login, password } = req.body
 
-  const backendResponse = await backendApi.login(login, crypto.hashPassword(password))
+  const backendResponse = await user.login(login, crypto.hashPassword(password))
 
   // TODO: check if there was no errors during backend request
   const token = backendResponse.token

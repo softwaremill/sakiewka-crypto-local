@@ -5,7 +5,7 @@ import { listWalletsRequest } from '../models'
 import sakiewkaCrypto from 'sakiewka-crypto'
 import validate from '../validate'
 
-const { constants, backendApi } = sakiewkaCrypto
+const { constants, wallet } = sakiewkaCrypto
 
 const listWallets = async (req: Request, res: Response) => {
   const validationErrors = validate(req, listWalletsRequest, true)
@@ -14,7 +14,7 @@ const listWallets = async (req: Request, res: Response) => {
     return errorResponse(res, constants.API_ERROR.BAD_REQUEST, validationErrors[0])
   }
 
-  const backendResponse = await backendApi.listWallets(
+  const backendResponse = await wallet.listWallets(
     req.header('authorization'), req.query.limit, req.query.nextPageToken
   )
 
