@@ -27,6 +27,10 @@ export const getWalletRequest = createSchema({})
 
 export const listWalletsRequest = createSchema({})
 
+export const getTransferRequest = createSchema({})
+
+export const listTransfersRequest = createSchema({})
+
 export const createKeyRequest = createSchema({
   passphrase: Joi.string()
 })
