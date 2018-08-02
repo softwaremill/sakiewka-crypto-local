@@ -12,6 +12,7 @@
     "no-redundant-jsdoc": false,
     "prefer-type-cast": false,
     "import-name": false,
+    "max-line-length": false,
     "trailing-comma": [
       true,
       {
