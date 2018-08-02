@@ -11,6 +11,7 @@ import register from './handlers/register'
 import createWallet from './handlers/create-wallet'
 import listWallets from './handlers/list-wallets'
 import getWallet from './handlers/get-wallet'
+import listTransfers from './handlers/list-transfers'
 import createKey from './handlers/create-key'
 import sakiewkaCrypto from 'sakiewka-crypto'
 import { errorResponse } from './response'
@@ -59,6 +60,7 @@ app.get(`/${constants.BASE_API_PATH}/user/info`, errorHandled(info))
 app.post(`/${constants.BASE_API_PATH}/btc/wallet/create`, errorHandled(createWallet))
 app.get(`/${constants.BASE_API_PATH}/btc/wallet`, errorHandled(listWallets))
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:id`, errorHandled(getWallet))
+app.get(`/${constants.BASE_API_PATH}/btc/wallet/:id/transfer`, errorHandled(listTransfers))
 
 // key
 app.post(`/${constants.BASE_API_PATH}/btc/key/create`, errorHandled(createKey))

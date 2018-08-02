@@ -293,6 +293,25 @@ describe('server', () => {
     })
   })
 
+  describe('/btc/wallet/id/transfer', () => {
+    it('should exist', async () => {
+      const response = await supertest(app)
+        .get(`/${constants.BASE_API_PATH}/btc/wallet/12/transfer`)
+
+      expect(response.status).to.not.be.equal(404)
+    })
+
+    it('should not accept request with missing header', async () => {
+      const response = await supertest(app)
+        .get(`/${constants.BASE_API_PATH}/btc/wallet/12/transfer`)
+
+      expect(response.status).to.be.equal(400)
+      expect(response.body.error.message).to.be.equal('Request header Authorization is required.')
+    })
+
+    // TODO: add test for working transfer listing
+  })
+
   describe('/btc/key/create', () => {
     it('should not accept extra parameters', async () => {
       const response = await supertest(app)
@@ -308,8 +327,6 @@ describe('server', () => {
     })
 
     it('should return keys', async () => {
-      const { token } = await getUser()
-
       const response = await supertest(app)
         .post(`/${constants.BASE_API_PATH}/btc/key/create`)
 
@@ -322,8 +339,6 @@ describe('server', () => {
     })
 
     it('should return encrypted key', async () => {
-      const { token } = await getUser()
-
       const response = await supertest(app)
         .post(`/${constants.BASE_API_PATH}/btc/key/create`)
         .send({
