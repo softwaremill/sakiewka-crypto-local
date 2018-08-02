@@ -12,6 +12,8 @@ export const loginRequest = createSchema({
   login: Joi.string().required()
 })
 
+export const logoutRequest = createSchema({})
+
 export const infoRequest = createSchema({})
 
 export const createWalletRequest = createSchema({

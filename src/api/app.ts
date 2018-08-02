@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 import clientApp from './handlers/client-app'
 import notFound from './handlers/not-found'
 import login from './handlers/login'
+import logout from './handlers/logout'
 import info from './handlers/info'
 import register from './handlers/register'
 import createWallet from './handlers/create-wallet'
@@ -50,6 +51,7 @@ app.get('/', errorHandled(clientApp))
 
 // user
 app.post(`/${constants.BASE_API_PATH}/user/login`, errorHandled(login))
+app.post(`/${constants.BASE_API_PATH}/user/logout`, errorHandled(logout))
 app.post(`/${constants.BASE_API_PATH}/user/register`, errorHandled(register))
 app.get(`/${constants.BASE_API_PATH}/user/info`, errorHandled(info))
 
