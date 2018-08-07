@@ -19,7 +19,7 @@ const register = async (req: Request, res: Response) => {
   const backendResponse = await user.register(login, crypto.hashPassword(password))
 
   // TODO: check if there was no errors during backend request
-  jsonResponse(res, backendResponse)
+  jsonResponse(res, { ...backendResponse.data })
 }
 
 export default register

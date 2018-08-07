@@ -15,9 +15,9 @@ const crateWallet = async (req: Request, res: Response) => {
   }
 
   const token = req.header('authorization')
-  const { passphrase, userPubKey, backupPubKey, label } = req.body
+  const { passphrase, userPubKey, backupPubKey, name } = req.body
   const walletData = await wallet.createWallet(
-    token, { passphrase, userPubKey, backupPubKey, label }
+    token, { passphrase, userPubKey, backupPubKey, name }
   )
 
   // TODO: check if there was no errors during backend request

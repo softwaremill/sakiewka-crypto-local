@@ -17,7 +17,7 @@ export const logoutRequest = createSchema({})
 export const infoRequest = createSchema({})
 
 export const createWalletRequest = createSchema({
-  label: Joi.string().required(),
+  name: Joi.string().required(),
   userPubKey: Joi.string(),
   backupPubKey: Joi.string(),
   passphrase: Joi.string().required()

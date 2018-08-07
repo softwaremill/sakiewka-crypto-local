@@ -40,9 +40,10 @@ const getWalletId = async (token: string) => {
     .post(`/${constants.BASE_API_PATH}/btc/wallet/create`)
     .set('Authorization', `Bearer ${token}`)
     .send({
-      label: 'testLabel',
+      name: 'testName',
       passphrase: 'aaa',
-      userPubKey: '123'
+      userPubKey: 'xpub661MyMwAqRbcEbQrpBDMTDgW5Hjg5BFxoJD2SnzTmTASPxD4i4j1xMCKojYwgaRXXBRAHB7WPECxA2aQVfL61G4mWjnHMj6BJtAQKMVAiYs',
+      backupPubKey: 'xpub661MyMwAqRbcGukLdXtbs5TTqkddNUYzdWAmZ3mQTRZgtaySzU9ePfVEZWtQJBZGbfKfhPZfG74z6TXkeEx2atofMhn2n4bHLzjDWHREM5u'
     })
 
   return response.body.data.walletId
@@ -203,7 +204,7 @@ describe('server', () => {
         .set('Authorization', `Bearer abc`)
 
       expect(response.status).to.be.equal(400)
-      expect(response.body.error.message).to.be.equal('"label" is required')
+      expect(response.body.error.message).to.be.equal('"name" is required')
     })
 
     it('should not accept extra parameters', async () => {
@@ -211,7 +212,7 @@ describe('server', () => {
         .post(`/${constants.BASE_API_PATH}/btc/wallet/create`)
         .set('Authorization', `Bearer abc`)
         .send({
-          label: 'testLabel',
+          name: 'testLabel',
           passphrase: 'aaa',
           userPubKey: '123',
           backupPubKey: '142',
@@ -229,14 +230,17 @@ describe('server', () => {
         .post(`/${constants.BASE_API_PATH}/btc/wallet/create`)
         .set('Authorization', `Bearer ${token}`)
         .send({
-          label: 'testLabel',
+          name: 'testLabel',
           passphrase: 'aaa',
-          userPubKey: '123'
+          userPubKey: 'xpub661MyMwAqRbcEbQrpBDMTDgW5Hjg5BFxoJD2SnzTmTASPxD4i4j1xMCKojYwgaRXXBRAHB7WPECxA2aQVfL61G4mWjnHMj6BJtAQKMVAiYs',
+          backupPubKey: 'xpub661MyMwAqRbcGukLdXtbs5TTqkddNUYzdWAmZ3mQTRZgtaySzU9ePfVEZWtQJBZGbfKfhPZfG74z6TXkeEx2atofMhn2n4bHLzjDWHREM5u'
         })
 
       expect(response.status).to.be.equal(200)
-      expect(response.body.data.user.pubKey).to.eq('123')
-      expect(response.body.data.backup.prvKey).to.have.lengthOf(111)
+      expect(response.body.data.user.pubKey).to.eq('xpub661MyMwAqRbcEbQrpBDMTDgW5Hjg5BFxoJD2SnzTmTASPxD4i4j1xMCKojYwgaRXXBRAHB7WPECxA2aQVfL61G4mWjnHMj6BJtAQKMVAiYs')
+      expect(response.body.data.backup.pubKey).to.have.lengthOf(111)
+      expect(response.body.data.service.pubKey).to.have.lengthOf(111)
+      expect(response.body.data.user.pubKey).to.have.lengthOf(111)
     })
   })
 
@@ -257,13 +261,14 @@ describe('server', () => {
         .get(`/${constants.BASE_API_PATH}/btc/wallet/${walletId}`)
         .set('Authorization', `Bearer ${token}`)
 
+
       expect(response.status).to.be.equal(200)
       expect(response.body.data).to.haveOwnProperty('id')
-      expect(response.body.data).to.haveOwnProperty('label')
+      expect(response.body.data).to.haveOwnProperty('name')
       expect(response.body.data).to.haveOwnProperty('currency')
       expect(response.body.data).to.haveOwnProperty('created')
       expect(response.body.data.id).to.equal(walletId)
-      expect(response.body.data.label).to.equal('testLabel')
+      expect(response.body.data.name).to.equal('testName')
       expect(response.body.data.currency).to.equal('BTC')
     })
   })
@@ -288,7 +293,7 @@ describe('server', () => {
       expect(response.status).to.be.equal(200)
       expect(response.body.data).to.haveOwnProperty('wallets')
       expect(response.body.data.wallets).to.have.lengthOf(1)
-      expect(response.body.data.wallets[0].label).to.eq('testLabel')
+      expect(response.body.data.wallets[0].name).to.eq('testName')
       expect(response.body.data.wallets[0].id).to.eq(walletId)
     })
   })

@@ -19,7 +19,7 @@ const listWallets = async (req: Request, res: Response) => {
   )
 
   // TODO: check if there was no errors during backend request
-  jsonResponse(res, { ...backendResponse })
+  jsonResponse(res, backendResponse)
 }
 
 export default listWallets

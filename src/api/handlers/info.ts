@@ -17,8 +17,7 @@ const info = async (req: Request, res: Response) => {
   const token = req.header('authorization')
   const backendResponse = await user.info(token)
 
-  // TODO: check if there was no errors during backend request
-  jsonResponse(res, { ...backendResponse })
+  jsonResponse(res, backendResponse)
 }
 
 export default info
