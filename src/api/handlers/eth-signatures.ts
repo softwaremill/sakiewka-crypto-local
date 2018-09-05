@@ -2,12 +2,12 @@ import { Request, Response } from 'express'
 
 import sakiewkaCrypto from 'sakiewka-crypto'
 import { jsonResponse, errorResponse } from '../response'
-import { signEthWalletWithdrawalRequest } from '../models'
+import { signEthWalletWithdrawalRequest, signTokenWalletWithdrawalRequest } from '../models'
 import validate from '../validate'
 
-const { constants, ethereum } = sakiewkaCrypto
+const { transactionEth, constants } = sakiewkaCrypto
 
-const ethSign = async (req: Request, res: Response) => {
+export const ethSign = async (req: Request, res: Response) => {
   const validationErrors = validate(req, signEthWalletWithdrawalRequest, true)
 
   if (validationErrors.length > 0) {
@@ -16,14 +16,25 @@ const ethSign = async (req: Request, res: Response) => {
 
   const { pk, address, amount, data, expireTime, contractNonce } = req.body
 
-  const operationHash = ethereum.createETHOperationHash(
-    address, amount, data, expireTime, contractNonce
+  const signature = transactionEth.signETHTransaction(
+    address, amount, data, expireTime, contractNonce, pk
   );
 
-  const signature = ethereum.createSignature(operationHash, pk);
-
-  // TODO: check if there was no errors during backend request
-  jsonResponse(res, signature)
+  jsonResponse(res, signature.signature)
 }
 
-export default ethSign
+export const tokenSign = async (req: Request, res: Response) => {
+  const validationErrors = validate(req, signTokenWalletWithdrawalRequest, true)
+
+  if (validationErrors.length > 0) {
+    return errorResponse(res, constants.API_ERROR.BAD_REQUEST, validationErrors[0])
+  }
+
+  const { pk, address, amount, contractAddress, expireTime, contractNonce } = req.body
+
+  const signature = transactionEth.signTokenTransaction(
+    address, amount, contractAddress, expireTime, contractNonce, pk
+  );
+
+  jsonResponse(res, signature.signature)
+}
