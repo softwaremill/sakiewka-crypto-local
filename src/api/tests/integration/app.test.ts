@@ -382,7 +382,6 @@ describe('server', () => {
     it('should sign a proper eth request', async () => {
       const response = await supertest(app)
         .post(`/${constants.BASE_API_PATH}/eth/wallet/sign`)
-        .set('Authorization', `Bearer abc`)
         .send({
           pk: "82d052c865f5763aad42add438569276c00d3d88a2d062d36b2bae914d58b8c8",
           address: "0x2191ef87e392377ec08e7c08eb105ef5448eced5",
@@ -401,7 +400,6 @@ describe('server', () => {
     it('should sign a proper token request', async () => {
       const response = await supertest(app)
         .post(`/${constants.BASE_API_PATH}/eth/wallet/tokenSign`)
-        .set('Authorization', `Bearer abc`)
         .send({
           pk: "82d052c865f5763aad42add438569276c00d3d88a2d062d36b2bae914d58b8c8",
           address: "0x2191ef87e392377ec08e7c08eb105ef5448eced5",

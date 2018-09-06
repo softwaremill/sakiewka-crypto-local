@@ -8,7 +8,7 @@ import validate from '../validate'
 const { transactionEth, constants } = sakiewkaCrypto
 
 export const ethSign = async (req: Request, res: Response) => {
-  const validationErrors = validate(req, signEthWalletWithdrawalRequest, true)
+  const validationErrors = validate(req, signEthWalletWithdrawalRequest, false)
 
   if (validationErrors.length > 0) {
     return errorResponse(res, constants.API_ERROR.BAD_REQUEST, validationErrors[0])
@@ -24,7 +24,7 @@ export const ethSign = async (req: Request, res: Response) => {
 }
 
 export const tokenSign = async (req: Request, res: Response) => {
-  const validationErrors = validate(req, signTokenWalletWithdrawalRequest, true)
+  const validationErrors = validate(req, signTokenWalletWithdrawalRequest, false)
 
   if (validationErrors.length > 0) {
     return errorResponse(res, constants.API_ERROR.BAD_REQUEST, validationErrors[0])
