@@ -14,6 +14,7 @@ import getWallet from './handlers/get-wallet'
 import listTransfers from './handlers/list-transfers'
 import getTransfer from './handlers/get-transfer'
 import createKey from './handlers/create-key'
+import { ethSign, tokenSign } from './handlers/eth-signatures'
 import sakiewkaCrypto from 'sakiewka-crypto'
 import { errorResponse } from './response'
 
@@ -63,6 +64,9 @@ app.get(`/${constants.BASE_API_PATH}/btc/wallet`, errorHandled(listWallets))
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:id`, errorHandled(getWallet))
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:id/transfer`, errorHandled(listTransfers))
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/transfer/:id`, errorHandled(getTransfer))
+
+app.post(`/${constants.BASE_API_PATH}/eth/wallet/sign`, errorHandled(ethSign))
+app.post(`/${constants.BASE_API_PATH}/eth/wallet/tokenSign`, errorHandled(tokenSign))
 
 // key
 app.post(`/${constants.BASE_API_PATH}/btc/key/create`, errorHandled(createKey))
