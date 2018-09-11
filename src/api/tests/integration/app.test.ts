@@ -386,7 +386,7 @@ describe('server', () => {
           pk: "82d052c865f5763aad42add438569276c00d3d88a2d062d36b2bae914d58b8c8",
           address: "0x2191ef87e392377ec08e7c08eb105ef5448eced5",
           amount: "200",
-          data: "0x0",
+          data: "",
           expireTime: new Date().getTime() + 3600000 /* one hour from now */,
           contractNonce: 1
         })

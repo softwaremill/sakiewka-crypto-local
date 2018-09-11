@@ -20,7 +20,7 @@ export const ethSign = async (req: Request, res: Response) => {
     address, amount, data, expireTime, contractNonce, pk
   );
 
-  jsonResponse(res, signature.signature)
+  jsonResponse(res, signature)
 }
 
 export const tokenSign = async (req: Request, res: Response) => {
@@ -36,5 +36,5 @@ export const tokenSign = async (req: Request, res: Response) => {
     address, amount, contractAddress, expireTime, contractNonce, pk
   );
 
-  jsonResponse(res, signature.signature)
+  jsonResponse(res, signature)
 }
