@@ -38,7 +38,7 @@ const errorHandled = (fn: Function) => {
   return (req: Request, res: Response, next: Function) => {
     fn(req, res)
       .catch((err: Error) => {
-        if (process.env.NODE_ENV === 'dev') {
+        if (['dev', 'test'].includes(process.env.NODE_ENV)) {
           errorResponse(res, constants.API_ERROR.SERVER_ERROR, `${err.message} ${err.stack}`)
         } else {
           errorResponse(res, constants.API_ERROR.SERVER_ERROR)
