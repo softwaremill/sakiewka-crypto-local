@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Client-side Sakiewka app",
   "scripts": {
-    "test": "jest --forceExit --coverage --verbose",
+    "test-coverage": "jest --forceExit --coverage --verbose",
+    "test": "jest --forceExit --verbose false",
     "watch-test": "NODE_ENV=dev npm run test -- --watchAll",
     "build": "tsc",
     "watch": "tsc -w",
