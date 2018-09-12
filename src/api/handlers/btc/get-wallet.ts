@@ -1,9 +1,9 @@
 import { Request, Response } from 'express'
 
-import { jsonResponse, errorResponse } from '../response'
-import { getWalletRequest } from '../models'
+import { jsonResponse, errorResponse } from '../../response'
+import { getWalletRequest } from '../../models'
 import sakiewkaCrypto from 'sakiewka-crypto'
-import validate from '../validate'
+import validate from '../../validate'
 
 const { wallet, constants } = sakiewkaCrypto
 

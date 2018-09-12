@@ -4,17 +4,17 @@ import bodyParser from 'body-parser'
 import dotenv from 'dotenv'
 import clientApp from './handlers/client-app'
 import notFound from './handlers/not-found'
-import login from './handlers/login'
-import logout from './handlers/logout'
-import info from './handlers/info'
-import register from './handlers/register'
-import createWallet from './handlers/create-wallet'
-import listWallets from './handlers/list-wallets'
-import getWallet from './handlers/get-wallet'
-import listTransfers from './handlers/list-transfers'
-import getTransfer from './handlers/get-transfer'
-import createKey from './handlers/create-key'
-import { ethSign, tokenSign } from './handlers/eth-signatures'
+import login from './handlers/user/login'
+import logout from './handlers/user/logout'
+import info from './handlers/user/info'
+import register from './handlers/user/register'
+import createWallet from './handlers/btc/create-wallet'
+import listWallets from './handlers/btc/list-wallets'
+import getWallet from './handlers/btc/get-wallet'
+import listTransfers from './handlers/btc/list-transfers'
+import getTransfer from './handlers/btc/get-transfer'
+import createKey from './handlers/btc/create-key'
+import { signEth, signTokens } from './handlers/eth/sign'
 import { sendEth, sendTokens } from './handlers/eth/send'
 import sakiewkaCrypto from 'sakiewka-crypto'
 import { errorResponse } from './response'
@@ -49,31 +49,30 @@ const errorHandled = (fn: Function) => {
 }
 
 // ENDPOINTS
-
 // site
 app.get('/', errorHandled(clientApp))
-
 // user
 app.post(`/${constants.BASE_API_PATH}/user/login`, errorHandled(login))
 app.post(`/${constants.BASE_API_PATH}/user/logout`, errorHandled(logout))
 app.post(`/${constants.BASE_API_PATH}/user/register`, errorHandled(register))
 app.get(`/${constants.BASE_API_PATH}/user/info`, errorHandled(info))
 
+// BTC
 // wallet
 app.post(`/${constants.BASE_API_PATH}/btc/wallet/create`, errorHandled(createWallet))
 app.get(`/${constants.BASE_API_PATH}/btc/wallet`, errorHandled(listWallets))
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:id`, errorHandled(getWallet))
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:id/transfer`, errorHandled(listTransfers))
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/transfer/:id`, errorHandled(getTransfer))
-
-app.post(`/${constants.BASE_API_PATH}/eth/wallet/sign`, errorHandled(ethSign))
-app.post(`/${constants.BASE_API_PATH}/eth/wallet/tokenSign`, errorHandled(tokenSign))
-
-app.post(`/${constants.BASE_API_PATH}/eth/wallet/send-coins`, errorHandled(sendEth))
-app.post(`/${constants.BASE_API_PATH}/eth/wallet/send-tokens`, errorHandled(sendTokens))
-
 // key
 app.post(`/${constants.BASE_API_PATH}/btc/key/create`, errorHandled(createKey))
+
+// ETH
+// walet
+app.post(`/${constants.BASE_API_PATH}/eth/wallet/sign`, errorHandled(signEth))
+app.post(`/${constants.BASE_API_PATH}/eth/wallet/tokenSign`, errorHandled(signTokens))
+app.post(`/${constants.BASE_API_PATH}/eth/wallet/send-coins`, errorHandled(sendEth))
+app.post(`/${constants.BASE_API_PATH}/eth/wallet/send-tokens`, errorHandled(sendTokens))
 
 app.get('*', errorHandled(notFound))
 

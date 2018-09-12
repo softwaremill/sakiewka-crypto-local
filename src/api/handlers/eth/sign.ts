@@ -1,13 +1,13 @@
 import { Request, Response } from 'express'
 
 import sakiewkaCrypto from 'sakiewka-crypto'
-import { jsonResponse, errorResponse } from '../response'
-import { signEthWalletWithdrawalRequest, signTokenWalletWithdrawalRequest } from '../models'
-import validate from '../validate'
+import { jsonResponse, errorResponse } from '../../response'
+import { signEthWalletWithdrawalRequest, signTokenWalletWithdrawalRequest } from '../../models'
+import validate from '../../validate'
 
 const { transactionEth, constants } = sakiewkaCrypto
 
-export const ethSign = async (req: Request, res: Response) => {
+export const signEth = async (req: Request, res: Response) => {
   const validationErrors = validate(req, signEthWalletWithdrawalRequest, false)
 
   if (validationErrors.length > 0) {
@@ -23,7 +23,7 @@ export const ethSign = async (req: Request, res: Response) => {
   jsonResponse(res, signature)
 }
 
-export const tokenSign = async (req: Request, res: Response) => {
+export const signTokens = async (req: Request, res: Response) => {
   const validationErrors = validate(req, signTokenWalletWithdrawalRequest, false)
 
   if (validationErrors.length > 0) {
