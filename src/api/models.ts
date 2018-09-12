@@ -52,3 +52,17 @@ export const signTokenWalletWithdrawalRequest = createSchema({
   expireTime: Joi.number().required(),
   contractNonce: Joi.number().required()
 })
+
+export const sendEthRequest = createSchema({
+  address: Joi.string().required(),
+  amount: Joi.string().required(),
+  data: Joi.string().empty(''),
+  prvKey: Joi.string()
+})
+
+export const sendTokensRequest = createSchema({
+  address: Joi.string().required(),
+  contractAddress: Joi.string().required(),
+  amount: Joi.string().required(),
+  prvKey: Joi.string()
+})
