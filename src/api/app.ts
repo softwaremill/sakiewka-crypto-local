@@ -74,6 +74,6 @@ app.post(`/${constants.BASE_API_PATH}/eth/wallet/tokenSign`, errorHandled(signTo
 app.post(`/${constants.BASE_API_PATH}/eth/wallet/send-coins`, errorHandled(sendEth))
 app.post(`/${constants.BASE_API_PATH}/eth/wallet/send-tokens`, errorHandled(sendTokens))
 
-app.get('*', errorHandled(notFound))
+app.all('*', errorHandled(notFound))
 
 export default app
