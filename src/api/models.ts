@@ -39,6 +39,8 @@ export const createNewAddressRequest = createSchema({
   name: Joi.string()
 })
 
+export const getAddressRequest = createSchema({})
+
 export const signEthWalletWithdrawalRequest = createSchema({
   pk: Joi.string().required(),
   address: Joi.string().required(),

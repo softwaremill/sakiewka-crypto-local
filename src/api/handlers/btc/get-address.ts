@@ -2,22 +2,25 @@ import { Request, Response } from 'express'
 
 import sakiewkaCrypto from 'sakiewka-crypto'
 import { jsonResponse, errorResponse } from '../../response'
-import { createNewAddressRequest } from '../../models'
+import { getAddressRequest } from '../../models'
 import validate from '../../validate'
 
 const { constants, address } = sakiewkaCrypto
 
-const createNewAddress = async (req: Request, res: Response) => {
-  const validationErrors = validate(req, createNewAddressRequest, true)
+const getWallet = async (req: Request, res: Response) => {
+  const validationErrors = validate(req, getAddressRequest, true)
 
   if (validationErrors.length > 0) {
     return errorResponse(res, constants.API_ERROR.BAD_REQUEST, validationErrors[0])
   }
 
   const token = req.header('authorization')
-  const newAddress = await address.createNewAddress(token, req.param('walletId'), req.body.name)
+  const addressData = await address.getAddress(
+    token, req.param('walletId'), req.param('address')
+  )
 
-  jsonResponse(res, newAddress)
+  // TODO: check if there was no errors during backend request
+  jsonResponse(res, addressData)
 }
 
-export default createNewAddress
+export default getWallet
