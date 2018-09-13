@@ -44,3 +44,11 @@ export const getWalletId = async (token: string) => {
 
   return response.body.data.walletId
 }
+
+export const getAddress = async (token: string, walletId: string) => {
+  const response = await supertest(app)
+    .post(`/${constants.BASE_API_PATH}/btc/wallet/${walletId}/address`)
+    .set('Authorization', `Bearer ${token}`)
+
+  return response.body.data.address
+}
