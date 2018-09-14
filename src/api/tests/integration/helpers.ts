@@ -52,3 +52,13 @@ export const getAddress = async (token: string, walletId: string) => {
 
   return response.body.data.address
 }
+
+export const getKeyId = async (token: string) => {
+  const walletId = await getWalletId(token)
+  const response = await supertest(app)
+    .get(`/${constants.BASE_API_PATH}/btc/wallet/${walletId}`)
+    .set('Authorization', `Bearer ${token}`)
+
+  return response.body.data.keys[2].id
+  // TODO: test also other 2 keys
+}

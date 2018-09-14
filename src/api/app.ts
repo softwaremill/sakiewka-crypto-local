@@ -16,6 +16,7 @@ import getTransfer from './handlers/btc/get-transfer'
 import createAddress from './handlers/btc/create-address'
 import getAddress from './handlers/btc/get-address'
 import createKey from './handlers/btc/create-key'
+import getKey from './handlers/btc/get-key'
 import { signEth, signTokens } from './handlers/eth/sign'
 import { sendEth, sendTokens } from './handlers/eth/send'
 import sakiewkaCrypto from 'sakiewka-crypto'
@@ -70,6 +71,7 @@ app.post(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/address`, errorHandle
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/address/:address`, errorHandled(getAddress))
 // key
 app.post(`/${constants.BASE_API_PATH}/btc/key/create`, errorHandled(createKey))
+app.get(`/${constants.BASE_API_PATH}/btc/key/:id`, errorHandled(getKey))
 
 // ETH
 // walet

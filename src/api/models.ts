@@ -35,6 +35,8 @@ export const createKeyRequest = createSchema({
   passphrase: Joi.string()
 })
 
+export const getKeyRequest = createSchema({})
+
 export const createNewAddressRequest = createSchema({
   name: Joi.string()
 })
