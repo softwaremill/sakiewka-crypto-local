@@ -3,8 +3,16 @@ import app from '../../../app'
 import supertest from 'supertest'
 
 import sakiewkaCrypto from 'sakiewka-crypto'
-const { constants } = sakiewkaCrypto
-import { getUser } from '../helpers'
+const { constants, user } = sakiewkaCrypto
+
+// @ts-ignore
+const mockFn = jest.fn(() => {
+  return new Promise((resolve: Function) => {
+    resolve('info')
+  })
+})
+
+user.info = mockFn
 
 describe('/user/info', () => {
   it('should not accept request with missing header', async () => {
@@ -16,15 +24,17 @@ describe('/user/info', () => {
   })
 
   it('should fetch user info', async () => {
-    const { token, login } = await getUser()
+    const token = 'testToken'
 
     const response = await supertest(app)
       .get(`/${constants.BASE_API_PATH}/user/info`)
       .set('Authorization', `Bearer ${token}`)
 
+    const callArgs = mockFn.mock.calls[0]
+
     expect(response.status).to.be.equal(200)
-    expect(response.body.data.email).to.be.equal(login)
-    expect(response.body.data.token).to.have.lengthOf(64)
-    expect(response.body.data.tokenInfo.expiry).to.be.a('string')
+    const data = response.body.data
+    expect(data).to.eq('info')
+    expect(callArgs[0]).to.eq(`Bearer ${token}`)
   })
 })

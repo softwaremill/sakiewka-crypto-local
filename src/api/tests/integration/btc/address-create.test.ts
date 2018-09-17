@@ -2,9 +2,17 @@ import { expect } from 'chai'
 import app from '../../../app'
 import supertest from 'supertest'
 
-import { getUser, getWalletId } from '../helpers'
 import sakiewkaCrypto from 'sakiewka-crypto'
-const { constants } = sakiewkaCrypto
+const { constants, address } = sakiewkaCrypto
+
+// @ts-ignore
+const mockFn = jest.fn(() => {
+  return new Promise((resolve: Function) => {
+    resolve('new address')
+  })
+})
+
+address.createNewAddress = mockFn
 
 describe('/btc/wallet/:id/address', () => {
   it('should exist', async () => {
@@ -22,20 +30,23 @@ describe('/btc/wallet/:id/address', () => {
     expect(response.body.error.message).to.be.equal('Request header Authorization is required.')
   })
 
-  it('should return newly created address', async () => {
-    const { token } = await getUser()
-    const walletId = await getWalletId(token)
+  it('should pass proper arguments to createNewAddress and return result of its call', async () => {
+    const token = 'testToken'
+    const walletId = 'testWalletId'
     const response = await supertest(app)
       .post(`/${constants.BASE_API_PATH}/btc/wallet/${walletId}/address`)
       .set('Authorization', `Bearer ${token}`)
+      .send({
+        name: 'abcd'
+      })
+
+    const callArgs = mockFn.mock.calls[0]
 
     expect(response.status).to.be.equal(200)
     const data = response.body.data
-    expect(data).to.haveOwnProperty('path')
-    expect(data).to.haveOwnProperty('address')
-    expect(data.address).to.have.lengthOf(34)
-    expect(data.path.cosignerIndex).to.be.lessThan(3)
-    expect(data.path.addressIndex).to.eq(1)
-    expect(data.path.change).to.eq(0)
+    expect(data).to.eq('new address')
+    expect(callArgs[0]).to.eq(`Bearer ${token}`)
+    expect(callArgs[1]).to.eq(walletId)
+    expect(callArgs[2]).to.eq('abcd')
   })
 })

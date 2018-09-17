@@ -2,9 +2,17 @@ import { expect } from 'chai'
 import app from '../../../app'
 import supertest from 'supertest'
 
-import { getUser, getKeyId } from '../helpers'
 import sakiewkaCrypto from 'sakiewka-crypto'
-const { constants } = sakiewkaCrypto
+const { constants, key } = sakiewkaCrypto
+
+// @ts-ignore
+const mockFn = jest.fn(() => {
+  return new Promise((resolve: Function) => {
+    resolve('test address')
+  })
+})
+
+key.getKey = mockFn
 
 describe('/btc/key/:id', () => {
   it('should exist', async () => {
@@ -23,17 +31,20 @@ describe('/btc/key/:id', () => {
   })
 
   it('should return key data', async () => {
-    const { token } = await getUser()
-    const keyId = await getKeyId(token)
+    const token = 'testToken'
+    const keyId = 'testKeyId'
     const response = await supertest(app)
       .get(`/${constants.BASE_API_PATH}/btc/key/${keyId}?includePrivate=true`)
       .set('Authorization', `Bearer ${token}`)
 
+    const callArgs = mockFn.mock.calls[0]
+
     expect(response.status).to.be.equal(200)
-    expect(response.body.data).to.be.haveOwnProperty('id')
-    expect(response.body.data).to.be.haveOwnProperty('pubKey')
-    expect(response.body.data).to.be.haveOwnProperty('keyType')
-    expect(response.body.data).to.be.haveOwnProperty('created')
+    const data = response.body.data
+    expect(data).to.eq('test address')
+    expect(callArgs[0]).to.eq(`Bearer ${token}`)
+    expect(callArgs[1]).to.eq(keyId)
+    expect(callArgs[2]).to.eq('true')
 
     // TODO: test for working includePrivate
   })

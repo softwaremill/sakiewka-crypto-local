@@ -3,8 +3,16 @@ import app from '../../../app'
 import supertest from 'supertest'
 
 import sakiewkaCrypto from 'sakiewka-crypto'
-const { constants } = sakiewkaCrypto
-import { getUser, getWalletId } from '../helpers'
+const { constants, wallet } = sakiewkaCrypto
+
+// @ts-ignore
+const mockFn = jest.fn(() => {
+  return new Promise((resolve: Function) => {
+    resolve('test wallet')
+  })
+})
+
+wallet.getWallet = mockFn
 
 describe('/btc/wallet/id', () => {
   it('should not accept incomplete request', async () => {
@@ -16,20 +24,19 @@ describe('/btc/wallet/id', () => {
   })
 
   it('should get wallet', async () => {
-    const { token } = await getUser()
-    const walletId = await getWalletId(token)
+    const token = 'testToken'
+    const walletId = 'testWalletId'
 
     const response = await supertest(app)
       .get(`/${constants.BASE_API_PATH}/btc/wallet/${walletId}`)
       .set('Authorization', `Bearer ${token}`)
 
+    const callArgs = mockFn.mock.calls[0]
+
     expect(response.status).to.be.equal(200)
-    expect(response.body.data).to.haveOwnProperty('id')
-    expect(response.body.data).to.haveOwnProperty('name')
-    expect(response.body.data).to.haveOwnProperty('currency')
-    expect(response.body.data).to.haveOwnProperty('created')
-    expect(response.body.data.id).to.equal(walletId)
-    expect(response.body.data.name).to.equal('testName')
-    expect(response.body.data.currency).to.equal('BTC')
+    const data = response.body.data
+    expect(data).to.eq('test wallet')
+    expect(callArgs[0]).to.eq(`Bearer ${token}`)
+    expect(callArgs[1]).to.eq(walletId)
   })
 })

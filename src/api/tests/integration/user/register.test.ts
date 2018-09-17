@@ -4,7 +4,16 @@ import supertest from 'supertest'
 
 import { randomString } from '../helpers'
 import sakiewkaCrypto from 'sakiewka-crypto'
-const { constants } = sakiewkaCrypto
+const { constants, user, crypto } = sakiewkaCrypto
+
+// @ts-ignore
+const mockFn = jest.fn(() => {
+  return new Promise((resolve: Function) => {
+    resolve({ data: { response: 'response' } })
+  })
+})
+
+user.register = mockFn
 
 describe('/user/register', () => {
   it('should not accept incomplete request', async () => {
@@ -30,14 +39,20 @@ describe('/user/register', () => {
   })
 
   it('should register user', async () => {
+    const login = `testlogin${randomString()}`
     const response = await supertest(app)
       .post(`/${constants.BASE_API_PATH}/user/register`)
       .send({
-        login: `testlogin${randomString()}`,
+        login,
         password: 'abcd'
       })
 
+    const callArgs = mockFn.mock.calls[0]
+
     expect(response.status).to.be.equal(200)
-    expect(response.body.data).to.be.empty
+    const data = response.body.data
+    expect(data.response).to.eq('response')
+    expect(callArgs[0]).to.eq(login)
+    expect(callArgs[1]).to.eq(crypto.hashPassword('abcd'))
   })
 })

@@ -20,7 +20,7 @@ export const sendEth = async (req: Request, res: Response) => {
 
   if (!prvKey) return errorResponse(res, constants.API_ERROR.BAD_REQUEST, '"prvKey" is required')
 
-  const status = transactionEth.sendETH(
+  const status = await transactionEth.sendETH(
     token, prvKey, address, amount, data
   );
 
@@ -40,7 +40,7 @@ export const sendTokens = async (req: Request, res: Response) => {
 
   if (!prvKey) return errorResponse(res, constants.API_ERROR.BAD_REQUEST, '"prvKey" is required')
 
-  const status = transactionEth.sendToken(
+  const status = await transactionEth.sendToken(
     token, prvKey, address, contractAddress, amount
   );
 
