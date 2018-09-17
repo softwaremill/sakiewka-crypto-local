@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import app from '../../../app'
+import app from '../../app'
 import supertest from 'supertest'
 
 import { randomString } from '../helpers'
@@ -9,16 +9,16 @@ const { constants, user, crypto } = sakiewkaCrypto
 // @ts-ignore
 const mockFn = jest.fn(() => {
   return new Promise((resolve: Function) => {
-    resolve({ token: 'token' })
+    resolve({ data: { response: 'response' } })
   })
 })
 
-user.login = mockFn
+user.register = mockFn
 
-describe('/user/login', () => {
+describe('/user/register', () => {
   it('should not accept incomplete request', async () => {
     const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/user/login`)
+      .post(`/${constants.BASE_API_PATH}/user/register`)
       .send({ login: 'testLogin' })
 
     expect(response.status).to.be.equal(400)
@@ -27,7 +27,7 @@ describe('/user/login', () => {
 
   it('should not accept extra paramters', async () => {
     const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/user/login`)
+      .post(`/${constants.BASE_API_PATH}/user/register`)
       .send({
         login: 'testLogin',
         password: 'abcd',
@@ -38,19 +38,10 @@ describe('/user/login', () => {
     expect(response.body.error.message).to.be.equal('"extraProp" is not allowed')
   })
 
-  it('should login user', async () => {
+  it('should register user', async () => {
     const login = `testlogin${randomString()}`
-
-    // first registers new user
-    await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/user/register`)
-      .send({
-        login,
-        password: 'abcd'
-      })
-
     const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/user/login`)
+      .post(`/${constants.BASE_API_PATH}/user/register`)
       .send({
         login,
         password: 'abcd'
@@ -60,7 +51,7 @@ describe('/user/login', () => {
 
     expect(response.status).to.be.equal(200)
     const data = response.body.data
-    expect(data.token).to.eq('token')
+    expect(data.response).to.eq('response')
     expect(callArgs[0]).to.eq(login)
     expect(callArgs[1]).to.eq(crypto.hashPassword('abcd'))
   })

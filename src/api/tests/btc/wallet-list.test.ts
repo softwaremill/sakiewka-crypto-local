@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import app from '../../../app'
+import app from '../../app'
 import supertest from 'supertest'
 
 import sakiewkaCrypto from 'sakiewka-crypto'
@@ -12,23 +12,22 @@ const mockFn = jest.fn(() => {
   })
 })
 
-wallet.getWallet = mockFn
+wallet.listWallets = mockFn
 
-describe('/btc/wallet/id', () => {
+describe('/btc/wallet', () => {
   it('should not accept incomplete request', async () => {
     const response = await supertest(app)
-      .get(`/${constants.BASE_API_PATH}/btc/wallet/1234`)
+      .get(`/${constants.BASE_API_PATH}/btc/wallet`)
 
     expect(response.status).to.be.equal(400)
     expect(response.body.error.message).to.be.equal('Request header Authorization is required.')
   })
 
-  it('should get wallet', async () => {
+  it('should return list of wallets', async () => {
     const token = 'testToken'
-    const walletId = 'testWalletId'
 
     const response = await supertest(app)
-      .get(`/${constants.BASE_API_PATH}/btc/wallet/${walletId}`)
+      .get(`/${constants.BASE_API_PATH}/btc/wallet?limit=20`)
       .set('Authorization', `Bearer ${token}`)
 
     const callArgs = mockFn.mock.calls[0]
@@ -37,6 +36,7 @@ describe('/btc/wallet/id', () => {
     const data = response.body.data
     expect(data).to.eq('test wallet')
     expect(callArgs[0]).to.eq(`Bearer ${token}`)
-    expect(callArgs[1]).to.eq(walletId)
+    expect(callArgs[1]).to.eq('20')
+    expect(callArgs[2]).to.eq(undefined)
   })
 })
