@@ -6,9 +6,9 @@
     "test-coverage": "jest --forceExit --coverage --verbose",
     "test": "jest --forceExit --verbose false",
     "watch-test": "NODE_ENV=dev npm run test -- --watchAll",
-    "build": "tsc",
+    "build": "npm run swagger && tsc",
+    "swagger": "cp src/api/swagger.yml dist/api/swagger.yml",
     "watch": "tsc -w",
-    "serve": "node dist/api/server.js",
     "start": "node dist/api/server.js",
     "serve-debug": "NODE_ENV=dev DEBUG=* nodemon --inspect dist/api/server.js",
     "watch-debug": "NODE_ENV=dev DEBUG=* concurrently \"npm run watch\" \"npm run serve-debug\""
@@ -51,6 +51,8 @@
     "express": "^4.16.3",
     "joi": "^13.5.2",
     "node-fetch": "^2.1.2",
-    "sakiewka-crypto": "softwaremill/sakiewka-crypto"
+    "sakiewka-crypto": "softwaremill/sakiewka-crypto",
+    "swagger-ui-express": "^4.0.1",
+    "yamljs": "^0.3.0"
   }
 }

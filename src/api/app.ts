@@ -1,5 +1,7 @@
 import express, { Request, Response } from 'express'
 import bodyParser from 'body-parser'
+import swaggerUI from 'swagger-ui-express'
+import YAML from 'yamljs'
 
 import dotenv from 'dotenv'
 import clientApp from './handlers/client-app'
@@ -22,6 +24,7 @@ import { sendEth, sendTokens } from './handlers/eth/send'
 import sakiewkaCrypto from 'sakiewka-crypto'
 import { errorResponse } from './response'
 
+const swaggerDocument = YAML.load(`${__dirname}/swagger.yml`)
 dotenv.config()
 
 const app = express()
@@ -52,8 +55,12 @@ const errorHandled = (fn: Function) => {
 }
 
 // ENDPOINTS
+// docs
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
+
 // site
 app.get('/', errorHandled(clientApp))
+
 // user
 app.post(`/${constants.BASE_API_PATH}/user/login`, errorHandled(login))
 app.post(`/${constants.BASE_API_PATH}/user/logout`, errorHandled(logout))

@@ -1,0 +1,119 @@
+---
+  swagger: "2.0"
+  info: 
+    version: "1.0.0"
+    title: sakiewka-crypto-local
+    description: Local api.
+    license: 
+      name: ISC
+  basePath: /api
+  schemes: 
+    - http
+  consumes: 
+    - application/json
+  produces: 
+    - application/json
+  paths: 
+    /user/login:
+      post: 
+        tags: 
+          - User
+        description: Logs user in.
+        produces: 
+          - application/json
+        parameters: 
+          - 
+            name: email
+            in: body
+            required: true
+            type: string
+          - 
+            name: password
+            in: body
+            required: true
+            type: string
+        responses: 
+          "200":
+            description: Login response
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    name: 
+                      type: string
+                    password: 
+                      type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+    /user/register:
+      post: 
+        tags: 
+          - User
+        description: Registers user.
+        produces: 
+          - application/json
+        parameters: 
+          - 
+            name: email
+            in: body
+            required: true
+            type: string
+          - 
+            name: password
+            in: body
+            required: true
+            type: string
+        responses: 
+          "200":
+            description: Register response
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    status: 
+                      type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+    /user/info:
+      get: 
+        tags: 
+          - User
+        description: Shows user info.
+        produces: 
+          - application/json
+        responses: 
+          "200":
+            description: User info response
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    email: 
+                      type: string
+                    token: 
+                      type: string
+                    tokenInfo: 
+                      type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+  definitions: 
+    ErrorModel: 
+      type: object
+      properties: 
+        error:
+          type: object
+          properties:
+            message: 
+              type: string
