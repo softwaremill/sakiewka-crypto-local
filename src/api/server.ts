@@ -1,9 +1,10 @@
 import app from './app'
 
-const port = process.env.PORT || 3000
+const port = parseInt(process.env.PORT, 10) || 3000
+const host = process.env.HOST || '0.0.0.0'
 
-const server = app.listen(port, () => {
-  console.log(`Sakiewka-client server is running at http://localhost:${port}`)
+const server = app.listen(port, host, () => {
+  console.log(`Sakiewka-client server is running at http://${host}:${port}`)
 })
 
 export default server
