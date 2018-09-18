@@ -9,7 +9,7 @@ const { constants, user, crypto } = sakiewkaCrypto
 // @ts-ignore
 const mockFn = jest.fn(() => {
   return new Promise((resolve: Function) => {
-    resolve({ data: { response: 'response' } })
+    resolve('response')
   })
 })
 
@@ -51,7 +51,7 @@ describe('/user/register', () => {
 
     expect(response.status).to.be.equal(200)
     const data = response.body.data
-    expect(data.response).to.eq('response')
+    expect(data).to.eq('response')
     expect(callArgs[0]).to.eq(login)
     expect(callArgs[1]).to.eq(crypto.hashPassword('abcd'))
   })
