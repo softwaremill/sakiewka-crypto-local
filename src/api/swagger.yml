@@ -298,6 +298,60 @@
             description: unexpected error
             schema: 
               $ref: "#/definitions/ErrorModel"
+      get: 
+        tags: 
+          - BTC - wallet
+        description: List addresses.
+        produces: 
+          - application/json
+        parameters: 
+          - 
+            name: Authentication
+            in: header
+            required: true
+            type: string
+          - 
+            name: nextPageToken
+            in: query
+            required: false
+            type: string
+          - 
+            name: limit
+            in: query
+            required: true
+            type: string
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    addresses: 
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          address: 
+                            type: string
+                          name: 
+                            type: string
+                          created: 
+                            type: string
+                          path: 
+                            type: object
+                            properties:
+                              cosignerIndex:
+                                type: string
+                              change:
+                                type: string
+                              addressIndex:
+                                type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
     /btc/wallet/{walletId}/address/{addressId}:
       get: 
         tags: 
@@ -327,14 +381,13 @@
                       type: string
                     path: 
                       type: object
-                      items:
-                        properties:
-                          cosignerIndex:
-                            type: string
-                          change:
-                            type: string
-                          addressIndex:
-                            type: string
+                      properties:
+                        cosignerIndex:
+                          type: string
+                        change:
+                          type: string
+                        addressIndex:
+                          type: string
           default: 
             description: unexpected error
             schema: 
