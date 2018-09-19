@@ -17,6 +17,7 @@ import listTransfers from './handlers/btc/list-transfers'
 import getTransfer from './handlers/btc/get-transfer'
 import createAddress from './handlers/btc/create-address'
 import getAddress from './handlers/btc/get-address'
+import listAddresses from './handlers/btc/list-addresses'
 import createKey from './handlers/btc/create-key'
 import getKey from './handlers/btc/get-key'
 import { signEth, signTokens } from './handlers/eth/sign'
@@ -76,6 +77,8 @@ app.get(`/${constants.BASE_API_PATH}/btc/wallet/:id/transfer`, errorHandled(list
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/transfer/:id`, errorHandled(getTransfer))
 app.post(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/address`, errorHandled(createAddress))
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/address/:address`, errorHandled(getAddress))
+app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/address/`, errorHandled(listAddresses))
+
 // key
 app.post(`/${constants.BASE_API_PATH}/btc/key/create`, errorHandled(createKey))
 app.get(`/${constants.BASE_API_PATH}/btc/key/:id`, errorHandled(getKey))
