@@ -7,6 +7,8 @@ Local api.
 First run:  
 1.  `npm install`  
 
+Api documentation is available at `/api/docs`
+
 ##### Tests: 
 To run integration tests you have to specify `BACKEND_API_URL` in `.env` file.
 

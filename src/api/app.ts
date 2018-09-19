@@ -56,7 +56,7 @@ const errorHandled = (fn: Function) => {
 
 // ENDPOINTS
 // docs
-app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
+app.use(`/${constants.BASE_API_PATH}/docs`, swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 
 // site
 app.get('/', errorHandled(clientApp))
