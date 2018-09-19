@@ -13,6 +13,7 @@ import register from './handlers/user/register'
 import createWallet from './handlers/btc/create-wallet'
 import listWallets from './handlers/btc/list-wallets'
 import getWallet from './handlers/btc/get-wallet'
+import getBalance from './handlers/btc/get-balance'
 import listTransfers from './handlers/btc/list-transfers'
 import getTransfer from './handlers/btc/get-transfer'
 import createAddress from './handlers/btc/create-address'
@@ -73,8 +74,12 @@ app.get(`/${constants.BASE_API_PATH}/user/info`, errorHandled(info))
 app.post(`/${constants.BASE_API_PATH}/btc/wallet/create`, errorHandled(createWallet))
 app.get(`/${constants.BASE_API_PATH}/btc/wallet`, errorHandled(listWallets))
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:id`, errorHandled(getWallet))
+
+app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/balance`, errorHandled(getBalance))
+
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:id/transfer`, errorHandled(listTransfers))
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/transfer/:id`, errorHandled(getTransfer))
+
 app.post(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/address`, errorHandled(createAddress))
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/address/:address`, errorHandled(getAddress))
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/address/`, errorHandled(listAddresses))
