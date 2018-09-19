@@ -125,7 +125,7 @@
             required: true
             type: string
           - 
-            name: walletName
+            name: name
             in: body
             required: true
             type: string
@@ -270,7 +270,7 @@
             required: true
             type: string
           - 
-            name: addressName
+            name: name
             in: body
             required: true
             type: string
