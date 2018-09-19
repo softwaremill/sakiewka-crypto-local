@@ -461,7 +461,7 @@
     /eth/wallet/send-tokens:
       post: 
         tags: 
-          - ETH - walllet
+          - ETH - wallet
         description: Sends tokens.
         produces: 
           - application/json
