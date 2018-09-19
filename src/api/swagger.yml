@@ -34,7 +34,6 @@
             type: string
         responses: 
           "200":
-            description: Login response
             schema: 
               type: object
               properties: 
@@ -69,7 +68,6 @@
             type: string
         responses: 
           "200":
-            description: Register response
             schema: 
               type: object
               properties: 
@@ -89,9 +87,14 @@
         description: Shows user info.
         produces: 
           - application/json
+        parameters: 
+          - 
+            name: Authentication
+            in: header
+            required: true
+            type: string
         responses: 
           "200":
-            description: User info response
             schema: 
               type: object
               properties: 
@@ -108,7 +111,406 @@
             description: unexpected error
             schema: 
               $ref: "#/definitions/ErrorModel"
+    /btc/wallet/create:
+      post: 
+        tags: 
+          - BTC - wallet
+        description: Creates new wallet.
+        produces: 
+          - application/json
+        parameters:
+          - 
+            name: Authentication
+            in: header
+            required: true
+            type: string
+          - 
+            name: walletName
+            in: body
+            required: true
+            type: string
+          - 
+            name: passphrase
+            in: body
+            required: true
+            type: string
+          - 
+            name: userPubKey
+            in: body
+            required: false
+            type: string
+          - 
+            name: backupPubKey
+            in: body
+            required: false
+            type: string
+        responses:
+          "200":
+            description: success
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    id: 
+                      type: string
+                    initialAddress: 
+                      type: string
+                    servicePubKey: 
+                      type: string
+                    keys: 
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          type:
+                            type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+    /btc/wallet:
+      get: 
+        tags: 
+          - BTC - wallet
+        description: Lists user wallets.
+        produces: 
+          - application/json
+        parameters:
+          - 
+            name: Authentication
+            in: header
+            required: true
+            type: string
+          - 
+            name: nextPageToken
+            in: query
+            required: false
+            type: string
+          - 
+            name: limit
+            in: query
+            required: true
+            type: string
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    nextPageToken: 
+                      type: string
+                    wallets: 
+                      type: array
+                      items:
+                        type: object
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+    /btc/wallet/{walletId}:
+      get: 
+        tags: 
+          - BTC - wallet
+        description: Shows user wallet details.
+        produces: 
+          - application/json
+        parameters: 
+          - 
+            name: Authentication
+            in: header
+            required: true
+            type: string
+          - 
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    id: 
+                      type: string
+                    name: 
+                      type: string
+                    currency: 
+                      type: string
+                    created: 
+                      type: string
+                    keys: 
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          type:
+                            type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+    /btc/wallet/{walletId}/address:
+      post: 
+        tags: 
+          - BTC - wallet
+        description: Creates new wallet address.
+        produces: 
+          - application/json
+        parameters: 
+          - 
+            name: Authentication
+            in: header
+            required: true
+            type: string
+          - 
+            name: addressName
+            in: body
+            required: true
+            type: string
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    address: 
+                      type: string
+                    path: 
+                      type: object
+                      items:
+                        properties:
+                          cosignerIndex:
+                            type: string
+                          change:
+                            type: string
+                          addressIndex:
+                            type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+    /btc/wallet/{walletId}/address/{addressId}:
+      get: 
+        tags: 
+          - BTC - wallet
+        description: Shows address details.
+        produces: 
+          - application/json
+        parameters: 
+          - 
+            name: Authentication
+            in: header
+            required: true
+            type: string
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    address: 
+                      type: string
+                    name: 
+                      type: string
+                    created: 
+                      type: string
+                    path: 
+                      type: object
+                      items:
+                        properties:
+                          cosignerIndex:
+                            type: string
+                          change:
+                            type: string
+                          addressIndex:
+                            type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+    /btc/key/create:
+      post: 
+        tags: 
+          - BTC - key
+        description: Creates new key.
+        produces: 
+          - application/json
+        parameters: 
+          - 
+            name: passphrase
+            in: body
+            required: true
+            type: string
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    keyPair:
+                      type: object
+                      properties:
+                        pubKey:
+                          type: string
+                        prvKey:
+                          type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+    /btc/key/{keyId}:
+      get: 
+        tags: 
+          - BTC - key
+        description: Shows key details.
+        produces: 
+          - application/json
+        parameters: 
+          - 
+            name: Authentication
+            in: header
+            required: true
+            type: string
+          - 
+            name: includePrivate
+            in: query
+            required: false
+            type: string
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    id: 
+                      type: string
+                    pubKey: 
+                      type: string
+                    prvKey: 
+                      type: string
+                    keyType: 
+                      type: string
+                    created: 
+                      type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+    /eth/wallet/send-coins:
+      post: 
+        tags: 
+          - ETH - wallet
+        description: Sends eth.
+        produces: 
+          - application/json
+        parameters:
+          - 
+            name: Authentication
+            in: header
+            required: true
+            type: string
+          - 
+            name: address
+            in: body
+            required: true
+            type: string
+          - 
+            name: amount
+            in: body
+            required: true
+            type: string
+          - 
+            name: data
+            in: body
+            required: false
+            type: string
+          - 
+            name: prvKey
+            in: body
+            required: false
+            type: string
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    success: 
+                      type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+    /eth/wallet/send-tokens:
+      post: 
+        tags: 
+          - ETH - walllet
+        description: Sends tokens.
+        produces: 
+          - application/json
+        parameters:
+          - 
+            name: Authentication
+            in: header
+            required: true
+            type: string
+          - 
+            name: address
+            in: body
+            required: true
+            type: string
+          - 
+            name: contractAddress
+            in: body
+            required: true
+            type: string
+          - 
+            name: amount
+            in: body
+            required: true
+            type: string
+          - 
+            name: prvKey
+            in: body
+            required: false
+            type: string
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    success: 
+                      type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
   definitions: 
+    ResponseModel: 
+      type: object
+      properties: 
+        data:
+          type: object
     ErrorModel: 
       type: object
       properties: 
