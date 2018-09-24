@@ -71,7 +71,7 @@ app.get(`/${constants.BASE_API_PATH}/user/info`, errorHandled(info))
 
 // BTC
 // wallet
-app.post(`/${constants.BASE_API_PATH}/btc/wallet/create`, errorHandled(createWallet))
+app.post(`/${constants.BASE_API_PATH}/btc/wallet`, errorHandled(createWallet))
 app.get(`/${constants.BASE_API_PATH}/btc/wallet`, errorHandled(listWallets))
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:id`, errorHandled(getWallet))
 
@@ -85,7 +85,7 @@ app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/address/:address`, err
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/address/`, errorHandled(listAddresses))
 
 // key
-app.post(`/${constants.BASE_API_PATH}/btc/key/create`, errorHandled(createKey))
+app.post(`/${constants.BASE_API_PATH}/btc/key`, errorHandled(createKey))
 app.get(`/${constants.BASE_API_PATH}/btc/key/:id`, errorHandled(getKey))
 
 // ETH

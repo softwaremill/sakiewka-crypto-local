@@ -18,10 +18,10 @@ const mockFnEncrypt = jest.fn(() => {
 key.generateNewKeyPair = mockFnGenerate
 key.encryptKeyPair = mockFnEncrypt
 
-describe('/btc/key/create', () => {
+describe('/btc/key', () => {
   it('should not accept extra parameters', async () => {
     const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/btc/key/create`)
+      .post(`/${constants.BASE_API_PATH}/btc/key`)
       .set('Authorization', 'Bearer abc')
       .send({
         extraProp: 'test',
@@ -34,7 +34,7 @@ describe('/btc/key/create', () => {
 
   it('should return keys', async () => {
     const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/btc/key/create`)
+      .post(`/${constants.BASE_API_PATH}/btc/key`)
 
     const callArgs = mockFnGenerate.mock.calls[0]
 
@@ -46,7 +46,7 @@ describe('/btc/key/create', () => {
 
   it('should return encrypted key', async () => {
     const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/btc/key/create`)
+      .post(`/${constants.BASE_API_PATH}/btc/key`)
       .send({
         passphrase: 'abcd'
       })
