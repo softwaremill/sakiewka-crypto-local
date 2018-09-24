@@ -12,8 +12,16 @@
   consumes: 
     - application/json
   produces: 
-    - application/json
+    - application/son
   paths: 
+    # ==========
+    # BTC
+    # ==========
+
+    # ------------
+    # USER
+    # ------------
+
     /user/login:
       post: 
         tags: 
@@ -48,6 +56,7 @@
             description: unexpected error
             schema: 
               $ref: "#/definitions/ErrorModel"
+
     /user/register:
       post: 
         tags: 
@@ -80,6 +89,7 @@
             description: unexpected error
             schema: 
               $ref: "#/definitions/ErrorModel"
+
     /user/info:
       get: 
         tags: 
@@ -111,6 +121,11 @@
             description: unexpected error
             schema: 
               $ref: "#/definitions/ErrorModel"
+
+    # ------------
+    # WALLET
+    # ------------
+
     /btc/wallet:
       post: 
         tags: 
@@ -172,6 +187,7 @@
             description: unexpected error
             schema: 
               $ref: "#/definitions/ErrorModel"
+
     /btc/wallet:
       get: 
         tags: 
@@ -213,6 +229,7 @@
             description: unexpected error
             schema: 
               $ref: "#/definitions/ErrorModel"
+
     /btc/wallet/{walletId}:
       get: 
         tags: 
@@ -256,6 +273,39 @@
             description: unexpected error
             schema: 
               $ref: "#/definitions/ErrorModel"
+
+    /btc/wallet/{walletId}/balance:
+      get: 
+        tags: 
+          - BTC - wallet
+        description: Shows wallet balance.
+        produces: 
+          - application/json
+        parameters:
+          - 
+            name: Authentication
+            in: header
+            required: true
+            type: string
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    confirming: 
+                      type: integer
+                    confirmed: 
+                      type: integer
+                    locked: 
+                      type: integer
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+
     /btc/wallet/{walletId}/address:
       post: 
         tags: 
@@ -298,6 +348,7 @@
             description: unexpected error
             schema: 
               $ref: "#/definitions/ErrorModel"
+
       get: 
         tags: 
           - BTC - wallet
@@ -352,6 +403,7 @@
             description: unexpected error
             schema: 
               $ref: "#/definitions/ErrorModel"
+
     /btc/wallet/{walletId}/address/{addressId}:
       get: 
         tags: 
@@ -392,6 +444,11 @@
             description: unexpected error
             schema: 
               $ref: "#/definitions/ErrorModel"
+
+    # ------------
+    # KEY
+    # ------------
+
     /btc/key:
       post: 
         tags: 
@@ -424,6 +481,7 @@
             description: unexpected error
             schema: 
               $ref: "#/definitions/ErrorModel"
+
     /btc/key/{keyId}:
       get: 
         tags: 
@@ -464,6 +522,11 @@
             description: unexpected error
             schema: 
               $ref: "#/definitions/ErrorModel"
+
+    # ==========
+    # ETH
+    # ==========
+
     /eth/wallet/send-coins:
       post: 
         tags: 
@@ -511,6 +574,7 @@
             description: unexpected error
             schema: 
               $ref: "#/definitions/ErrorModel"
+
     /eth/wallet/send-tokens:
       post: 
         tags: 
@@ -558,12 +622,19 @@
             description: unexpected error
             schema: 
               $ref: "#/definitions/ErrorModel"
+
+  # ==========
+  # MODELS
+  # ==========
+
   definitions: 
+
     ResponseModel: 
       type: object
       properties: 
         data:
           type: object
+
     ErrorModel: 
       type: object
       properties: 
