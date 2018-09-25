@@ -2,79 +2,111 @@ import Joi, { SchemaMap } from 'joi'
 
 const createSchema = (object: SchemaMap) => Joi.object().keys(object)
 
-export const registerRequest = createSchema({
-  password: Joi.string().required(),
-  login: Joi.string().required()
-})
+export const registerRequest = {
+  body: createSchema({
+    password: Joi.string().required(),
+    login: Joi.string().required()
+  })
+}
 
-export const loginRequest = createSchema({
-  password: Joi.string().required(),
-  login: Joi.string().required()
-})
+export const loginRequest = {
+  body: createSchema({
+    password: Joi.string().required(),
+    login: Joi.string().required()
+  })
+}
 
-export const logoutRequest = createSchema({})
+export const logoutRequest = {}
 
-export const infoRequest = createSchema({})
+export const infoRequest = {}
 
-export const createWalletRequest = createSchema({
-  name: Joi.string().required(),
-  userPubKey: Joi.string(),
-  backupPubKey: Joi.string(),
-  passphrase: Joi.string().required()
-})
+export const createWalletRequest = {
+  body: createSchema({
+    name: Joi.string().required(),
+    userPubKey: Joi.string(),
+    backupPubKey: Joi.string(),
+    passphrase: Joi.string().required()
+  })
+}
 
-export const getWalletRequest = createSchema({})
+export const getWalletRequest = {}
 
-export const listWalletsRequest = createSchema({})
+export const listWalletsRequest = {
+  query: createSchema({
+    nextPageToken: Joi.string(),
+    limit: Joi.string().required()
+  })
+}
 
-export const getTransferRequest = createSchema({})
+export const getTransferRequest = {}
 
-export const listTransfersRequest = createSchema({})
+export const listTransfersRequest = {}
 
-export const createKeyRequest = createSchema({
-  passphrase: Joi.string()
-})
+export const createKeyRequest = {
+  body: createSchema({
+    passphrase: Joi.string()
+  })
+}
 
-export const getKeyRequest = createSchema({})
+export const getKeyRequest = {
+  query: createSchema({
+    includePrivate: Joi.string()
+  })
+}
 
-export const createNewAddressRequest = createSchema({
-  name: Joi.string()
-})
+export const createNewAddressRequest = {
+  body: createSchema({
+    name: Joi.string()
+  })
+}
 
-export const getAddressRequest = createSchema({})
+export const getAddressRequest = {}
 
-export const getBalanceRequest = createSchema({})
+export const getBalanceRequest = {}
 
-export const listAddressesRequest = createSchema({})
+export const listAddressesRequest = {
+  query: createSchema({
+    nextPageToken: Joi.string(),
+    limit: Joi.string().required()
+  })
+}
 
-export const signEthWalletWithdrawalRequest = createSchema({
-  pk: Joi.string().required(),
-  address: Joi.string().required(),
-  amount: Joi.string().required(),
-  data: Joi.string().empty(''),
-  expireTime: Joi.number().required(),
-  contractNonce: Joi.number().required()
-})
+export const signEthWalletWithdrawalRequest = {
+  body: createSchema({
+    pk: Joi.string().required(),
+    address: Joi.string().required(),
+    amount: Joi.string().required(),
+    data: Joi.string().empty(''),
+    expireTime: Joi.number().required(),
+    contractNonce: Joi.number().required()
+  })
+}
 
-export const signTokenWalletWithdrawalRequest = createSchema({
-  pk: Joi.string().required(),
-  address: Joi.string().required(),
-  amount: Joi.string().required(),
-  contractAddress: Joi.string().required(),
-  expireTime: Joi.number().required(),
-  contractNonce: Joi.number().required()
-})
+export const signTokenWalletWithdrawalRequest = {
+  body: createSchema({
+    pk: Joi.string().required(),
+    address: Joi.string().required(),
+    amount: Joi.string().required(),
+    contractAddress: Joi.string().required(),
+    expireTime: Joi.number().required(),
+    contractNonce: Joi.number().required()
+  })
+}
 
-export const sendEthRequest = createSchema({
-  address: Joi.string().required(),
-  amount: Joi.string().required(),
-  data: Joi.string().empty(''),
-  prvKey: Joi.string()
-})
+export const sendEthRequest = {
+  body: createSchema({
+    address: Joi.string().required(),
+    amount: Joi.string().required(),
+    data: Joi.string().empty(''),
+    prvKey: Joi.string()
+  })
+}
 
-export const sendTokensRequest = createSchema({
-  address: Joi.string().required(),
-  contractAddress: Joi.string().required(),
-  amount: Joi.string().required(),
-  prvKey: Joi.string()
-})
+export const sendTokensRequest = {
+  body: createSchema({
+    address: Joi.string().required(),
+    contractAddress: Joi.string().required(),
+    amount: Joi.string().required(),
+    prvKey: Joi.string()
+  })
+}

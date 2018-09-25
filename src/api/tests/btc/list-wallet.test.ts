@@ -17,10 +17,18 @@ wallet.listWallets = mockFn
 describe('/btc/wallet', () => {
   it('should not accept incomplete request', async () => {
     const response = await supertest(app)
-      .get(`/${constants.BASE_API_PATH}/btc/wallet`)
+      .get(`/${constants.BASE_API_PATH}/btc/wallet?limit=30`)
 
     expect(response.status).to.be.equal(400)
     expect(response.body.error.message).to.be.equal('Request header Authorization is required.')
+  })
+
+  it('should not accept request with missing query params', async () => {
+    const response = await supertest(app)
+      .get(`/${constants.BASE_API_PATH}/btc/wallet`)
+
+    expect(response.status).to.be.equal(400)
+    expect(response.body.error.message).to.be.equal('"limit" is required')
   })
 
   it('should return list of wallets', async () => {

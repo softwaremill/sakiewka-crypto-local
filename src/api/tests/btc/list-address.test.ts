@@ -24,10 +24,18 @@ describe('/btc/wallet/:walletId/address/', () => {
 
   it('should not accept request with missing header', async () => {
     const response = await supertest(app)
-      .get(`/${constants.BASE_API_PATH}/btc/wallet/12/address`)
+      .get(`/${constants.BASE_API_PATH}/btc/wallet/12/address?limit=10`)
 
     expect(response.status).to.be.equal(400)
     expect(response.body.error.message).to.be.equal('Request header Authorization is required.')
+  })
+
+  it('should not accept request with missing query params', async () => {
+    const response = await supertest(app)
+      .get(`/${constants.BASE_API_PATH}/btc/wallet/12/address`)
+
+    expect(response.status).to.be.equal(400)
+    expect(response.body.error.message).to.be.equal('"limit" is required')
   })
 
   it('should return addresses data', async () => {
