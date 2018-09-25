@@ -42,6 +42,13 @@ export const getTransferRequest = {}
 
 export const listTransfersRequest = {}
 
+export const listUtxoRequest = {
+  query: createSchema({
+    amountBtc: Joi.string().required(),
+    feeRateSatoshi: Joi.string().required()
+  })
+}
+
 export const createKeyRequest = {
   body: createSchema({
     passphrase: Joi.string()

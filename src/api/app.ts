@@ -16,6 +16,7 @@ import getWallet from './handlers/btc/get-wallet'
 import getBalance from './handlers/btc/get-balance'
 import listTransfers from './handlers/btc/list-transfer'
 import getTransfer from './handlers/btc/get-transfer'
+import listUtxo from './handlers/btc/list-utxo'
 import createAddress from './handlers/btc/create-address'
 import getAddress from './handlers/btc/get-address'
 import listAddresses from './handlers/btc/list-address'
@@ -76,6 +77,8 @@ app.get(`/${constants.BASE_API_PATH}/btc/wallet`, errorHandled(listWallets))
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:id`, errorHandled(getWallet))
 
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/balance`, errorHandled(getBalance))
+
+app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/utxo`, errorHandled(listUtxo))
 
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:id/transfer`, errorHandled(listTransfers))
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/transfer/:id`, errorHandled(getTransfer))
