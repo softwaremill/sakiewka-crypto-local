@@ -18,7 +18,6 @@ const listUtxo = async (req: Request, res: Response) => {
     req.header('authorization'), req.param('walletId'), req.query.amountBtc, req.query.feeRateSatoshi
   )
 
-  // TODO: check if there was no errors during backend request
   jsonResponse(res, backendResponse)
 }
 

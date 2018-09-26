@@ -14,7 +14,6 @@ const info = async (req: Request, res: Response) => {
     return errorResponse(res, constants.API_ERROR.BAD_REQUEST, validationErrors[0])
   }
 
-  // TODO: check if there was no errors during backend request
   jsonResponse(res, {})
 }
 

@@ -20,7 +20,6 @@ const crateWallet = async (req: Request, res: Response) => {
     token, { passphrase, userPubKey, backupPubKey, name }
   )
 
-  // TODO: check if there was no errors during backend request
   jsonResponse(res, walletData)
 }
 

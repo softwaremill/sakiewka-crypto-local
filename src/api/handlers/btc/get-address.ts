@@ -19,7 +19,6 @@ const getWallet = async (req: Request, res: Response) => {
     token, req.param('walletId'), req.param('address')
   )
 
-  // TODO: check if there was no errors during backend request
   jsonResponse(res, addressData)
 }
 

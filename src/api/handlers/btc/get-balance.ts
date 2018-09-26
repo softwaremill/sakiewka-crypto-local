@@ -19,7 +19,6 @@ const getBalance = async (req: Request, res: Response) => {
     token, req.param('walletId')
   )
 
-  // TODO: check if there was no errors during backend request
   jsonResponse(res, backendResponse)
 }
 

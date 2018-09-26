@@ -18,7 +18,6 @@ const listWallets = async (req: Request, res: Response) => {
     req.header('authorization'), req.query.limit, req.query.nextPageToken
   )
 
-  // TODO: check if there was no errors during backend request
   jsonResponse(res, backendResponse)
 }
 

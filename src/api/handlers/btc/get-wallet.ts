@@ -18,7 +18,6 @@ const getWallet = async (req: Request, res: Response) => {
     req.header('authorization'), req.params.id
   )
 
-  // TODO: check if there was no errors during backend request
   jsonResponse(res, backendResponse)
 }
 
