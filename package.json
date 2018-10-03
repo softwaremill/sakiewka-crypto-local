@@ -6,7 +6,7 @@
     "test-coverage": "jest --forceExit --coverage --verbose",
     "test": "jest --forceExit --verbose false",
     "watch-test": "NODE_ENV=dev npm run test -- --watchAll",
-    "build": "npm run swagger && tsc",
+    "build": "tsc && npm run swagger",
     "swagger": "cp src/api/swagger.yml dist/api/swagger.yml",
     "watch": "tsc -w",
     "start": "node dist/api/server.js",
