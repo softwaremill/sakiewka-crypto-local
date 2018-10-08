@@ -103,7 +103,7 @@ export const signTokenWalletWithdrawalRequest = {
 export const sendEthRequest = {
   body: createSchema({
     address: Joi.string().required(),
-    amount: Joi.string().required(),
+    value: Joi.string().required(),
     data: Joi.string().empty(''),
     prvKey: Joi.string()
   })
@@ -113,7 +113,7 @@ export const sendTokensRequest = {
   body: createSchema({
     address: Joi.string().required(),
     contractAddress: Joi.string().required(),
-    amount: Joi.string().required(),
+    value: Joi.string().required(),
     prvKey: Joi.string()
   })
 }

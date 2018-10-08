@@ -95,7 +95,7 @@ app.get(`/${constants.BASE_API_PATH}/btc/key/:id`, errorHandled(getKey))
 // walet
 app.post(`/${constants.BASE_API_PATH}/eth/wallet/sign`, errorHandled(signEth))
 app.post(`/${constants.BASE_API_PATH}/eth/wallet/tokenSign`, errorHandled(signTokens))
-app.post(`/${constants.BASE_API_PATH}/eth/wallet/send-coins`, errorHandled(sendEth))
+app.post(`/${constants.BASE_API_PATH}/withdraw/eth`, errorHandled(sendEth))
 app.post(`/${constants.BASE_API_PATH}/eth/wallet/send-tokens`, errorHandled(sendTokens))
 
 app.all('*', errorHandled(notFound))
