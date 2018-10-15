@@ -78,6 +78,13 @@ export const listAddressesRequest = {
   })
 }
 
+export const sendTransactionRequest = {
+  body: createSchema({
+    xprv: Joi.string().required(),
+    recipients: Joi.array().required()
+  })
+}
+
 export const signEthWalletWithdrawalRequest = {
   body: createSchema({
     pk: Joi.string().required(),

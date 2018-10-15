@@ -22,8 +22,8 @@ import getAddress from './handlers/btc/get-address'
 import listAddresses from './handlers/btc/list-address'
 import createKey from './handlers/btc/create-key'
 import getKey from './handlers/btc/get-key'
+import sendCoins from './handlers/btc/send-coins'
 import { signEth, signTokens } from './handlers/eth/sign'
-import { sendEth, sendTokens } from './handlers/eth/send'
 import sakiewkaCrypto from 'sakiewka-crypto'
 import { errorResponse } from './response'
 
@@ -86,6 +86,8 @@ app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/transfer/:id`, errorHa
 app.post(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/address`, errorHandled(createAddress))
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/address/:address`, errorHandled(getAddress))
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/address/`, errorHandled(listAddresses))
+
+app.post(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/send-coins`, errorHandled(sendCoins))
 
 // key
 app.post(`/${constants.BASE_API_PATH}/btc/key`, errorHandled(createKey))
