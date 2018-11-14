@@ -14,10 +14,10 @@ export const signEth = async (req: Request, res: Response) => {
     return errorResponse(res, constants.API_ERROR.BAD_REQUEST, validationErrors[0])
   }
 
-  const { pk, address, amount, data, expireTime, contractNonce } = req.body
+  const { pk, address, amount, data, expireBlock, contractNonce } = req.body
 
   const signature = transactionEth.signETHTransaction(
-    address, amount, data, expireTime, contractNonce, pk
+    address, amount, data, expireBlock, contractNonce, pk
   );
 
   jsonResponse(res, signature)
@@ -30,10 +30,10 @@ export const signTokens = async (req: Request, res: Response) => {
     return errorResponse(res, constants.API_ERROR.BAD_REQUEST, validationErrors[0])
   }
 
-  const { pk, address, amount, contractAddress, expireTime, contractNonce } = req.body
+  const { pk, address, amount, contractAddress, expireBlock, contractNonce } = req.body
 
   const signature = transactionEth.signTokenTransaction(
-    address, amount, contractAddress, expireTime, contractNonce, pk
+    address, amount, contractAddress, expireBlock, contractNonce, pk
   );
 
   jsonResponse(res, signature)

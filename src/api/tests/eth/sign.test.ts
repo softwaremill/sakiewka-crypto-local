@@ -14,7 +14,7 @@ describe('/eth/wallet/sign', () => {
         address: '0x2191ef87e392377ec08e7c08eb105ef5448eced5',
         amount: '200',
         data: '',
-        expireTime: new Date().getTime() + 3600000 /* one hour from now */,
+        expireBlock: new Date().getTime() + 3600000 /* one hour from now */,
         contractNonce: 1
       })
 
@@ -31,7 +31,7 @@ describe('/eth/wallet/tokenSign', () => {
         address: '0x2191ef87e392377ec08e7c08eb105ef5448eced5',
         amount: '200',
         contractAddress: '0x2932b7a2355d6fecc4b5c0b6bd44cc31df247a2e',
-        expireTime: new Date().getTime() + 3600000 /* one hour from now */,
+        expireBlock: new Date().getTime() + 3600000 /* one hour from now */,
         contractNonce: 1
       })
 

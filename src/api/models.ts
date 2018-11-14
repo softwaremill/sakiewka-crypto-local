@@ -91,7 +91,7 @@ export const signEthWalletWithdrawalRequest = {
     address: Joi.string().required(),
     amount: Joi.string().required(),
     data: Joi.string().empty(''),
-    expireTime: Joi.number().required(),
+    expireBlock: Joi.number().required(),
     contractNonce: Joi.number().required()
   })
 }
@@ -102,7 +102,7 @@ export const signTokenWalletWithdrawalRequest = {
     address: Joi.string().required(),
     amount: Joi.string().required(),
     contractAddress: Joi.string().required(),
-    expireTime: Joi.number().required(),
+    expireBlock: Joi.number().required(),
     contractNonce: Joi.number().required()
   })
 }
