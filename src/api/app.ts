@@ -23,7 +23,6 @@ import listAddresses from './handlers/btc/list-address'
 import createKey from './handlers/btc/create-key'
 import getKey from './handlers/btc/get-key'
 import sendCoins from './handlers/btc/send-coins'
-import { signEth, signTokens } from './handlers/eth/sign'
 import sakiewkaCrypto from 'sakiewka-crypto'
 import { errorResponse } from './response'
 
@@ -92,11 +91,6 @@ app.post(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/send-coins`, errorHan
 // key
 app.post(`/${constants.BASE_API_PATH}/btc/key`, errorHandled(createKey))
 app.get(`/${constants.BASE_API_PATH}/btc/key/:id`, errorHandled(getKey))
-
-// ETH
-// walet
-app.post(`/${constants.BASE_API_PATH}/eth/wallet/sign`, errorHandled(signEth))
-app.post(`/${constants.BASE_API_PATH}/eth/wallet/tokenSign`, errorHandled(signTokens))
 
 app.all('*', errorHandled(notFound))
 
