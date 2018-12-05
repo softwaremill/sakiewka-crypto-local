@@ -44,7 +44,7 @@ describe('/btc/wallet/walletId/send-coins', () => {
 
   it('should send coins', async () => {
     const token = 'testToken'
-    const recipients = ['abcd']
+    const recipients = [{address: 'abcd', amount: 123}]
 
     const response = await supertest(app)
       .post(`/${constants.BASE_API_PATH}/btc/wallet/123/send-coins`)
@@ -62,6 +62,6 @@ describe('/btc/wallet/walletId/send-coins', () => {
     expect(callArgs[0]).to.eq(`Bearer ${token}`)
     expect(callArgs[1]).to.eq('abc')
     expect(callArgs[2]).to.eq('123')
-    expect(callArgs[3][0]).to.eq('abcd')
+    expect(callArgs[3][0]).to.eql({address: 'abcd', amount: 123})
   })
 })
