@@ -14,12 +14,8 @@ const register = async (req: Request, res: Response) => {
     return errorResponse(res, constants.API_ERROR.BAD_REQUEST, validationErrors[0])
   }
 
-  const { login, password: hashedPassword } = req.body
-  if (hashedPassword.length !== 64) {
-    return errorResponse(res, constants.API_ERROR.BAD_REQUEST, `Invalid length of password, expected: 64, got: ${hashedPassword.length}`)
-  }
-
-  const backendResponse = await user.register(login, hashedPassword)
+  const { login, password } = req.body
+  const backendResponse = await user.register(login, password)
 
   jsonResponse(res, backendResponse)
 }
