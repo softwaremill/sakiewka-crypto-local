@@ -25,7 +25,7 @@ describe('/user/login', () => {
     expect(response.body.error.message).to.be.equal('"password" is required')
   })
 
-  it('should not accept extra paramters', async () => {
+  it('should not accept extra parameters', async () => {
     const response = await supertest(app)
       .post(`/${constants.BASE_API_PATH}/user/login`)
       .send({
@@ -40,20 +40,21 @@ describe('/user/login', () => {
 
   it('should login user', async () => {
     const login = `testlogin${randomString()}`
+    const hashPassword = crypto.hashPassword('abcd')
 
     // first registers new user
     await supertest(app)
       .post(`/${constants.BASE_API_PATH}/user/register`)
       .send({
         login,
-        password: 'abcd'
+        password: hashPassword
       })
 
     const response = await supertest(app)
       .post(`/${constants.BASE_API_PATH}/user/login`)
       .send({
         login,
-        password: 'abcd'
+        password: hashPassword
       })
 
     const callArgs = mockFn.mock.calls[0]
@@ -62,6 +63,21 @@ describe('/user/login', () => {
     const data = response.body.data
     expect(data).to.eq('token')
     expect(callArgs[0]).to.eq(login)
-    expect(callArgs[1]).to.eq(crypto.hashPassword('abcd'))
+    expect(callArgs[1]).to.eq(hashPassword)
+  })
+
+  it('should not accept invalid password', async () => {
+    const login = `testlogin${randomString()}`
+    const response = await supertest(app)
+        .post(`/${constants.BASE_API_PATH}/user/login`)
+        .send({
+          login,
+          password: 'invalid-password'
+        })
+
+    expect(response.status).to.be.equal(400)
+    const error = response.body.error
+    expect(error.message).to.eq('Invalid length of password, expected: 64, got: 16')
+    expect(error.code).to.eq(400)
   })
 })
