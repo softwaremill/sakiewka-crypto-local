@@ -2,10 +2,10 @@ import { Request, Response } from 'express'
 
 import sakiewkaCrypto from 'sakiewka-crypto'
 import { registerRequest } from '../../models'
-import { jsonResponse, errorResponse } from '../../response'
+import { errorResponse, jsonResponse } from '../../response'
 import validate from '../../validate'
 
-const { constants, user, crypto } = sakiewkaCrypto
+const { constants, user } = sakiewkaCrypto
 
 const register = async (req: Request, res: Response) => {
   const validationErrors = validate(req, registerRequest)
@@ -15,7 +15,7 @@ const register = async (req: Request, res: Response) => {
   }
 
   const { login, password } = req.body
-  const backendResponse = await user.register(login, crypto.hashPassword(password))
+  const backendResponse = await user.register(login, password)
 
   jsonResponse(res, backendResponse)
 }

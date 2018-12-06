@@ -4,6 +4,7 @@ import supertest from 'supertest'
 
 import { randomString } from '../helpers'
 import sakiewkaCrypto from 'sakiewka-crypto'
+
 const { constants, user, crypto } = sakiewkaCrypto
 
 // @ts-ignore
@@ -25,12 +26,12 @@ describe('/user/register', () => {
     expect(response.body.error.message).to.be.equal('"password" is required')
   })
 
-  it('should not accept extra paramters', async () => {
+  it('should not accept extra parameters', async () => {
     const response = await supertest(app)
       .post(`/${constants.BASE_API_PATH}/user/register`)
       .send({
         login: 'testLogin',
-        password: 'abcd',
+        password: crypto.hashPassword('abcd'),
         extraProp: 'test'
       })
 
@@ -53,6 +54,6 @@ describe('/user/register', () => {
     const data = response.body.data
     expect(data).to.eq('response')
     expect(callArgs[0]).to.eq(login)
-    expect(callArgs[1]).to.eq(crypto.hashPassword('abcd'))
+    expect(callArgs[1]).to.eq('abcd')
   })
 })

@@ -1,11 +1,11 @@
 import { Request, Response } from 'express'
 
 import sakiewkaCrypto from 'sakiewka-crypto'
-import { jsonResponse, errorResponse } from '../../response'
+import { errorResponse, jsonResponse } from '../../response'
 import { loginRequest } from '../../models'
 import validate from '../../validate'
 
-const { constants, crypto, user } = sakiewkaCrypto
+const { constants, user } = sakiewkaCrypto
 
 const login = async (req: Request, res: Response) => {
   const validationErrors = validate(req, loginRequest)
@@ -15,7 +15,7 @@ const login = async (req: Request, res: Response) => {
   }
 
   const { login, password } = req.body
-  const backendResponse = await user.login(login, crypto.hashPassword(password))
+  const backendResponse = await user.login(login, password)
 
   jsonResponse(res, backendResponse)
 }

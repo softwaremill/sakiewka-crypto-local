@@ -4,7 +4,7 @@ import supertest from 'supertest'
 
 import { randomString } from '../helpers'
 import sakiewkaCrypto from 'sakiewka-crypto'
-const { constants, user, crypto } = sakiewkaCrypto
+const { constants, user } = sakiewkaCrypto
 
 // @ts-ignore
 const mockFn = jest.fn(() => {
@@ -25,7 +25,7 @@ describe('/user/login', () => {
     expect(response.body.error.message).to.be.equal('"password" is required')
   })
 
-  it('should not accept extra paramters', async () => {
+  it('should not accept extra parameters', async () => {
     const response = await supertest(app)
       .post(`/${constants.BASE_API_PATH}/user/login`)
       .send({
@@ -62,6 +62,6 @@ describe('/user/login', () => {
     const data = response.body.data
     expect(data).to.eq('token')
     expect(callArgs[0]).to.eq(login)
-    expect(callArgs[1]).to.eq(crypto.hashPassword('abcd'))
+    expect(callArgs[1]).to.eq('abcd')
   })
 })
