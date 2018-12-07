@@ -5,4 +5,4 @@ coverage/
 src/notes.ts
 dist/
 .env
-.idea
+.idea/
