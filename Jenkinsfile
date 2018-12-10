@@ -4,7 +4,7 @@ String getGitCommitHash() {
     return sh(script: 'git rev-parse HEAD', returnStdout: true)?.trim()
 }
 
-def label = "dind-${UUID.randomUUID().toString()}"
+def label = "dind-node10-${UUID.randomUUID().toString()}"
 def serviceAccount = "icouhouse-jenkins"
 podTemplate(label: label, yaml: """
 apiVersion: v1
@@ -17,6 +17,11 @@ spec:
     securityContext: 
         privileged: true
         runAsUser: 0
+  - name: node10
+    image: node:10
+    command:
+        - cat
+    tty: true
 """
 ) {
     node(label) {
@@ -24,6 +29,15 @@ spec:
         stage('Checkout') {
             checkout scm
             gitCommitHash = getGitCommitHash()
+        }
+        stage('Execute test') {
+            container('node10') {
+                sh """
+                set -e
+                npm install
+                npm test
+                """
+            }
         }
         container('dind') {
             stage('Build docker image') {
