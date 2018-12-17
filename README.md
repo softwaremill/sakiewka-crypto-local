@@ -5,7 +5,7 @@ Local api.
 ### Usage:
 
 First run:  
-1.  `npm install`  
+1.  `npm ci`  
 
 Api documentation is available at `/api/docs`
 
