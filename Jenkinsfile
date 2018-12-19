@@ -37,7 +37,7 @@ spec:
                 container('node10') {
                     sh """
                     set -e
-                    npm install
+                    npm ci
                     npm test
                     """
                 }
