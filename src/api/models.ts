@@ -12,13 +12,34 @@ export const registerRequest = {
 export const loginRequest = {
   body: createSchema({
     password: Joi.string().required(),
-    login: Joi.string().required()
+    login: Joi.string().required(),
+    code: Joi.number()
   })
 }
 
 export const logoutRequest = {}
 
 export const infoRequest = {}
+
+export const init2faRequest = {
+  body: createSchema({
+    password: Joi.string().required()
+  })
+}
+
+export const confirm2faRequest = {
+  body: createSchema({
+    password: Joi.string().required(),
+    code: Joi.number().required()
+  })
+}
+
+export const disable2faRequest = {
+  body: createSchema({
+    password: Joi.string().required(),
+    code: Joi.number().required()
+  })
+}
 
 export const createWalletRequest = {
   body: createSchema({
