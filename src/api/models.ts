@@ -13,7 +13,7 @@ export const loginRequest = {
   body: createSchema({
     password: Joi.string().required(),
     login: Joi.string().required(),
-    code: Joi.number()
+    code: Joi.number().optional()
   })
 }
 

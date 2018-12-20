@@ -15,6 +15,10 @@ const mockFn = jest.fn(() => {
 user.init2fa = mockFn
 
 describe('/user/2fa/init', () => {
+  beforeEach(() => {
+    mockFn.mockClear()
+  })
+
   it('should not accept incomplete request', async () => {
     const response = await supertest(app)
       .post(`/${constants.BASE_API_PATH}/user/2fa/init`)
