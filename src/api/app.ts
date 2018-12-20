@@ -25,6 +25,9 @@ import getKey from './handlers/btc/get-key'
 import sendCoins from './handlers/btc/send-coins'
 import sakiewkaCrypto from 'sakiewka-crypto'
 import { errorResponse } from './response'
+import init2fa from './handlers/user/init2fa';
+import confirm2fa from './handlers/user/confirm2fa';
+import disable2fa from './handlers/user/disable2fa';
 
 const swaggerDocument = YAML.load(`${__dirname}/swagger.yml`)
 dotenv.config()
@@ -68,6 +71,9 @@ app.post(`/${constants.BASE_API_PATH}/user/login`, errorHandled(login))
 app.post(`/${constants.BASE_API_PATH}/user/logout`, errorHandled(logout))
 app.post(`/${constants.BASE_API_PATH}/user/register`, errorHandled(register))
 app.get(`/${constants.BASE_API_PATH}/user/info`, errorHandled(info))
+app.post(`/${constants.BASE_API_PATH}/user/2fa/init`, errorHandled(init2fa))
+app.post(`/${constants.BASE_API_PATH}/user/2fa/confirm`, errorHandled(confirm2fa))
+app.post(`/${constants.BASE_API_PATH}/user/2fa/disable`, errorHandled(disable2fa))
 
 // BTC
 // wallet
