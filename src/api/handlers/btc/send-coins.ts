@@ -4,6 +4,7 @@ import { jsonResponse, errorResponse } from '../../response'
 import { sendTransactionRequest } from '../../models'
 import sakiewkaCrypto from 'sakiewka-crypto'
 import validate from '../../validate'
+import { BigNumber } from "bignumber.js";
 
 const { constants, transaction } = sakiewkaCrypto
 
@@ -15,7 +16,10 @@ const sendCoins = async (req: Request, res: Response) => {
   }
 
   const backendResponse = await transaction.sendCoins(
-    req.header('authorization'), req.body.xprv, req.params.walletId, req.body.recipients
+    req.header('authorization'), 
+    req.body.xprv, 
+    req.params.walletId, 
+    req.body.recipients.map(e => ({ address: e.address, amount: new BigNumber(e.amount) }))
   )
 
   jsonResponse(res, backendResponse)

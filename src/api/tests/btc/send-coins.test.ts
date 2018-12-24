@@ -1,6 +1,7 @@
 import { expect } from 'chai'
 import app from '../../app'
 import supertest from 'supertest'
+import { BigNumber } from "bignumber.js";
 
 import sakiewkaCrypto from 'sakiewka-crypto'
 const { constants, transaction } = sakiewkaCrypto
@@ -62,6 +63,6 @@ describe('/btc/wallet/walletId/send-coins', () => {
     expect(callArgs[0]).to.eq(`Bearer ${token}`)
     expect(callArgs[1]).to.eq('abc')
     expect(callArgs[2]).to.eq('123')
-    expect(callArgs[3][0]).to.eql({address: 'abcd', amount: 123})
+    expect(callArgs[3][0]).to.eql({address: 'abcd', amount: new BigNumber(123)})
   })
 })
