@@ -52,7 +52,7 @@ describe('/btc/wallet/utxo', () => {
     expect(data).to.eq('test wallet')
     expect(callArgs[0]).to.eq(`Bearer ${token}`)
     expect(callArgs[1]).to.eq('1233')
-    expect(callArgs[2]).to.eq('123')
+    expect(callArgs[2].toNumber()).to.eq(123)
     expect(callArgs[3]).to.eq('12')
   })
 })

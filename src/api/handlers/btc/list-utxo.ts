@@ -4,6 +4,7 @@ import { jsonResponse, errorResponse } from '../../response'
 import { listUtxoRequest } from '../../models'
 import sakiewkaCrypto from 'sakiewka-crypto'
 import validate from '../../validate'
+import BigNumber from 'bignumber.js';
 
 const { constants, wallet } = sakiewkaCrypto
 
@@ -15,7 +16,7 @@ const listUtxo = async (req: Request, res: Response) => {
   }
 
   const backendResponse = await wallet.listUnspents(
-    req.header('authorization'), req.param('walletId'), req.query.amountBtc, req.query.feeRateSatoshi
+    req.header('authorization'), req.param('walletId'), new BigNumber(req.query.amountBtc), req.query.feeRateSatoshi
   )
 
   jsonResponse(res, backendResponse)
