@@ -9,7 +9,11 @@ First run:
 
 Api documentation is available at `/api/docs`
 
-### Updating sakiewka-crypto:
+### package.json modification:
+
+Do not modify package.lock manually. Always use `npm install` when adding or updating packages.
+
+Especially use `npm install` when updating sakiewka-crypto like below:
 
 `npm install softwaremill/sakiewka-crypto#${commitHash}`
 
