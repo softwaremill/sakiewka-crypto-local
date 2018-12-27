@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test-coverage": "jest --forceExit --coverage --verbose",
-    "test": "jest --forceExit --verbose false",
+    "test": "jest --forceExit --verbose false --detectOpenHandles",
     "watch-test": "NODE_ENV=dev npm run test -- --watchAll",
     "build": "tsc && npm run swagger",
     "swagger": "cp src/api/swagger.yml dist/api/swagger.yml",
