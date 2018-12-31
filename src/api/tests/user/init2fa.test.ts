@@ -43,6 +43,7 @@ describe('/user/2fa/init', () => {
   it('should init 2fa', async () => {
     const response = await supertest(app)
       .post(`/${constants.BASE_API_PATH}/user/2fa/init`)
+      .set('Authorization', 'testToken')
       .send({
         password: 'abcd'
       })
@@ -52,6 +53,7 @@ describe('/user/2fa/init', () => {
     expect(response.status).to.be.equal(200)
     const data = response.body.data
     expect(data).to.eq('qrImageUrl')
-    expect(callArgs[0]).to.eq('abcd')
+    expect(callArgs[0]).to.eq('testToken')
+    expect(callArgs[1]).to.eq('abcd')
   })
 })
