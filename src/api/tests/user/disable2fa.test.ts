@@ -45,6 +45,7 @@ describe('/user/2fa/disable', () => {
     // first registers new user
     const response = await supertest(app)
       .post(`/${constants.BASE_API_PATH}/user/2fa/disable`)
+      .set('Authorization', 'testToken')
       .send({
         password: 'abcd',
         code: 123456
@@ -55,7 +56,8 @@ describe('/user/2fa/disable', () => {
     expect(response.status).to.be.equal(200)
     const data = response.body.data
     expect(data).to.eq(undefined)
-    expect(callArgs[0]).to.eq('abcd')
-    expect(callArgs[1]).to.eq(123456)
+    expect(callArgs[0]).to.eq('testToken')
+    expect(callArgs[1]).to.eq('abcd')
+    expect(callArgs[2]).to.eq(123456)
   })
 })

@@ -15,7 +15,8 @@ const confirm2fa = async (req: Request, res: Response) => {
   }
 
   const { password, code } = req.body
-  const backendResponse = await user.confirm2fa(password, code)
+  const token = req.header('authorization')
+  const backendResponse = await user.confirm2fa(token, password, code)
 
   jsonResponse(res, backendResponse)
 }

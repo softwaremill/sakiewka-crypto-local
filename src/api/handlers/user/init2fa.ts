@@ -15,7 +15,8 @@ const init2fa = async (req: Request, res: Response) => {
   }
 
   const { password } = req.body
-  const backendResponse = await user.init2fa(password)
+  const token = req.header('authorization')
+  const backendResponse = await user.init2fa(token, password)
 
   jsonResponse(res, backendResponse)
 }
