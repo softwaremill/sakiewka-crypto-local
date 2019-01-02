@@ -15,7 +15,7 @@ export const errorResponse = (res: Response, error: ApiError, customMessage?: st
   if (customMessage) error.message = customMessage
 
   const body = {
-    error,
+    error: error.message,
     status: 'error'
   }
 
