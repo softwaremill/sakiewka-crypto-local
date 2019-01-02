@@ -3,7 +3,7 @@ import { ValidationErrorItem } from 'joi'
 import { RequestModel } from '../types/api'
 
 export default (request: Request, model: RequestModel, authRequired?: boolean) => {
-  const errors = []
+  const errors: string[] = []
 
   const bodyError = model.body && model.body.validate(request.body)
   const queryError = model.query && model.query.validate(request.query)
