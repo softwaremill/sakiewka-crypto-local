@@ -28,6 +28,7 @@ import { errorResponse } from './response'
 import init2fa from './handlers/user/init2fa';
 import confirm2fa from './handlers/user/confirm2fa';
 import disable2fa from './handlers/user/disable2fa';
+import { ApiError } from 'api';
 
 const swaggerDocument = YAML.load(`${__dirname}/swagger.yml`)
 dotenv.config()
@@ -49,14 +50,18 @@ app.use((err: Error, req: Request, res: Response, next: Function) => {
 const errorHandled = (fn: Function) => {
   return (req: Request, res: Response, next: Function) => {
     fn(req, res)
-      .catch((err: Error) => {
-        if (['dev', 'test'].includes(process.env.NODE_ENV)) {
-          errorResponse(res, constants.API_ERROR.SERVER_ERROR, `${err.message} ${err.stack}`)
+      .catch((err: any) => {
+        if (isApiError(err)) {
+          errorResponse(res, err)
         } else {
-          errorResponse(res, constants.API_ERROR.SERVER_ERROR)
+          errorResponse(res, constants.API_ERROR.SERVER_ERROR, `${err.message} ${err.stack}`)
         }
       })
   }
+}
+
+function isApiError(error: any): error is ApiError {
+  return error.code != undefined && error.message != undefined
 }
 
 // ENDPOINTS
