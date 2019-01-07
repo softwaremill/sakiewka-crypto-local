@@ -64,9 +64,12 @@ export const getTransferRequest = {}
 export const listTransfersRequest = {}
 
 export const listUtxoRequest = {
-  query: createSchema({
-    amountBtc: Joi.string().required(),
-    feeRateSatoshi: Joi.string().required()
+  body: createSchema({
+    feeRateSatoshi: Joi.number().required(),
+    recipients: Joi.array().items(Joi.object({
+      address: Joi.string().required(),
+      amount: Joi.number().required()
+    })).required()
   })
 }
 
@@ -103,8 +106,8 @@ export const sendTransactionRequest = {
   body: createSchema({
     xprv: Joi.string().required(),
     recipients: Joi.array().items(Joi.object({
-        address: Joi.string().required(),
-        amount: Joi.number().required()
+      address: Joi.string().required(),
+      amount: Joi.number().required()
     })).required()
   })
 }

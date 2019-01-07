@@ -94,7 +94,7 @@ app.get(`/${constants.BASE_API_PATH}/btc/wallet/:id`, errorHandled(getWallet))
 
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/balance`, errorHandled(getBalance))
 
-app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/utxo`, errorHandled(listUtxo))
+app.post(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/utxo`, errorHandled(listUtxo))
 
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:id/transfer`, errorHandled(listTransfers))
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/transfer/:id`, errorHandled(getTransfer))
