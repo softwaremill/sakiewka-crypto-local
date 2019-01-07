@@ -52,12 +52,14 @@
     "@types/sjcl": "1.0.28",
     "bitcoinjs-lib": "3.3.2",
     "body-parser": "1.18.3",
+    "chai-uuid": "^1.0.6",
     "dotenv": "6.2.0",
     "express": "4.16.4",
     "joi": "13.7.0",
     "node-fetch": "2.3.0",
     "sakiewka-crypto": "github:softwaremill/sakiewka-crypto#88b6432",
     "swagger-ui-express": "4.0.1",
+    "winston": "^3.1.0",
     "yamljs": "0.3.0"
   }
 }
