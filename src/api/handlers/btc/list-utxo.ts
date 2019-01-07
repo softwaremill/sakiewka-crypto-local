@@ -16,7 +16,7 @@ const listUtxo = async (req: Request, res: Response) => {
   }
   const { feeRateSatoshi, recipients } = req.body
   const backendResponse = await wallet.listUnspents(
-    req.header('authorization'), req.param('walletId'), feeRateSatoshi, recipients.map(r => ({ amount: new BigNumber(r.amount), ...r }))
+    req.header('authorization'), req.param('walletId'), feeRateSatoshi, recipients.map(r => ({ amount: new BigNumber(r.amount), address: r.address }))
   )
 
   jsonResponse(res, backendResponse)
