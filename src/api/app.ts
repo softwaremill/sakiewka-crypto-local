@@ -3,6 +3,7 @@ import bodyParser from 'body-parser'
 import swaggerUI from 'swagger-ui-express'
 import YAML from 'yamljs'
 
+import logger from './logger'
 import dotenv from 'dotenv'
 import clientApp from './handlers/client-app'
 import notFound from './handlers/not-found'
@@ -25,10 +26,10 @@ import getKey from './handlers/btc/get-key'
 import sendCoins from './handlers/btc/send-coins'
 import sakiewkaCrypto from 'sakiewka-crypto'
 import { errorResponse } from './response'
-import init2fa from './handlers/user/init2fa';
-import confirm2fa from './handlers/user/confirm2fa';
-import disable2fa from './handlers/user/disable2fa';
-import { ApiError } from 'api';
+import init2fa from './handlers/user/init2fa'
+import confirm2fa from './handlers/user/confirm2fa'
+import disable2fa from './handlers/user/disable2fa'
+import { ApiError } from 'api'
 
 const swaggerDocument = YAML.load(`${__dirname}/swagger.yml`)
 dotenv.config()
@@ -36,12 +37,15 @@ dotenv.config()
 const app = express()
 app.use(bodyParser.json())
 
+const uuidv4 = require('uuid/v4')
 const { constants } = sakiewkaCrypto
 
 // catches middleware errors
 app.use((err: Error, req: Request, res: Response, next: Function) => {
   if (err) {
-    errorResponse(res, constants.API_ERROR.BAD_REQUEST)
+    const errorId = uuidv4()
+    logger.error('Middleware error', { err, url: req.url, body: req.body, headers: req.headers })
+    errorResponse(res, constants.API_ERROR.BAD_REQUEST, 'Middleware error', errorId)
   }
   next()
 })
@@ -51,17 +55,19 @@ const errorHandled = (fn: Function) => {
   return (req: Request, res: Response, next: Function) => {
     fn(req, res)
       .catch((err: any) => {
+        const errorId = uuidv4()
+        logger.error('Error during request processing', { errorId, error: err, url: req.url, body: req.body, headers: req.headers })
         if (isApiError(err)) {
           errorResponse(res, err)
         } else {
-          errorResponse(res, constants.API_ERROR.SERVER_ERROR, `${err.message} ${err.stack}`)
+          errorResponse(res, constants.API_ERROR.SERVER_ERROR, `${err.message} ${err.stack}`, errorId)
         }
       })
   }
 }
 
 function isApiError(error: any): error is ApiError {
-  return error.code != undefined && error.message != undefined
+  return error.code !== undefined && error.message !== undefined
 }
 
 // ENDPOINTS

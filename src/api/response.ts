@@ -11,11 +11,12 @@ export const jsonResponse = (res: Response, data: object) => {
   res.json(body)
 }
 
-export const errorResponse = (res: Response, error: ApiError, customMessage?: string) => {
+export const errorResponse = (res: Response, error: ApiError, customMessage?: string, errorId?: string) => {
   if (customMessage) error.message = customMessage
 
   const body = {
     error: {
+      id: errorId,
       message: error.message
     },
     status: 'error'
