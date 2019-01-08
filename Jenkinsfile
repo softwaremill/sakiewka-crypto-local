@@ -64,9 +64,7 @@ spec:
                                 docker push ${dockerRepository}:latest
                             """
                         } else {
-                            sh """
-                                docker push ${dockerRepository}:${env.BRANCH_NAME}
-                            """
+                            sh "docker push ${dockerRepository}:${env.BRANCH_NAME}"
                         }
                     }
                 }
