@@ -58,7 +58,7 @@ spec:
                             set -e
                             docker login -u \$DOCKERHUB_USERNAME -p \$DOCKERHUB_PASSWORD
                         """
-                        if (env.BRANCH_NAME = 'master') {
+                        if (env.BRANCH_NAME == 'master') {
                             sh """
                                 docker push ${dockerRepository}:${gitCommitHash}
                                 docker push ${dockerRepository}:latest
