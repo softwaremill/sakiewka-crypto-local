@@ -64,9 +64,10 @@ spec:
                                 docker push ${dockerRepository}:latest
                             """
                         } else {
+                            def safeBranchName = env.BRANCH_NAME.replace('/', '-')
                             sh """
-                                docker tag ${dockerRepository}:latest ${dockerRepository}:${env.BRANCH_NAME}
-                                docker push ${dockerRepository}:${env.BRANCH_NAME}
+                                docker ${dockerRepository}:${safeBranchName}
+                                docker push ${dockerRepository}:${safeBranchName}
                             """
                         }
                     }
