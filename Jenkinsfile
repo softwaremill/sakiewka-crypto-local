@@ -66,7 +66,7 @@ spec:
                         } else {
                             def safeBranchName = env.BRANCH_NAME.replace('/', '-')
                             sh """
-                                docker tag ${dockerRepository}:${safeBranchName}
+                                docker tag ${dockerRepository}:latest ${dockerRepository}:${safeBranchName}
                                 docker push ${dockerRepository}:${safeBranchName}
                             """
                         }
