@@ -49,17 +49,24 @@ spec:
                     docker build . -t ${dockerRepository}:${gitCommitHash} -t ${dockerRepository}:latest
                     """
                 }
-                if (env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'feature/pipeline') {
-                    stage('Push to Docker Hub') {
-                        withCredentials([usernamePassword(
-                                credentialsId: 'jenkins-dockerhub',
-                                passwordVariable: 'DOCKERHUB_PASSWORD',
-                                usernameVariable: 'DOCKERHUB_USERNAME')]) {
+                stage('Push to Docker Hub') {
+                    withCredentials([usernamePassword(
+                            credentialsId: 'jenkins-dockerhub',
+                            passwordVariable: 'DOCKERHUB_PASSWORD',
+                            usernameVariable: 'DOCKERHUB_USERNAME')]) {
+                        sh """
+                            set -e
+                            docker login -u \$DOCKERHUB_USERNAME -p \$DOCKERHUB_PASSWORD
+                        """
+                        if (env.BRANCH_NAME == 'master') {
                             sh """
-                                set -e
-                                docker login -u \$DOCKERHUB_USERNAME -p \$DOCKERHUB_PASSWORD
                                 docker push ${dockerRepository}:${gitCommitHash}
                                 docker push ${dockerRepository}:latest
+                            """
+                        } else {
+                            sh """
+                                docker tag ${dockerRepository}:latest ${dockerRepository}:${env.BRANCH_NAME}
+                                docker push ${dockerRepository}:${env.BRANCH_NAME}
                             """
                         }
                     }
