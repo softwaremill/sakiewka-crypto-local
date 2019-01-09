@@ -50,7 +50,7 @@ describe('/user/register', () => {
 
     const callArgs = mockFn.mock.calls[0]
 
-    expect(response.status).to.be.equal(200)
+    expect(response.status).to.be.equal(400)
     const data = response.body.data
     expect(data).to.eq('response')
     expect(callArgs[0]).to.eq(login)
