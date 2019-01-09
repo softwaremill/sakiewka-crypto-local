@@ -64,7 +64,10 @@ spec:
                                 docker push ${dockerRepository}:latest
                             """
                         } else {
-                            sh "docker push ${dockerRepository}:${env.BRANCH_NAME}"
+                            sh """
+                                docker tag ${dockerRepository}:latest ${dockerRepository}:${env.BRANCH_NAME}
+                                docker push ${dockerRepository}:${env.BRANCH_NAME}
+                            """
                         }
                     }
                 }
