@@ -61,6 +61,7 @@ describe('/btc/wallet/utxo', () => {
     expect(callArgs[0]).to.eq(`Bearer ${token}`)
     expect(callArgs[1]).to.eq('1233')
     expect(callArgs[2]).to.eq('12')
-    expect(callArgs[3][0]).to.eql({ address: '0x0', amount: '123' })
+    expect(callArgs[3][0].address).to.eq('0x0')
+    expect(callArgs[3][0].amount.toString()).to.eq('123')
   })
 })
