@@ -14,9 +14,9 @@ const listUtxo = async (req: Request, res: Response) => {
   if (validationErrors.length > 0) {
     return errorResponse(res, constants.API_ERROR.BAD_REQUEST, validationErrors[0])
   }
-
+  const { feeRateSatoshi, recipients } = req.body
   const backendResponse = await wallet.listUnspents(
-    req.header('authorization'), req.param('walletId'), new BigNumber(req.query.amountBtc), req.query.feeRateSatoshi
+    req.header('authorization'), req.param('walletId'), feeRateSatoshi, recipients.map(r => ({ amount: new BigNumber(r.amount), address: r.address }))
   )
 
   jsonResponse(res, backendResponse)
