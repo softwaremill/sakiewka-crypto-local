@@ -7,6 +7,11 @@
     license: 
       name: ISC
   basePath: /api
+  securityDefinitions:
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
   schemes: 
     - http
   consumes: 
@@ -97,11 +102,8 @@
         description: Shows user info.
         produces: 
           - application/json
-        parameters: 
-          - name: Authentication
-            in: header
-            required: true
-            type: string
+        security:
+          - Bearer: []
         responses: 
           "200":
             schema: 
@@ -132,11 +134,9 @@
         description: Creates new wallet.
         produces: 
           - application/json
+        security:
+          - Bearer: []
         parameters:
-          - name: Authentication
-            in: header
-            required: true
-            type: string
           - name: body
             in: body
             required: true
@@ -185,11 +185,9 @@
         description: Lists user wallets.
         produces: 
           - application/json
+        security:
+          - Bearer: []
         parameters:
-          - name: Authentication
-            in: header
-            required: true
-            type: string
           - name: nextPageToken
             in: query
             required: false
@@ -224,11 +222,9 @@
         description: Shows user wallet details.
         produces: 
           - application/json
+        security:
+          - Bearer: []
         parameters: 
-          - name: Authentication
-            in: header
-            required: true
-            type: string
           - name: walletId
             in: path
             required: true
@@ -271,11 +267,9 @@
         description: Shows wallet balance.
         produces: 
           - application/json
+        security:
+          - Bearer: []
         parameters:
-          - name: Authentication
-            in: header
-            required: true
-            type: string
           - name: walletId
             in: path
             required: true
@@ -307,11 +301,9 @@
         description: Creates new wallet address.
         produces: 
           - application/json
+        security:
+          - Bearer: []
         parameters: 
-          - name: Authentication
-            in: header
-            required: true
-            type: string
           - name: walletId
             in: path
             required: true
@@ -355,11 +347,9 @@
         description: List addresses.
         produces: 
           - application/json
+        security:
+          - Bearer: []
         parameters: 
-          - name: Authentication
-            in: header
-            required: true
-            type: string
           - name: nextPageToken
             in: query
             required: false
@@ -413,11 +403,9 @@
         description: Shows address details.
         produces: 
           - application/json
+        security:
+          - Bearer: []
         parameters: 
-          - name: Authentication
-            in: header
-            required: true
-            type: string
           - name: walletId
             in: path
             required: true
@@ -503,11 +491,9 @@
         description: Shows key details.
         produces: 
           - application/json
+        security:
+          - Bearer: []
         parameters: 
-          - name: Authentication
-            in: header
-            required: true
-            type: string
           - name: includePrivate
             in: query
             required: false
