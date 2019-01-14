@@ -7,6 +7,11 @@
     license: 
       name: ISC
   basePath: /api
+  securityDefinitions:
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
   schemes: 
     - http
   consumes: 
@@ -30,16 +35,16 @@
         produces: 
           - application/json
         parameters: 
-          - 
-            name: email
+          - name: body
             in: body
             required: true
-            type: string
-          - 
-            name: password
-            in: body
-            required: true
-            type: string
+            schema:
+              type: object
+              properties:
+                login:
+                  type: string
+                password:
+                  type: string
         responses: 
           "200":
             schema: 
@@ -65,16 +70,16 @@
         produces: 
           - application/json
         parameters: 
-          - 
-            name: email
+          - name: body
             in: body
             required: true
-            type: string
-          - 
-            name: password
-            in: body
-            required: true
-            type: string
+            schema:
+              type: object
+              properties:
+                login:
+                  type: string
+                password:
+                  type: string
         responses: 
           "200":
             schema: 
@@ -97,12 +102,8 @@
         description: Shows user info.
         produces: 
           - application/json
-        parameters: 
-          - 
-            name: Authentication
-            in: header
-            required: true
-            type: string
+        security:
+          - Bearer: []
         responses: 
           "200":
             schema: 
@@ -133,32 +134,23 @@
         description: Creates new wallet.
         produces: 
           - application/json
+        security:
+          - Bearer: []
         parameters:
-          - 
-            name: Authentication
-            in: header
-            required: true
-            type: string
-          - 
-            name: name
+          - name: body
             in: body
             required: true
-            type: string
-          - 
-            name: passphrase
-            in: body
-            required: true
-            type: string
-          - 
-            name: userPubKey
-            in: body
-            required: false
-            type: string
-          - 
-            name: backupPubKey
-            in: body
-            required: false
-            type: string
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                passphrase:
+                  type: string
+                userPubKey:
+                  type: string
+                backupPubKey:
+                  type: string
         responses:
           "200":
             description: success
@@ -187,27 +179,20 @@
             description: unexpected error
             schema: 
               $ref: "#/definitions/ErrorModel"
-
-    /btc/wallet:
       get: 
         tags: 
           - BTC - wallet
         description: Lists user wallets.
         produces: 
           - application/json
+        security:
+          - Bearer: []
         parameters:
-          - 
-            name: Authentication
-            in: header
-            required: true
-            type: string
-          - 
-            name: nextPageToken
+          - name: nextPageToken
             in: query
             required: false
             type: string
-          - 
-            name: limit
+          - name: limit
             in: query
             required: true
             type: string
@@ -237,13 +222,14 @@
         description: Shows user wallet details.
         produces: 
           - application/json
+        security:
+          - Bearer: []
         parameters: 
-          - 
-            name: Authentication
-            in: header
+          - name: walletId
+            in: path
             required: true
+            description: wallet id
             type: string
-          - 
         responses: 
           "200":
             schema: 
@@ -281,11 +267,13 @@
         description: Shows wallet balance.
         produces: 
           - application/json
+        security:
+          - Bearer: []
         parameters:
-          - 
-            name: Authentication
-            in: header
+          - name: walletId
+            in: path
             required: true
+            description: wallet id
             type: string
         responses: 
           "200":
@@ -313,17 +301,21 @@
         description: Creates new wallet address.
         produces: 
           - application/json
+        security:
+          - Bearer: []
         parameters: 
-          - 
-            name: Authentication
-            in: header
+          - name: walletId
+            in: path
             required: true
+            description: wallet id
             type: string
-          - 
-            name: name
+          - name: body
             in: body
-            required: true
-            type: string
+            schema:
+              type: object
+              properties:
+                name: 
+                  type: string
         responses: 
           "200":
             schema: 
@@ -355,21 +347,21 @@
         description: List addresses.
         produces: 
           - application/json
+        security:
+          - Bearer: []
         parameters: 
-          - 
-            name: Authentication
-            in: header
-            required: true
-            type: string
-          - 
-            name: nextPageToken
+          - name: nextPageToken
             in: query
             required: false
             type: string
-          - 
-            name: limit
+          - name: limit
             in: query
             required: true
+            type: string
+          - name: walletId
+            in: path
+            required: true
+            description: wallet id
             type: string
         responses: 
           "200":
@@ -411,11 +403,18 @@
         description: Shows address details.
         produces: 
           - application/json
+        security:
+          - Bearer: []
         parameters: 
-          - 
-            name: Authentication
-            in: header
+          - name: walletId
+            in: path
             required: true
+            description: wallet id
+            type: string
+          - name: addressId
+            in: path
+            required: true
+            description: address id
             type: string
         responses: 
           "200":
@@ -457,11 +456,14 @@
         produces: 
           - application/json
         parameters: 
-          - 
-            name: passphrase
+          - name: body
             in: body
             required: true
-            type: string
+            schema:
+              type: object
+              properties:
+                passphrase:
+                  type: string
         responses: 
           "200":
             schema: 
@@ -489,16 +491,17 @@
         description: Shows key details.
         produces: 
           - application/json
+        security:
+          - Bearer: []
         parameters: 
-          - 
-            name: Authentication
-            in: header
-            required: true
-            type: string
-          - 
-            name: includePrivate
+          - name: includePrivate
             in: query
             required: false
+            type: string
+          - name: keyId
+            in: path
+            required: true
+            description: key id
             type: string
         responses: 
           "200":
