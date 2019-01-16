@@ -195,7 +195,7 @@
           - name: limit
             in: query
             required: true
-            type: string
+            type: integer
         responses: 
           "200":
             schema: 
@@ -357,7 +357,7 @@
           - name: limit
             in: query
             required: true
-            type: string
+            type: integer
           - name: walletId
             in: path
             required: true
