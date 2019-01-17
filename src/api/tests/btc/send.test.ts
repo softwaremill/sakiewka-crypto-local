@@ -67,7 +67,7 @@ describe('/btc/wallet/walletId/send-coins', () => {
     expect(callArgs[4]).to.be.undefined
   })
 
-  it('should send btc using password', async () => {
+  it('should send btc using passphrase', async () => {
     const token = 'testToken'
     const recipients = [{address: 'abcd', amount: 123}]
 
@@ -76,7 +76,7 @@ describe('/btc/wallet/walletId/send-coins', () => {
       .set('Authorization', `Bearer ${token}`)
       .send({
         recipients,
-        password: 'abc'
+        passphrase: 'abc'
       })
 
     const callArgs = mockFn.mock.calls[0]

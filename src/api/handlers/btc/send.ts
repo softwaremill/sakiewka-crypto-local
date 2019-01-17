@@ -20,7 +20,7 @@ const sendCoins = async (req: Request, res: Response) => {
     req.params.walletId,
     req.body.recipients.map(e => ({ address: e.address, amount: new BigNumber(e.amount) })),
     req.body.xprv,
-    req.body.password
+    req.body.passphrase
   )
 
   jsonResponse(res, backendResponse)
