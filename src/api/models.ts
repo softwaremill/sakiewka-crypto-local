@@ -104,7 +104,8 @@ export const listAddressesRequest = {
 
 export const sendTransactionRequest = {
   body: createSchema({
-    xprv: Joi.string().required(),
+    xprv: Joi.string().optional(),
+    passphrase: Joi.string().optional(),
     recipients: Joi.array().items(Joi.object({
       address: Joi.string().required(),
       amount: Joi.number().required()
