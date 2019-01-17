@@ -15,11 +15,12 @@ const sendCoins = async (req: Request, res: Response) => {
     return errorResponse(res, constants.API_ERROR.BAD_REQUEST, validationErrors[0])
   }
 
-  const backendResponse = await transaction.sendCoins(
-    req.header('authorization'), 
-    req.body.xprv, 
-    req.params.walletId, 
-    req.body.recipients.map(e => ({ address: e.address, amount: new BigNumber(e.amount) }))
+  const backendResponse = await transaction.send(
+    req.header('authorization'),
+    req.params.walletId,
+    req.body.recipients.map(e => ({ address: e.address, amount: new BigNumber(e.amount) })),
+    req.body.xprv,
+    req.body.password
   )
 
   jsonResponse(res, backendResponse)
