@@ -29,6 +29,7 @@ import { errorResponse } from './response'
 import init2fa from './handlers/user/init2fa'
 import confirm2fa from './handlers/user/confirm2fa'
 import disable2fa from './handlers/user/disable2fa'
+import maxTransferAmount from './handlers/btc/max-transfer-amount';
 import { ApiError } from 'api'
 
 const swaggerDocument = YAML.load(`${__dirname}/swagger.yml`)
@@ -104,6 +105,8 @@ app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/address/:address`, err
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/address/`, errorHandled(listAddresses))
 
 app.post(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/send`, errorHandled(send))
+
+app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/max-transfer-amount`, errorHandled(maxTransferAmount))
 
 // key
 app.post(`/${constants.BASE_API_PATH}/btc/key`, errorHandled(createKey))
