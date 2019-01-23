@@ -112,3 +112,10 @@ export const sendTransactionRequest = {
     })).required()
   })
 }
+
+export const maxTransferAmountRequest = {
+  query: createSchema({
+    feeRate: Joi.number().required(),
+    recipient: Joi.string().required(),
+  })
+}
