@@ -332,6 +332,76 @@
             schema: 
               $ref: "#/definitions/ErrorModel"
 
+    /btc/wallet/{walletId}/utxo:
+      post: 
+        tags: 
+          - BTC - wallet
+        description: Gets list of unspents to be used for sending given amounts to given recipients
+        produces: 
+          - application/json
+        security:
+          - Bearer: []
+        parameters: 
+          - name: walletId
+            in: path
+            required: true
+            description: wallet id
+            type: string
+          - name: body
+            in: body
+            schema:
+              type: object
+              properties:
+                feeRateSatoshi: 
+                  type: integer
+                recipients:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      address:
+                        type: string
+                      amount:
+                        type: string
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    outputs: 
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          txHash:
+                            type: string
+                          n:
+                            type: number
+                          amount:
+                            type: string
+                          path:
+                            type: object
+                            properties:
+                              cosignerIndex:
+                                type: number
+                              change:
+                                type: number
+                              addressIndex:
+                                type: number
+                    amount:
+                      type: string
+                    change:
+                      type: string
+                    fee:
+                      type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+
     /btc/wallet/{walletId}/address:
       post: 
         tags: 
