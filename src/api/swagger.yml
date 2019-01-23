@@ -294,6 +294,44 @@
             schema: 
               $ref: "#/definitions/ErrorModel"
 
+    /btc/wallet/{walletId}/max-transfer-amount:
+      get: 
+        tags: 
+          - BTC - wallet
+        description: Calculates max transfer amount for given address.
+        produces: 
+          - application/json
+        security:
+          - Bearer: []
+        parameters: 
+          - name: walletId
+            in: path
+            required: true
+            description: wallet id
+            type: string
+          - name: recipient
+            in: query
+            required: true
+            type: string
+          - name: feeRate
+            in: query
+            required: true
+            type: integer
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    amount: 
+                      type: number
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+
     /btc/wallet/{walletId}/address:
       post: 
         tags: 
