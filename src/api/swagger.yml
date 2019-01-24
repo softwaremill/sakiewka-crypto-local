@@ -226,6 +226,27 @@
             schema: 
               $ref: "#/definitions/ErrorModel"
 
+    /user/logout:
+      post: 
+        tags: 
+          - User
+        description: Logs user out.
+        produces: 
+          - application/json
+        security:
+          - Bearer: []
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+
     # ------------
     # WALLET
     # ------------
