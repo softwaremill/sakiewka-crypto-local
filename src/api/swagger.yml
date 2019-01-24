@@ -45,6 +45,8 @@
                   type: string
                 password:
                   type: string
+                code:
+                  type: integer
         responses: 
           "200":
             schema: 
@@ -118,6 +120,107 @@
                       type: string
                     tokenInfo: 
                       type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+
+    /user/2fa/init:
+      post: 
+        tags: 
+          - User
+        description: Initiate two factory authentication.
+        produces: 
+          - application/json
+        security:
+          - Bearer: []
+        parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              password:
+                type: string
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    qrCodeUrl: 
+                      type: string
+                    email: 
+                      type: string
+                    secretKey: 
+                      type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+
+    /user/2fa/confirm:
+      post: 
+        tags: 
+          - User
+        description: Confirm two factory authentication.
+        produces: 
+          - application/json
+        security:
+          - Bearer: []
+        parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              password:
+                type: string
+              code:
+                type: integer
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+
+    /user/2fa/disable:
+      post: 
+        tags: 
+          - User
+        description: Disable two factory authentication.
+        produces: 
+          - application/json
+        security:
+          - Bearer: []
+        parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              password:
+                type: string
+              code:
+                type: integer
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
           default: 
             description: unexpected error
             schema: 
