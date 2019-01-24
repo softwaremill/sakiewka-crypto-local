@@ -3,7 +3,16 @@ import app from '../../app'
 import supertest from 'supertest'
 
 import sakiewkaCrypto from 'sakiewka-crypto'
-const { constants } = sakiewkaCrypto
+const { constants, user } = sakiewkaCrypto
+
+// @ts-ignore
+const mockFn = jest.fn(() => {
+  return new Promise((resolve: Function) => {
+    resolve()
+  })
+})
+
+user.logout = mockFn
 
 describe('/user/logout', () => {
   it('should exist', async () => {
@@ -21,5 +30,11 @@ describe('/user/logout', () => {
     expect(response.body.error.message).to.be.equal('Request header Authorization is required.')
   })
 
-  // TODO: add test for working logout
+  it('should logout', async () => {
+    const response = await supertest(app)
+      .post(`/${constants.BASE_API_PATH}/user/logout`)
+      .set('Authorization', 'testToken')
+
+    expect(response.status).to.be.equal(200)
+  })
 })

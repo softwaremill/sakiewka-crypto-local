@@ -45,6 +45,8 @@
                   type: string
                 password:
                   type: string
+                code:
+                  type: integer
         responses: 
           "200":
             schema: 
@@ -118,6 +120,128 @@
                       type: string
                     tokenInfo: 
                       type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+
+    /user/2fa/init:
+      post: 
+        tags: 
+          - User
+        description: Initiate two factory authentication.
+        produces: 
+          - application/json
+        security:
+          - Bearer: []
+        parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              password:
+                type: string
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    qrCodeUrl: 
+                      type: string
+                    email: 
+                      type: string
+                    secretKey: 
+                      type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+
+    /user/2fa/confirm:
+      post: 
+        tags: 
+          - User
+        description: Confirm two factory authentication.
+        produces: 
+          - application/json
+        security:
+          - Bearer: []
+        parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              password:
+                type: string
+              code:
+                type: integer
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+
+    /user/2fa/disable:
+      post: 
+        tags: 
+          - User
+        description: Disable two factory authentication.
+        produces: 
+          - application/json
+        security:
+          - Bearer: []
+        parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              password:
+                type: string
+              code:
+                type: integer
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+
+    /user/logout:
+      post: 
+        tags: 
+          - User
+        description: Logs user out.
+        produces: 
+          - application/json
+        security:
+          - Bearer: []
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
           default: 
             description: unexpected error
             schema: 
@@ -294,6 +418,114 @@
             schema: 
               $ref: "#/definitions/ErrorModel"
 
+    /btc/wallet/{walletId}/max-transfer-amount:
+      get: 
+        tags: 
+          - BTC - wallet
+        description: Calculates max transfer amount for given address.
+        produces: 
+          - application/json
+        security:
+          - Bearer: []
+        parameters: 
+          - name: walletId
+            in: path
+            required: true
+            description: wallet id
+            type: string
+          - name: recipient
+            in: query
+            required: true
+            type: string
+          - name: feeRate
+            in: query
+            required: true
+            type: integer
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    amount: 
+                      type: number
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+
+    /btc/wallet/{walletId}/utxo:
+      post: 
+        tags: 
+          - BTC - wallet
+        description: Gets list of unspents to be used for sending given amounts to given recipients
+        produces: 
+          - application/json
+        security:
+          - Bearer: []
+        parameters: 
+          - name: walletId
+            in: path
+            required: true
+            description: wallet id
+            type: string
+          - name: body
+            in: body
+            schema:
+              type: object
+              properties:
+                feeRateSatoshi: 
+                  type: integer
+                recipients:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      address:
+                        type: string
+                      amount:
+                        type: string
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    outputs: 
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          txHash:
+                            type: string
+                          n:
+                            type: number
+                          amount:
+                            type: string
+                          path:
+                            type: object
+                            properties:
+                              cosignerIndex:
+                                type: number
+                              change:
+                                type: number
+                              addressIndex:
+                                type: number
+                    amount:
+                      type: string
+                    change:
+                      type: string
+                    fee:
+                      type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+
     /btc/wallet/{walletId}/address:
       post: 
         tags: 
@@ -444,6 +676,51 @@
             schema: 
               $ref: "#/definitions/ErrorModel"
 
+    /btc/wallet/{walletId}/send:
+      post: 
+        tags: 
+          - BTC - wallet
+        description: Sends bitcoins to given recipients.
+        produces: 
+          - application/json
+        security:
+          - Bearer: []
+        parameters: 
+          - name: walletId
+            in: path
+            required: true
+            description: wallet id
+            type: string
+          - name: body
+            in: body
+            schema:
+              type: object
+              properties:
+                recipients: 
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      address:
+                        type: string
+                      amount:
+                        type: string
+                xprv:
+                  type: string
+                passphrase:
+                  type: string
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+
     # ------------
     # KEY
     # ------------
@@ -546,3 +823,34 @@
           properties:
             message: 
               type: string
+
+  components:
+    schemas:
+      SendBtcUsingXprvRequest:
+        type: object
+        properties:
+          recipients: 
+            type: array
+            items:
+              type: object
+              properties:
+                address:
+                  type: string
+                amount:
+                  type: string
+          xprv:
+            type: string
+      SendBtcUsingPassphraseRequest:
+        type: object
+        properties:
+          recipients: 
+            type: array
+            items:
+              type: object
+              properties:
+                address:
+                  type: string
+                amount:
+                  type: string
+          passphrase:
+            type: string
