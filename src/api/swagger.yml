@@ -676,6 +676,51 @@
             schema: 
               $ref: "#/definitions/ErrorModel"
 
+    /btc/wallet/{walletId}/send:
+      post: 
+        tags: 
+          - BTC - wallet
+        description: Sends bitcoins to given recipients.
+        produces: 
+          - application/json
+        security:
+          - Bearer: []
+        parameters: 
+          - name: walletId
+            in: path
+            required: true
+            description: wallet id
+            type: string
+          - name: body
+            in: body
+            schema:
+              type: object
+              properties:
+                recipients: 
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      address:
+                        type: string
+                      amount:
+                        type: string
+                xprv:
+                  type: string
+                passphrase:
+                  type: string
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+
     # ------------
     # KEY
     # ------------
@@ -778,3 +823,34 @@
           properties:
             message: 
               type: string
+
+  components:
+    schemas:
+      SendBtcUsingXprvRequest:
+        type: object
+        properties:
+          recipients: 
+            type: array
+            items:
+              type: object
+              properties:
+                address:
+                  type: string
+                amount:
+                  type: string
+          xprv:
+            type: string
+      SendBtcUsingPassphraseRequest:
+        type: object
+        properties:
+          recipients: 
+            type: array
+            items:
+              type: object
+              properties:
+                address:
+                  type: string
+                amount:
+                  type: string
+          passphrase:
+            type: string
