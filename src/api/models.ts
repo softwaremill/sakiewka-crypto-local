@@ -119,3 +119,16 @@ export const maxTransferAmountRequest = {
     recipient: Joi.string().required(),
   })
 }
+
+export const verifyEmailRequest = {
+  query: createSchema({
+    code: Joi.string().required(),
+    email: Joi.string().required()
+  })
+}
+
+export const resendVerificationEmailRequest = {
+  body: createSchema({
+    email: Joi.string().required()
+  })
+}
