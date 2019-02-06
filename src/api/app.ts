@@ -58,7 +58,14 @@ const errorHandled = (fn: Function) => {
     fn(req, res)
       .catch((err: any) => {
         const errorId = uuidv4()
-        logger.error('Error during request processing', { errorId, error: err, url: req.url, body: req.body, headers: req.headers })
+        logger.error('Error during request processing', {
+          errorId,
+          stack: (err.stack || err.stacktrace),
+          error: err,
+          url: req.url,
+          body: req.body,
+          headers: req.headers
+        })
         if (isApiError(err)) {
           errorResponse(res, err)
         } else {
