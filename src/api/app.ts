@@ -10,6 +10,7 @@ import notFound from './handlers/not-found'
 import login from './handlers/user/login'
 import logout from './handlers/user/logout'
 import info from './handlers/user/info'
+import summary from './handlers/user/monthly-summary'
 import register from './handlers/user/register'
 import createWallet from './handlers/btc/create-wallet'
 import listWallets from './handlers/btc/list-wallet'
@@ -83,6 +84,7 @@ app.post(`/${constants.BASE_API_PATH}/user/login`, errorHandled(login))
 app.post(`/${constants.BASE_API_PATH}/user/logout`, errorHandled(logout))
 app.post(`/${constants.BASE_API_PATH}/user/register`, errorHandled(register))
 app.get(`/${constants.BASE_API_PATH}/user/info`, errorHandled(info))
+app.get(`/${constants.BASE_API_PATH}/user/summary/:month/:year/:fiatCurrency`, errorHandled(summary))
 app.post(`/${constants.BASE_API_PATH}/user/2fa/init`, errorHandled(init2fa))
 app.post(`/${constants.BASE_API_PATH}/user/2fa/confirm`, errorHandled(confirm2fa))
 app.post(`/${constants.BASE_API_PATH}/user/2fa/disable`, errorHandled(disable2fa))

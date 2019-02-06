@@ -21,6 +21,8 @@ export const logoutRequest = {}
 
 export const infoRequest = {}
 
+export const monthlySummaryRequest = {}
+
 export const init2faRequest = {
   body: createSchema({
     password: Joi.string().required()
