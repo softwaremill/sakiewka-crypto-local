@@ -23,19 +23,16 @@ describe('/btc/user/verify-email', () => {
   })
 
   it('should not accept request with missing query params', async () => {
-    const response = await supertest(app)
+    const response1 = await supertest(app)
       .get(`/${constants.BASE_API_PATH}/user/verify-email`)
-
-    expect(response.status).to.be.equal(400)
-    expect(response.body.error.message).to.be.equal('"code" is required')
-  })
-
-  it('should not accept incomplete request', async () => {
-    const response = await supertest(app)
+    const response2 = await supertest(app)
       .get(`/${constants.BASE_API_PATH}/user/verify-email?code=123`)
 
-    expect(response.status).to.be.equal(400)
-    expect(response.body.error.message).to.be.equal('"email" is required')
+    expect(response1.status).to.be.equal(400)
+    expect(response1.body.error.message).to.be.equal('"code" is required')
+
+    expect(response2.status).to.be.equal(400)
+    expect(response2.body.error.message).to.be.equal('"email" is required')
   })
 
   it('should return 200 ok', async () => {
