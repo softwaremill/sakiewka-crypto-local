@@ -30,9 +30,8 @@ import init2fa from './handlers/user/init2fa'
 import confirm2fa from './handlers/user/confirm2fa'
 import disable2fa from './handlers/user/disable2fa'
 import maxTransferAmount from './handlers/btc/max-transfer-amount';
-import verifyEmail from './handlers/user/verify-email';
+import setupPassword from './handlers/user/setup-password';
 import { ApiError } from 'api'
-import resendVerificationEmail from './handlers/user/resend-verification-email';
 
 const swaggerDocument = YAML.load(`${__dirname}/swagger.yml`)
 dotenv.config()
@@ -88,8 +87,7 @@ app.get(`/${constants.BASE_API_PATH}/user/info`, errorHandled(info))
 app.post(`/${constants.BASE_API_PATH}/user/2fa/init`, errorHandled(init2fa))
 app.post(`/${constants.BASE_API_PATH}/user/2fa/confirm`, errorHandled(confirm2fa))
 app.post(`/${constants.BASE_API_PATH}/user/2fa/disable`, errorHandled(disable2fa))
-app.get(`/${constants.BASE_API_PATH}/user/verify-email`, errorHandled(verifyEmail))
-app.post(`/${constants.BASE_API_PATH}/user/resend-verification-email`, errorHandled(resendVerificationEmail))
+app.get(`/${constants.BASE_API_PATH}/user/setup-password`, errorHandled(setupPassword))
 
 // BTC
 // wallet
