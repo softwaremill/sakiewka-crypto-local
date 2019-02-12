@@ -247,22 +247,21 @@
             schema: 
               $ref: "#/definitions/ErrorModel"
 
-    /user/verify-email:
-      get: 
+    /user/setup-password:
+      post: 
         tags: 
           - User
-        description: Verifies user email.
+        description: Configures password for user's account.
         produces: 
           - application/json
-        parameters:
-          - name: code
-            in: query
-            required: true
-            type: string
-          - name: email
-            in: query
-            required: true
-            type: string
+         - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              password:
+                type: string
         responses: 
           "200":
             schema: 
@@ -274,35 +273,6 @@
             description: unexpected error
             schema: 
               $ref: "#/definitions/ErrorModel"
-
-    /user/resend-verification-email:
-      get: 
-        tags: 
-          - User
-        description: Sends request for verification email.
-        produces: 
-          - application/json
-        parameters:
-          - name: body
-            in: body
-            required: true
-            schema:
-              type: object
-              properties:
-                - email:
-                    type: string
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
     # ------------
     # WALLET
     # ------------
