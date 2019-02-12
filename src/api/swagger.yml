@@ -254,14 +254,17 @@
         description: Configures password for user's account.
         produces: 
           - application/json
-         - name: body
-          in: body
-          required: true
-          schema:
-            type: object
-            properties:
-              password:
-                type: string
+        security:
+          - Bearer: []
+        parameters:
+          - name: body
+            in: body
+            required: true
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
         responses: 
           "200":
             schema: 
