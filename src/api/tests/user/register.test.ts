@@ -5,7 +5,7 @@ import supertest from 'supertest'
 import { randomString } from '../helpers'
 import sakiewkaCrypto from 'sakiewka-crypto'
 
-const { constants, user, crypto } = sakiewkaCrypto
+const { constants, user } = sakiewkaCrypto
 
 // @ts-ignore
 const mockFn = jest.fn(() => {
@@ -20,10 +20,9 @@ describe('/user/register', () => {
   it('should not accept incomplete request', async () => {
     const response = await supertest(app)
       .post(`/${constants.BASE_API_PATH}/user/register`)
-      .send({ login: 'testLogin' })
 
     expect(response.status).to.be.equal(400)
-    expect(response.body.error.message).to.be.equal('"password" is required')
+    expect(response.body.error.message).to.be.equal('"login" is required')
   })
 
   it('should not accept extra parameters', async () => {
@@ -31,7 +30,6 @@ describe('/user/register', () => {
       .post(`/${constants.BASE_API_PATH}/user/register`)
       .send({
         login: 'testLogin',
-        password: crypto.hashPassword('abcd'),
         extraProp: 'test'
       })
 
@@ -45,7 +43,6 @@ describe('/user/register', () => {
       .post(`/${constants.BASE_API_PATH}/user/register`)
       .send({
         login,
-        password: 'abcd'
       })
 
     const callArgs = mockFn.mock.calls[0]
@@ -54,6 +51,5 @@ describe('/user/register', () => {
     const data = response.body.data
     expect(data).to.eq('response')
     expect(callArgs[0]).to.eq(login)
-    expect(callArgs[1]).to.eq('abcd')
   })
 })
