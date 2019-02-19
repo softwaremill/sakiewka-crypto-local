@@ -87,7 +87,7 @@ app.get(`/${constants.BASE_API_PATH}/user/info`, errorHandled(info))
 app.post(`/${constants.BASE_API_PATH}/user/2fa/init`, errorHandled(init2fa))
 app.post(`/${constants.BASE_API_PATH}/user/2fa/confirm`, errorHandled(confirm2fa))
 app.post(`/${constants.BASE_API_PATH}/user/2fa/disable`, errorHandled(disable2fa))
-app.get(`/${constants.BASE_API_PATH}/user/setup-password`, errorHandled(setupPassword))
+app.post(`/${constants.BASE_API_PATH}/user/setup-password`, errorHandled(setupPassword))
 
 // BTC
 // wallet
