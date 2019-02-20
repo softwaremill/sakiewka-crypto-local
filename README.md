@@ -30,3 +30,13 @@ To run integration tests you have to specify `BACKEND_API_URL` in `.env` file.
 `npm run start` - Runs local server.  
 `npm run serve-debug` - Runs local server in debug mode.  
 `npm run watch-debug` - Runs local server and watches files for changes.  
+
+
+## Dev Environment
+
+To connect with `sakiewka-api` at dev environment (https://api.dev.sakiewka.sml.io) you can run this command:
+
+
+```bash
+docker run -d -e BACKEND_API_URL='https://api.dev.sakiewka.sml.io/api/v1' -e BTC_NETWORK=regtest -p 3000:3000 softwaremill/sakiewka-crypto-local
+```
