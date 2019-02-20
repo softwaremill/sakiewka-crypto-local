@@ -38,5 +38,6 @@ To connect with `sakiewka-api` at dev environment (https://api.dev.sakiewka.sml.
 
 
 ```bash
-docker run -d -e BACKEND_API_URL='https://api.dev.sakiewka.sml.io/api/v1' -e BTC_NETWORK=regtest -p 3000:3000 softwaremill/sakiewka-crypto-local
+docker run -d -e BACKEND_API_URL='https://api.dev.sakiewka.sml.io/api/v1' \
+  -e BTC_NETWORK=regtest -p 3000:3000 softwaremill/sakiewka-crypto-local
 ```
