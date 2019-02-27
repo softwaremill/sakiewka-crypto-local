@@ -62,8 +62,6 @@ export const listWalletsRequest = {
 
 export const getTransferRequest = {}
 
-export const listTransfersRequest = {}
-
 export const listUtxoRequest = {
   body: createSchema({
     feeRateSatoshi: Joi.number().required(),
@@ -98,6 +96,14 @@ export const getBalanceRequest = {}
 
 export const listAddressesRequest = {
   query: createSchema({
+    nextPageToken: Joi.string(),
+    limit: Joi.string().required()
+  })
+}
+
+export const listTransfersRequest = {
+  query: createSchema({
+    walletId: Joi.string(),
     nextPageToken: Joi.string(),
     limit: Joi.string().required()
   })

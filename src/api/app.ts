@@ -10,14 +10,13 @@ import notFound from './handlers/not-found'
 import login from './handlers/user/login'
 import logout from './handlers/user/logout'
 import info from './handlers/user/info'
-import monthlySummary from './handlers/user/monthly-summary'
+import monthlySummary from './handlers/btc/monthly-summary'
+import listTransfers from './handlers/btc/list-transfers'
 import register from './handlers/user/register'
 import createWallet from './handlers/btc/create-wallet'
 import listWallets from './handlers/btc/list-wallet'
 import getWallet from './handlers/btc/get-wallet'
 import getBalance from './handlers/btc/get-balance'
-import listTransfers from './handlers/btc/list-transfer'
-import getTransfer from './handlers/btc/get-transfer'
 import listUtxo from './handlers/btc/list-utxo'
 import createAddress from './handlers/btc/create-address'
 import getAddress from './handlers/btc/get-address'
@@ -92,7 +91,6 @@ app.post(`/${constants.BASE_API_PATH}/user/login`, errorHandled(login))
 app.post(`/${constants.BASE_API_PATH}/user/logout`, errorHandled(logout))
 app.post(`/${constants.BASE_API_PATH}/user/register`, errorHandled(register))
 app.get(`/${constants.BASE_API_PATH}/user/info`, errorHandled(info))
-app.get(`/${constants.BASE_API_PATH}/user/monthly-summary/:month/:year/:fiatCurrency`, errorHandled(monthlySummary))
 app.post(`/${constants.BASE_API_PATH}/user/2fa/init`, errorHandled(init2fa))
 app.post(`/${constants.BASE_API_PATH}/user/2fa/confirm`, errorHandled(confirm2fa))
 app.post(`/${constants.BASE_API_PATH}/user/2fa/disable`, errorHandled(disable2fa))
@@ -108,9 +106,6 @@ app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/balance`, errorHandled
 
 app.post(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/utxo`, errorHandled(listUtxo))
 
-app.get(`/${constants.BASE_API_PATH}/btc/wallet/:id/transfer`, errorHandled(listTransfers))
-app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/transfer/:id`, errorHandled(getTransfer))
-
 app.post(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/address`, errorHandled(createAddress))
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/address/:address`, errorHandled(getAddress))
 app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/address/`, errorHandled(listAddresses))
@@ -122,6 +117,9 @@ app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/max-transfer-amount`, 
 // key
 app.post(`/${constants.BASE_API_PATH}/btc/key`, errorHandled(createKey))
 app.get(`/${constants.BASE_API_PATH}/btc/key/:id`, errorHandled(getKey))
+
+app.get(`/${constants.BASE_API_PATH}/transfers/monthly-summary/:month/:year/:fiatCurrency`, errorHandled(monthlySummary))
+app.get(`/${constants.BASE_API_PATH}/transfers`, errorHandled(listTransfers))
 
 app.all('*', errorHandled(notFound))
 

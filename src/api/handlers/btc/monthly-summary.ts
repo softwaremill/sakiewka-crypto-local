@@ -5,7 +5,7 @@ import { jsonResponse, errorResponse } from '../../response'
 import { monthlySummaryRequest } from '../../models'
 import validate from '../../validate'
 
-const { user, constants } = sakiewkaCrypto
+const { transfers, constants } = sakiewkaCrypto
 
 export default async (req: Request, res: Response) => {
   const validationErrors = validate(req, monthlySummaryRequest, true)
@@ -15,7 +15,7 @@ export default async (req: Request, res: Response) => {
   }
 
   const token = req.header('authorization')
-  const backendResponse = await user.monthlySummary(token,req.params.month,req.params.year,req.params.fiatCurrency)
+  const backendResponse = await transfers.monthlySummary(token,req.params.month,req.params.year,req.params.fiatCurrency)
 
   jsonResponse(res, backendResponse)
 }
