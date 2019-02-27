@@ -13,7 +13,7 @@
     "build": "tsc && npm run swagger",
     "swagger": "cp src/api/swagger.yml dist/api/swagger.yml",
     "watch": "tsc -w",
-    "start": "node dist/api/server.js",
+    "start": "node $NODE_DEBUG_OPTION dist/api/server.js",
     "serve-debug": "NODE_ENV=dev DEBUG=* nodemon --inspect dist/api/server.js",
     "watch-debug": "NODE_ENV=dev DEBUG=* concurrently \"npm run watch\" \"npm run serve-debug\""
   },
@@ -57,7 +57,7 @@
     "express": "4.16.4",
     "joi": "13.7.0",
     "node-fetch": "2.3.0",
-    "sakiewka-crypto": "github:softwaremill/sakiewka-crypto#edef1b13383567aceab9029a18dc9322603755d1",
+    "sakiewka-crypto": "github:softwaremill/sakiewka-crypto#32c9143",
     "swagger-ui-express": "4.0.1",
     "winston": "^3.1.0",
     "yamljs": "0.3.0"

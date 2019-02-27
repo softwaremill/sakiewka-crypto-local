@@ -4,7 +4,6 @@ const createSchema = (object: SchemaMap) => Joi.object().keys(object)
 
 export const registerRequest = {
   body: createSchema({
-    password: Joi.string().required(),
     login: Joi.string().required()
   })
 }
@@ -119,5 +118,11 @@ export const maxTransferAmountRequest = {
   query: createSchema({
     feeRate: Joi.number().required(),
     recipient: Joi.string().required(),
+  })
+}
+
+export const setupPasswordRequest = {
+  body: createSchema({
+    password: Joi.string().required()
   })
 }

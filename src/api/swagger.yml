@@ -80,8 +80,6 @@
               properties:
                 login:
                   type: string
-                password:
-                  type: string
         responses: 
           "200":
             schema: 
@@ -247,6 +245,35 @@
             schema: 
               $ref: "#/definitions/ErrorModel"
 
+    /user/setup-password:
+      post: 
+        tags: 
+          - User
+        description: Configures password for user's account.
+        produces: 
+          - application/json
+        security:
+          - Bearer: []
+        parameters:
+          - name: body
+            in: body
+            required: true
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
     # ------------
     # WALLET
     # ------------

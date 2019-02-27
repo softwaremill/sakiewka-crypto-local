@@ -31,6 +31,7 @@ import init2fa from './handlers/user/init2fa'
 import confirm2fa from './handlers/user/confirm2fa'
 import disable2fa from './handlers/user/disable2fa'
 import maxTransferAmount from './handlers/btc/max-transfer-amount';
+import setupPassword from './handlers/user/setup-password';
 import { ApiError } from 'api'
 
 const swaggerDocument = YAML.load(`${__dirname}/swagger.yml`)
@@ -95,6 +96,7 @@ app.get(`/${constants.BASE_API_PATH}/user/monthly-summary/:month/:year/:fiatCurr
 app.post(`/${constants.BASE_API_PATH}/user/2fa/init`, errorHandled(init2fa))
 app.post(`/${constants.BASE_API_PATH}/user/2fa/confirm`, errorHandled(confirm2fa))
 app.post(`/${constants.BASE_API_PATH}/user/2fa/disable`, errorHandled(disable2fa))
+app.post(`/${constants.BASE_API_PATH}/user/setup-password`, errorHandled(setupPassword))
 
 // BTC
 // wallet
