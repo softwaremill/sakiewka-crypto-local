@@ -28,7 +28,7 @@ describe('/btc/wallet/walletId/send-coins', () => {
       .post(`/${constants.BASE_API_PATH}/btc/wallet/123/send`)
 
     expect(response.status).to.be.equal(400)
-    expect(response.body.error.message).to.be.equal('"recipients" is required')
+    expect(response.body.errors[0].message).to.be.equal('"recipients" is required')
   })
 
   it('should not accept incomplete request', async () => {
@@ -40,7 +40,7 @@ describe('/btc/wallet/walletId/send-coins', () => {
       })
 
     expect(response.status).to.be.equal(400)
-    expect(response.body.error.message).to.be.equal('Request header Authorization is required.')
+    expect(response.body.errors[0].message).to.be.equal('Request header Authorization is required.')
   })
 
   it('should send btc using xprv', async () => {

@@ -22,7 +22,7 @@ describe('/user/register', () => {
       .post(`/${constants.BASE_API_PATH}/user/register`)
 
     expect(response.status).to.be.equal(400)
-    expect(response.body.error.message).to.be.equal('"login" is required')
+    expect(response.body.errors[0].message).to.be.equal('"login" is required')
   })
 
   it('should not accept extra parameters', async () => {
@@ -34,7 +34,7 @@ describe('/user/register', () => {
       })
 
     expect(response.status).to.be.equal(400)
-    expect(response.body.error.message).to.be.equal('"extraProp" is not allowed')
+    expect(response.body.errors[0].message).to.be.equal('"extraProp" is not allowed')
   })
 
   it('should register user', async () => {

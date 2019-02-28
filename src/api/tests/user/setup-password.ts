@@ -27,7 +27,7 @@ describe('/btc/user/setup-password', () => {
       .post(`/${constants.BASE_API_PATH}/user/setup-password`)
 
     expect(response.status).to.be.equal(400)
-    expect(response.body.error.message).to.be.equal('"password" is required')
+    expect(response.body.errors[0].message).to.be.equal('"password" is required')
   })
 
   it('should not accept extra parameters', async () => {
@@ -39,7 +39,7 @@ describe('/btc/user/setup-password', () => {
       })
 
     expect(response.status).to.be.equal(400)
-    expect(response.body.error.message).to.be.equal('"extraProp" is not allowed')
+    expect(response.body.errors[0].message).to.be.equal('"extraProp" is not allowed')
   })
 
   it('should return 200 ok', async () => {

@@ -20,7 +20,7 @@ describe('/btc/wallet', () => {
       .get(`/${constants.BASE_API_PATH}/btc/wallet?limit=30`)
 
     expect(response.status).to.be.equal(400)
-    expect(response.body.error.message).to.be.equal('Request header Authorization is required.')
+    expect(response.body.errors[0].message).to.be.equal('Request header Authorization is required.')
   })
 
   it('should not accept request with missing query params', async () => {
@@ -28,7 +28,7 @@ describe('/btc/wallet', () => {
       .get(`/${constants.BASE_API_PATH}/btc/wallet`)
 
     expect(response.status).to.be.equal(400)
-    expect(response.body.error.message).to.be.equal('"limit" is required')
+    expect(response.body.errors[0].message).to.be.equal('"limit" is required')
   })
 
   it('should return list of wallets', async () => {

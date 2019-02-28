@@ -18,7 +18,7 @@ describe('/btc/wallet/id/transfer', () => {
       .get(`/${constants.BASE_API_PATH}/btc/wallet/12/transfer`)
 
     expect(response.status).to.be.equal(400)
-    expect(response.body.error.message).to.be.equal('Request header Authorization is required.')
+    expect(response.body.errors[0].message).to.be.equal('Request header Authorization is required.')
   })
 
     // TODO: add test for working transfer listing
