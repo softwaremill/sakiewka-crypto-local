@@ -1,6 +1,6 @@
 import { Response } from 'express'
 
-import { ApiError } from '../types/api'
+import { ApiError } from 'sakiewka-crypto'
 
 export const jsonResponse = (res: Response, data: object) => {
   const body = {
@@ -12,13 +12,11 @@ export const jsonResponse = (res: Response, data: object) => {
 }
 
 export const errorResponse = (res: Response, error: ApiError, customMessage?: string, errorId?: string) => {
-  if (customMessage) error.message = customMessage
+  if (customMessage) error.errors = [{message: customMessage}]
 
   const body = {
-    error: {
-      id: errorId,
-      message: error.message
-    },
+    errorId: errorId,
+    errors: error.errors,
     status: 'error'
   }
 

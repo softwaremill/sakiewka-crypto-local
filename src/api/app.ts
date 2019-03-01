@@ -31,7 +31,7 @@ import confirm2fa from './handlers/user/confirm2fa'
 import disable2fa from './handlers/user/disable2fa'
 import maxTransferAmount from './handlers/btc/max-transfer-amount';
 import setupPassword from './handlers/user/setup-password';
-import { ApiError } from 'api'
+import { ApiError } from 'sakiewka-crypto'
 
 const swaggerDocument = YAML.load(`${__dirname}/swagger.yml`)
 dotenv.config()
@@ -62,6 +62,7 @@ const errorHandled = (fn: Function) => {
         if (isApiError(err)) {
           errorResponse(res, err)
         } else {
+          // @ts-ignore
           errorResponse(res, constants.API_ERROR.SERVER_ERROR, `${err.message} ${err.stack}`, errorId)
         }
       })
@@ -69,7 +70,7 @@ const errorHandled = (fn: Function) => {
 }
 
 function isApiError(error: any): error is ApiError {
-  return error.code !== undefined && error.message !== undefined
+  return error.code !== undefined && error.errors !== undefined
 }
 
 // ENDPOINTS

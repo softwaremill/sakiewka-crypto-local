@@ -27,7 +27,7 @@ describe('/btc/key/:id', () => {
       .get(`/${constants.BASE_API_PATH}/btc/key/13`)
 
     expect(response.status).to.be.equal(400)
-    expect(response.body.error.message).to.be.equal('Request header Authorization is required.')
+    expect(response.body.errors[0].message).to.be.equal('Request header Authorization is required.')
   })
 
   it('should return key data', async () => {

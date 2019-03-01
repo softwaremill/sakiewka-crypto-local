@@ -27,7 +27,7 @@ describe('/btc/wallet/max-transfer-amount', () => {
       .get(`/${constants.BASE_API_PATH}/btc/wallet/123/max-transfer-amount`)
 
     expect(response.status).to.be.equal(400)
-    expect(response.body.error.message).to.be.equal('"feeRate" is required')
+    expect(response.body.errors[0].message).to.be.equal('"feeRate" is required')
   })
 
   it('should not accept incomplete request', async () => {
@@ -35,7 +35,7 @@ describe('/btc/wallet/max-transfer-amount', () => {
       .get(`/${constants.BASE_API_PATH}/btc/wallet/123/max-transfer-amount?recipient=0x0&feeRate=12`)
 
     expect(response.status).to.be.equal(400)
-    expect(response.body.error.message).to.be.equal('Request header Authorization is required.')
+    expect(response.body.errors[0].message).to.be.equal('Request header Authorization is required.')
   })
 
   it('should return list of unspents', async () => {

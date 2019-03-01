@@ -20,7 +20,7 @@ describe('/user/info', () => {
       .get(`/${constants.BASE_API_PATH}/user/info`)
 
     expect(response.status).to.be.equal(400)
-    expect(response.body.error.message).to.be.equal('Request header Authorization is required.')
+    expect(response.body.errors[0].message).to.be.equal('Request header Authorization is required.')
   })
 
   it('should fetch user info', async () => {
