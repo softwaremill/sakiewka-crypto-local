@@ -29,7 +29,7 @@ describe('/btc/key', () => {
       })
 
     expect(response.status).to.be.equal(400)
-    expect(response.body.error.message).to.be.equal('"extraProp" is not allowed')
+    expect(response.body.errors[0].message).to.be.equal('"extraProp" is not allowed')
   })
 
   it('should return keys', async () => {

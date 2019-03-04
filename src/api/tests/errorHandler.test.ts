@@ -25,7 +25,7 @@ describe('server', () => {
       })
 
     expect(response.status).to.be.equal(500)
-    expect(response.body.error).to.haveOwnProperty('id')
-    expect(response.body.error.id).to.be.a.uuid()
+    expect(response.body).to.haveOwnProperty('errorId')
+    expect(response.body.errorId).to.be.a.uuid()
   })
 })

@@ -25,7 +25,7 @@ describe('/user/2fa/init', () => {
       .send({})
 
     expect(response.status).to.be.equal(400)
-    expect(response.body.error.message).to.be.equal('"password" is required')
+    expect(response.body.errors[0].message).to.be.equal('"password" is required')
   })
 
   it('should not accept extra parameters', async () => {
@@ -37,7 +37,7 @@ describe('/user/2fa/init', () => {
       })
 
     expect(response.status).to.be.equal(400)
-    expect(response.body.error.message).to.be.equal('"extraProp" is not allowed')
+    expect(response.body.errors[0].message).to.be.equal('"extraProp" is not allowed')
   })
 
   it('should init 2fa', async () => {
