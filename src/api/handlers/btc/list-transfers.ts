@@ -14,6 +14,7 @@ const listTransfers = async (req: Request, res: Response) => {
     return errorResponse(res, constants.API_ERROR.BAD_REQUEST, validationErrors[0])
   }
 
+  console.log(JSON.stringify(req.query))
   const backendResponse = await transfers.listTransfers(
     req.header('authorization'),
     req.query.walletId,

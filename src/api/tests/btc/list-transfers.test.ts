@@ -15,13 +15,17 @@ const mockFn = jest.fn(() => {
 transfers.listTransfers = mockFn
 
 describe('/transfers', () => {
+  beforeEach(() => {
+    mockFn.mockClear()
+  })
+
   it('should not accept request with missing limit param', async () => {
     const response = await supertest(app)
       .get(`/${constants.BASE_API_PATH}/transfers`)
       .set('Authorization', 'testToken')
 
     expect(response.status).to.be.equal(400)
-    expect(response.body.error.message).to.be.equal('"limit" is required')
+    expect(response.body.errors[0].message).to.be.equal('"limit" is required')
   })
 
   it('should not accept request with missing header', async () => {
@@ -29,7 +33,7 @@ describe('/transfers', () => {
       .get(`/${constants.BASE_API_PATH}/transfers?limit=20`)
 
     expect(response.status).to.be.equal(400)
-    expect(response.body.error.message).to.be.equal('Request header Authorization is required.')
+    expect(response.body.errors[0].message).to.be.equal('Request header Authorization is required.')
   })
 
   it('should return transfers', async () => {

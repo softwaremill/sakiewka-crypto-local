@@ -20,7 +20,7 @@ describe('/transfers/monthly-summary', () => {
       .get(`/${constants.BASE_API_PATH}/transfers/monthly-summary/4/2019/USD`)
 
     expect(response.status).to.be.equal(400)
-    expect(response.body.error.message).to.be.equal('Request header Authorization is required.')
+    expect(response.body.errors[0].message).to.be.equal('Request header Authorization is required.')
   })
 
   it ('should not accept request with missing month', async () => {
