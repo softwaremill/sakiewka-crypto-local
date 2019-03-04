@@ -830,6 +830,50 @@
             schema: 
               $ref: "#/definitions/ErrorModel"
 
+    /transfers:
+      get:
+        tags:
+          - Transfers info
+        description: Lists incoming and outgoing transfers
+        produces:
+          - application/json
+        security:
+          - Bearer: []
+        parameters:
+          - name: limit
+            in: query
+            required: true
+            type: integer
+          - name: nextPageToken
+            in: query
+            required: false
+            type: string
+          - name: walletId
+            in: query
+            required: false
+            type: string
+    /transfers/monthly-summary/${month}/${year}/${fiatCurrency}:
+      get:
+        tags:
+          - Transfers info
+        description: Lists incoming and outgoing transfers
+        produces:
+          - application/json
+        security:
+          - Bearer: []
+        parameters:
+          - name: month
+            in: path
+            required: true
+            type: integer
+          - name: year
+            in: path
+            required: true
+            type: integer
+          - name: fiatCurrency
+            in: path
+            required: true
+            type: string
   # ==========
   # MODELS
   # ==========
