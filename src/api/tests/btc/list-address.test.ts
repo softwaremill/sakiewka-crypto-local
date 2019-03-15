@@ -3,7 +3,9 @@ import app from '../../app'
 import supertest from 'supertest'
 
 import sakiewkaCrypto from 'sakiewka-crypto'
-const { constants, address } = sakiewkaCrypto
+import { currency } from '../helpers'
+const { constants } = sakiewkaCrypto
+const { address } = sakiewkaCrypto[currency]
 
 // @ts-ignore
 const mockFn = jest.fn(() => {
@@ -14,17 +16,17 @@ const mockFn = jest.fn(() => {
 
 address.listAddresses = mockFn
 
-describe('/btc/wallet/:walletId/address/', () => {
+describe(`/${currency}/wallet/:walletId/address/`, () => {
   it('should exist', async () => {
     const response = await supertest(app)
-      .get(`/${constants.BASE_API_PATH}/btc/wallet/12/address`)
+      .get(`/${constants.BASE_API_PATH}/${currency}/wallet/12/address`)
 
     expect(response.status).to.not.be.equal(404)
   })
 
   it('should not accept request with missing header', async () => {
     const response = await supertest(app)
-      .get(`/${constants.BASE_API_PATH}/btc/wallet/12/address?limit=10`)
+      .get(`/${constants.BASE_API_PATH}/${currency}/wallet/12/address?limit=10`)
 
     expect(response.status).to.be.equal(400)
     expect(response.body.errors[0].message).to.be.equal('Request header Authorization is required.')
@@ -32,7 +34,7 @@ describe('/btc/wallet/:walletId/address/', () => {
 
   it('should not accept request with missing query params', async () => {
     const response = await supertest(app)
-      .get(`/${constants.BASE_API_PATH}/btc/wallet/12/address`)
+      .get(`/${constants.BASE_API_PATH}/${currency}/wallet/12/address`)
 
     expect(response.status).to.be.equal(400)
     expect(response.body.errors[0].message).to.be.equal('"limit" is required')
@@ -43,7 +45,7 @@ describe('/btc/wallet/:walletId/address/', () => {
     const walletId = 'testWalletId'
 
     const response = await supertest(app)
-      .get(`/${constants.BASE_API_PATH}/btc/wallet/${walletId}/address?limit=20&nextPageToken=abbbb`)
+      .get(`/${constants.BASE_API_PATH}/${currency}/wallet/${walletId}/address?limit=20&nextPageToken=abbbb`)
       .set('Authorization', `Bearer ${token}`)
 
     const callArgs = mockFn.mock.calls[0]

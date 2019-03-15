@@ -3,7 +3,9 @@ import app from '../../app'
 import supertest from 'supertest'
 
 import sakiewkaCrypto from 'sakiewka-crypto'
-const { constants, wallet } = sakiewkaCrypto
+import { currency } from '../helpers'
+const { constants } = sakiewkaCrypto
+const { wallet } = sakiewkaCrypto[currency]
 
 // @ts-ignore
 const mockFn = jest.fn(() => {
@@ -14,10 +16,10 @@ const mockFn = jest.fn(() => {
 
 wallet.getWallet = mockFn
 
-describe('/btc/wallet/id', () => {
+describe(`/${currency}/wallet/id`, () => {
   it('should not accept incomplete request', async () => {
     const response = await supertest(app)
-      .get(`/${constants.BASE_API_PATH}/btc/wallet/1234`)
+      .get(`/${constants.BASE_API_PATH}/${currency}/wallet/1234`)
 
     expect(response.status).to.be.equal(400)
     expect(response.body.errors[0].message).to.be.equal('Request header Authorization is required.')
@@ -28,7 +30,7 @@ describe('/btc/wallet/id', () => {
     const walletId = 'testWalletId'
 
     const response = await supertest(app)
-      .get(`/${constants.BASE_API_PATH}/btc/wallet/${walletId}`)
+      .get(`/${constants.BASE_API_PATH}/${currency}/wallet/${walletId}`)
       .set('Authorization', `Bearer ${token}`)
 
     const callArgs = mockFn.mock.calls[0]

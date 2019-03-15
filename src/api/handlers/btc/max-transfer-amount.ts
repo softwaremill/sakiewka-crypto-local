@@ -2,12 +2,14 @@ import { Request, Response } from 'express'
 
 import { jsonResponse, errorResponse } from '../../response'
 import { maxTransferAmountRequest } from '../../models'
-import sakiewkaCrypto from 'sakiewka-crypto'
 import validate from '../../validate'
+import sakiewkaCrypto, { Currency } from 'sakiewka-crypto'
 
-const { constants, wallet } = sakiewkaCrypto
 
-const maxTransferAmount = async (req: Request, res: Response) => {
+const maxTransferAmount = (currency: Currency) => async (req: Request, res: Response) => {
+  const { constants } = sakiewkaCrypto
+  const { wallet } = sakiewkaCrypto[currency]
+
   const validationErrors = validate(req, maxTransferAmountRequest, true)
 
   if (validationErrors.length > 0) {

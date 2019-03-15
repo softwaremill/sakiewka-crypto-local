@@ -3,7 +3,9 @@ import app from '../../app'
 import supertest from 'supertest'
 
 import sakiewkaCrypto from 'sakiewka-crypto'
-const { constants, wallet } = sakiewkaCrypto
+import { currency } from '../helpers'
+const { constants } = sakiewkaCrypto
+const { wallet } = sakiewkaCrypto[currency]
 
 // @ts-ignore
 const mockFn = jest.fn(() => {
@@ -14,17 +16,17 @@ const mockFn = jest.fn(() => {
 
 wallet.listUnspents = mockFn
 
-describe('/btc/wallet/utxo', () => {
+describe(`${currency}/wallet/utxo`, () => {
   it('should exist', async () => {
     const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/btc/wallet/123/utxo`)
+      .post(`/${constants.BASE_API_PATH}/${currency}/wallet/123/utxo`)
 
     expect(response.status).to.not.equal(404)
   })
 
   it('should not accept request with missing body params', async () => {
     const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/btc/wallet/123/utxo`)
+      .post(`/${constants.BASE_API_PATH}/${currency}/wallet/123/utxo`)
 
     expect(response.status).to.be.equal(400)
     expect(response.body.errors[0].message).to.be.equal('"feeRateSatoshi" is required')
@@ -32,7 +34,7 @@ describe('/btc/wallet/utxo', () => {
 
   it('should not accept incomplete request', async () => {
     const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/btc/wallet/123/utxo`)
+      .post(`/${constants.BASE_API_PATH}/${currency}/wallet/123/utxo`)
       .send({
         feeRateSatoshi: '12',
         recipients: [{ address: '0x0', amount: '123' }]
@@ -46,7 +48,7 @@ describe('/btc/wallet/utxo', () => {
     const token = 'testToken'
 
     const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/btc/wallet/1233/utxo`)
+      .post(`/${constants.BASE_API_PATH}/${currency}/wallet/1233/utxo`)
       .set('Authorization', `Bearer ${token}`)
       .send({
         feeRateSatoshi: '12',

@@ -3,7 +3,9 @@ import app from '../../app'
 import supertest from 'supertest'
 
 import sakiewkaCrypto from 'sakiewka-crypto'
-const { constants, key } = sakiewkaCrypto
+import { currency } from '../helpers'
+const { constants } = sakiewkaCrypto
+const { key } = sakiewkaCrypto[currency]
 
 // @ts-ignore
 const mockFnGenerate = jest.fn(() => {
@@ -18,10 +20,10 @@ const mockFnEncrypt = jest.fn(() => {
 key.generateNewKeyPair = mockFnGenerate
 key.encryptKeyPair = mockFnEncrypt
 
-describe('/btc/key', () => {
+describe(`/${currency}/key`, () => {
   it('should not accept extra parameters', async () => {
     const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/btc/key`)
+      .post(`/${constants.BASE_API_PATH}/${currency}/key`)
       .set('Authorization', 'Bearer abc')
       .send({
         extraProp: 'test',
@@ -34,7 +36,7 @@ describe('/btc/key', () => {
 
   it('should return keys', async () => {
     const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/btc/key`)
+      .post(`/${constants.BASE_API_PATH}/${currency}/key`)
 
     const callArgs = mockFnGenerate.mock.calls[0]
 
@@ -46,7 +48,7 @@ describe('/btc/key', () => {
 
   it('should return encrypted key', async () => {
     const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/btc/key`)
+      .post(`/${constants.BASE_API_PATH}/${currency}/key`)
       .send({
         passphrase: 'abcd'
       })

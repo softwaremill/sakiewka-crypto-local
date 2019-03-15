@@ -8,8 +8,9 @@
   },
   "scripts": {
     "test-coverage": "jest --forceExit --coverage --verbose",
-    "test": "jest --forceExit --verbose false --detectOpenHandles",
-    "watch-test": "NODE_ENV=dev npm run test -- --watchAll",
+    "test-single-currency": "jest --forceExit --verbose false --detectOpenHandles",
+    "test": "NODE_ENV=test CURRENCY_UNDER_TEST=BTC npm run test-single-currency && NODE_ENV=test CURRENCY_UNDER_TEST=BTG npm run test-single-currency",
+    "watch-test": "npm run test -- --watchAll",
     "build": "tsc && npm run swagger",
     "swagger": "cp src/api/swagger.yml dist/api/swagger.yml",
     "watch": "tsc -w",
@@ -57,7 +58,7 @@
     "express": "4.16.4",
     "joi": "13.7.0",
     "node-fetch": "2.3.0",
-    "sakiewka-crypto": "github:softwaremill/sakiewka-crypto#70ee536aef3e8ab2a5330c27c8a5139d77dd6c67",
+    "sakiewka-crypto": "github:softwaremill/sakiewka-crypto#937b2bc17a89d48835a9f8e1f35f8ebc13e542d5",
     "swagger-ui-express": "4.0.1",
     "winston": "^3.1.0",
     "yamljs": "0.3.0"
