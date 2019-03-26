@@ -4,7 +4,9 @@ import supertest from 'supertest'
 import { BigNumber } from "bignumber.js";
 
 import sakiewkaCrypto from 'sakiewka-crypto'
-const { constants, transaction } = sakiewkaCrypto
+import { currency } from '../helpers'
+const { constants } = sakiewkaCrypto
+const { transaction } = sakiewkaCrypto[currency]
 
 // @ts-ignore
 const mockFn = jest.fn(() => {
@@ -15,17 +17,17 @@ const mockFn = jest.fn(() => {
 
 transaction.send = mockFn
 
-describe('/btc/wallet/walletId/send-coins', () => {
+describe(`/${currency}/wallet/walletId/send-coins`, () => {
   it('should exist', async () => {
     const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/btc/wallet/123/send`)
+      .post(`/${constants.BASE_API_PATH}/${currency}/wallet/123/send`)
 
     expect(response.status).to.not.equal(404)
   })
 
   it('should not accept request with missing params', async () => {
     const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/btc/wallet/123/send`)
+      .post(`/${constants.BASE_API_PATH}/${currency}/wallet/123/send`)
 
     expect(response.status).to.be.equal(400)
     expect(response.body.errors[0].message).to.be.equal('"recipients" is required')
@@ -33,7 +35,7 @@ describe('/btc/wallet/walletId/send-coins', () => {
 
   it('should not accept incomplete request', async () => {
     const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/btc/wallet/123/send`)
+      .post(`/${constants.BASE_API_PATH}/${currency}/wallet/123/send`)
       .send({
         xprv: 'abc',
         recipients: []
@@ -48,7 +50,7 @@ describe('/btc/wallet/walletId/send-coins', () => {
     const recipients = [{address: 'abcd', amount: 123}]
 
     const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/btc/wallet/123/send`)
+      .post(`/${constants.BASE_API_PATH}/${currency}/wallet/123/send`)
       .set('Authorization', `Bearer ${token}`)
       .send({
         recipients,
@@ -72,7 +74,7 @@ describe('/btc/wallet/walletId/send-coins', () => {
     const recipients = [{address: 'abcd', amount: 123}]
 
     const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/btc/wallet/123/send`)
+      .post(`/${constants.BASE_API_PATH}/${currency}/wallet/123/send`)
       .set('Authorization', `Bearer ${token}`)
       .send({
         recipients,

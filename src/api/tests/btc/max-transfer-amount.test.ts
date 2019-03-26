@@ -3,8 +3,9 @@ import app from '../../app'
 import supertest from 'supertest'
 
 import sakiewkaCrypto from 'sakiewka-crypto'
-const { constants, wallet } = sakiewkaCrypto
-
+import { currency } from '../helpers'
+const { constants } = sakiewkaCrypto
+const { wallet } = sakiewkaCrypto[currency]
 // @ts-ignore
 const mockFn = jest.fn(() => {
   return new Promise((resolve: Function) => {
@@ -14,17 +15,17 @@ const mockFn = jest.fn(() => {
 
 wallet.maxTransferAmount = mockFn
 
-describe('/btc/wallet/max-transfer-amount', () => {
+describe(`/${currency}/wallet/max-transfer-amount`, () => {
   it('should exist', async () => {
     const response = await supertest(app)
-      .get(`/${constants.BASE_API_PATH}/btc/wallet/123/max-transfer-amount`)
+      .get(`/${constants.BASE_API_PATH}/${currency}/wallet/123/max-transfer-amount`)
 
     expect(response.status).to.not.equal(404)
   })
 
   it('should not accept request with missing body params', async () => {
     const response = await supertest(app)
-      .get(`/${constants.BASE_API_PATH}/btc/wallet/123/max-transfer-amount`)
+      .get(`/${constants.BASE_API_PATH}/${currency}/wallet/123/max-transfer-amount`)
 
     expect(response.status).to.be.equal(400)
     expect(response.body.errors[0].message).to.be.equal('"feeRate" is required')
@@ -32,7 +33,7 @@ describe('/btc/wallet/max-transfer-amount', () => {
 
   it('should not accept incomplete request', async () => {
     const response = await supertest(app)
-      .get(`/${constants.BASE_API_PATH}/btc/wallet/123/max-transfer-amount?recipient=0x0&feeRate=12`)
+      .get(`/${constants.BASE_API_PATH}/${currency}/wallet/123/max-transfer-amount?recipient=0x0&feeRate=12`)
 
     expect(response.status).to.be.equal(400)
     expect(response.body.errors[0].message).to.be.equal('Request header Authorization is required.')
@@ -42,7 +43,7 @@ describe('/btc/wallet/max-transfer-amount', () => {
     const token = 'testToken'
 
     const response = await supertest(app)
-      .get(`/${constants.BASE_API_PATH}/btc/wallet/1233/max-transfer-amount?recipient=0x0&feeRate=12`)
+      .get(`/${constants.BASE_API_PATH}/${currency}/wallet/1233/max-transfer-amount?recipient=0x0&feeRate=12`)
       .set('Authorization', `Bearer ${token}`)
 
     const callArgs = mockFn.mock.calls[0]

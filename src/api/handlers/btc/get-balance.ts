@@ -1,13 +1,14 @@
 import { Request, Response } from 'express'
 
-import sakiewkaCrypto from 'sakiewka-crypto'
 import { jsonResponse, errorResponse } from '../../response'
 import { getBalanceRequest } from '../../models'
 import validate from '../../validate'
+import sakiewkaCrypto , {Currency} from 'sakiewka-crypto'
 
-const { constants, wallet } = sakiewkaCrypto
+const getBalance = (currency: Currency) => async (req: Request, res: Response) => {
+  const { constants } = sakiewkaCrypto
+  const { wallet } = sakiewkaCrypto[currency]
 
-const getBalance = async (req: Request, res: Response) => {
   const validationErrors = validate(req, getBalanceRequest, true)
 
   if (validationErrors.length > 0) {

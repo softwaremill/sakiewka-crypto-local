@@ -3,7 +3,9 @@ import app from '../../app'
 import supertest from 'supertest'
 
 import sakiewkaCrypto from 'sakiewka-crypto'
-const { constants, key } = sakiewkaCrypto
+import { currency } from '../helpers'
+const { constants } = sakiewkaCrypto
+const { key } = sakiewkaCrypto[currency]
 
 // @ts-ignore
 const mockFn = jest.fn(() => {
@@ -14,17 +16,17 @@ const mockFn = jest.fn(() => {
 
 key.getKey = mockFn
 
-describe('/btc/key/:id', () => {
+describe(`/${currency}/key/:id`, () => {
   it('should exist', async () => {
     const response = await supertest(app)
-      .get(`/${constants.BASE_API_PATH}/btc/key/13`)
+      .get(`/${constants.BASE_API_PATH}/${currency}/key/13`)
 
     expect(response.status).to.not.be.equal(404)
   })
 
   it('should not accept request with missing header', async () => {
     const response = await supertest(app)
-      .get(`/${constants.BASE_API_PATH}/btc/key/13`)
+      .get(`/${constants.BASE_API_PATH}/${currency}/key/13`)
 
     expect(response.status).to.be.equal(400)
     expect(response.body.errors[0].message).to.be.equal('Request header Authorization is required.')
@@ -34,7 +36,7 @@ describe('/btc/key/:id', () => {
     const token = 'testToken'
     const keyId = 'testKeyId'
     const response = await supertest(app)
-      .get(`/${constants.BASE_API_PATH}/btc/key/${keyId}?includePrivate=true`)
+      .get(`/${constants.BASE_API_PATH}/${currency}/key/${keyId}?includePrivate=true`)
       .set('Authorization', `Bearer ${token}`)
 
     const callArgs = mockFn.mock.calls[0]

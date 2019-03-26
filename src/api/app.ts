@@ -24,15 +24,13 @@ import listAddresses from './handlers/btc/list-address'
 import createKey from './handlers/btc/create-key'
 import getKey from './handlers/btc/get-key'
 import send from './handlers/btc/send'
-import sakiewkaCrypto from 'sakiewka-crypto'
+import sakiewkaCrypto, { Currency, ApiError } from 'sakiewka-crypto'
 import { errorResponse } from './response'
 import init2fa from './handlers/user/init2fa'
 import confirm2fa from './handlers/user/confirm2fa'
 import disable2fa from './handlers/user/disable2fa'
 import maxTransferAmount from './handlers/btc/max-transfer-amount';
 import setupPassword from './handlers/user/setup-password';
-import { ApiError } from 'sakiewka-crypto'
-
 const swaggerDocument = YAML.load(`${__dirname}/swagger.yml`)
 dotenv.config()
 
@@ -97,28 +95,27 @@ app.post(`/${constants.BASE_API_PATH}/user/2fa/confirm`, errorHandled(confirm2fa
 app.post(`/${constants.BASE_API_PATH}/user/2fa/disable`, errorHandled(disable2fa))
 app.post(`/${constants.BASE_API_PATH}/user/setup-password`, errorHandled(setupPassword))
 
-// BTC
-// wallet
-app.post(`/${constants.BASE_API_PATH}/btc/wallet`, errorHandled(createWallet))
-app.get(`/${constants.BASE_API_PATH}/btc/wallet`, errorHandled(listWallets))
-app.get(`/${constants.BASE_API_PATH}/btc/wallet/:id`, errorHandled(getWallet))
+  const currencies = [Currency.BTC, Currency.BTG]
+  currencies.forEach(currency => {
+  //wallet
+  const BASE_PATH = `${constants.BASE_API_PATH}/${currency}`
+  app.post(`/${BASE_PATH}/wallet`, errorHandled(createWallet(currency)))
+  app.get(`/${BASE_PATH}/wallet`, errorHandled(listWallets(currency)))
+  app.get(`/${BASE_PATH}/wallet/:id`, errorHandled(getWallet(currency)))
+  app.get(`/${BASE_PATH}/wallet/:walletId/balance`, errorHandled(getBalance(currency)))
+  app.post(`/${BASE_PATH}/wallet/:walletId/utxo`, errorHandled(listUtxo(currency)))
+  app.post(`/${BASE_PATH}/wallet/:walletId/address`, errorHandled(createAddress(currency)))
+  app.get(`/${BASE_PATH}/wallet/:walletId/address/:address`, errorHandled(getAddress(currency)))
+  app.get(`/${BASE_PATH}/wallet/:walletId/address/`, errorHandled(listAddresses(currency)))
+  app.post(`/${BASE_PATH}/wallet/:walletId/send`, errorHandled(send(currency)))
+  app.get(`/${BASE_PATH}/wallet/:walletId/max-transfer-amount`, errorHandled(maxTransferAmount(currency)))
 
-app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/balance`, errorHandled(getBalance))
+  // key
+  app.post(`/${BASE_PATH}/key`, errorHandled(createKey(currency)))
+  app.get(`/${BASE_PATH}/key/:id`, errorHandled(getKey(currency)))
+})
 
-app.post(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/utxo`, errorHandled(listUtxo))
-
-app.post(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/address`, errorHandled(createAddress))
-app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/address/:address`, errorHandled(getAddress))
-app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/address/`, errorHandled(listAddresses))
-
-app.post(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/send`, errorHandled(send))
-
-app.get(`/${constants.BASE_API_PATH}/btc/wallet/:walletId/max-transfer-amount`, errorHandled(maxTransferAmount))
-
-// key
-app.post(`/${constants.BASE_API_PATH}/btc/key`, errorHandled(createKey))
-app.get(`/${constants.BASE_API_PATH}/btc/key/:id`, errorHandled(getKey))
-
+//transfers
 app.get(`/${constants.BASE_API_PATH}/transfers/monthly-summary/:month/:year/:fiatCurrency`, errorHandled(monthlySummary))
 app.get(`/${constants.BASE_API_PATH}/transfers`, errorHandled(listTransfers))
 

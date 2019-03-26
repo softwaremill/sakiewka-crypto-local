@@ -3,7 +3,9 @@ import app from '../../app'
 import supertest from 'supertest'
 
 import sakiewkaCrypto from 'sakiewka-crypto'
-const { constants, wallet } = sakiewkaCrypto
+import { currency } from '../helpers'
+const { constants } = sakiewkaCrypto
+const { wallet } = sakiewkaCrypto[currency]
 
 // @ts-ignore
 const mockFn = jest.fn(() => {
@@ -14,10 +16,10 @@ const mockFn = jest.fn(() => {
 
 wallet.createWallet = mockFn
 
-describe('/btc/wallet', () => {
+describe(`/${currency}/wallet`, () => {
   it('should not accept incomplete request', async () => {
     const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/btc/wallet`)
+      .post(`/${constants.BASE_API_PATH}/${currency}/wallet`)
       .set('Authorization', 'Bearer abc')
 
     expect(response.status).to.be.equal(400)
@@ -26,7 +28,7 @@ describe('/btc/wallet', () => {
 
   it('should not accept extra parameters', async () => {
     const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/btc/wallet`)
+      .post(`/${constants.BASE_API_PATH}/${currency}/wallet`)
       .set('Authorization', 'Bearer abc')
       .send({
         name: 'testLabel',
@@ -46,7 +48,7 @@ describe('/btc/wallet', () => {
     const backupPubKey = 'xpub661MyMwAqRbcGukLdXtbs5TTqkddNUYzdWAmZ3mQTRZgtaySzU9ePfVEZWtQJBZGbfKfhPZfG74z6TXkeEx2atofMhn2n4bHLzjDWHREM5u'
 
     const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/btc/wallet`)
+      .post(`/${constants.BASE_API_PATH}/${currency}/wallet`)
       .set('Authorization', `Bearer ${token}`)
       .send({
         userPubKey,

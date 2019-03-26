@@ -3,7 +3,9 @@ import app from '../../app'
 import supertest from 'supertest'
 
 import sakiewkaCrypto from 'sakiewka-crypto'
-const { constants, address } = sakiewkaCrypto
+import { currency } from '../helpers'
+const { constants } = sakiewkaCrypto
+const { address } = sakiewkaCrypto[currency]
 
 // @ts-ignore
 const mockFn = jest.fn(() => {
@@ -14,17 +16,17 @@ const mockFn = jest.fn(() => {
 
 address.createNewAddress = mockFn
 
-describe('/btc/wallet/:id/address', () => {
+describe(`/${currency}/wallet/:id/address`, () => {
   it('should exist', async () => {
     const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/btc/wallet/12/address`)
+      .post(`/${constants.BASE_API_PATH}/${currency}/wallet/12/address`)
 
     expect(response.status).to.not.be.equal(404)
   })
 
   it('should not accept request with missing header', async () => {
     const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/btc/wallet/12/address`)
+      .post(`/${constants.BASE_API_PATH}/${currency}/wallet/12/address`)
 
     expect(response.status).to.be.equal(400)
     expect(response.body.errors[0].message).to.be.equal('Request header Authorization is required.')
@@ -34,7 +36,7 @@ describe('/btc/wallet/:id/address', () => {
     const token = 'testToken'
     const walletId = 'testWalletId'
     const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/btc/wallet/${walletId}/address`)
+      .post(`/${constants.BASE_API_PATH}/${currency}/wallet/${walletId}/address`)
       .set('Authorization', `Bearer ${token}`)
       .send({
         name: 'abcd'
