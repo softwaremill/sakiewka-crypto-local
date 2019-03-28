@@ -1,6 +1,15 @@
 import Joi, { SchemaMap } from 'joi'
+import BigNumber from 'bignumber.js'
 
 const createSchema = (object: SchemaMap) => Joi.object().keys(object)
+
+const bigNumberJoi = Joi.extend((joi) => ({
+  base: joi.string(),
+  name: 'bigNumber',
+  pre(value, state, options) {
+    return new BigNumber(value)
+  }
+}))
 
 export const registerRequest = {
   body: createSchema({
@@ -67,7 +76,7 @@ export const listUtxoRequest = {
     feeRateSatoshi: Joi.number().required(),
     recipients: Joi.array().items(Joi.object({
       address: Joi.string().required(),
-      amount: Joi.number().required()
+      amount: bigNumberJoi.bigNumber().required()
     })).required()
   })
 }
@@ -115,7 +124,7 @@ export const sendTransactionRequest = {
     passphrase: Joi.string().optional(),
     recipients: Joi.array().items(Joi.object({
       address: Joi.string().required(),
-      amount: Joi.number().required()
+      amount: bigNumberJoi.bigNumber().required()
     })).required()
   })
 }

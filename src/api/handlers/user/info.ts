@@ -8,10 +8,10 @@ import validate from '../../validate'
 const { user, constants } = sakiewkaCrypto
 
 const info = async (req: Request, res: Response) => {
-  const validationErrors = validate(req, infoRequest, true)
+  const { errors } = validate(req, infoRequest, true)
 
-  if (validationErrors.length > 0) {
-    return errorResponse(res, constants.API_ERROR.BAD_REQUEST, validationErrors[0])
+  if (errors.length > 0) {
+    return errorResponse(res, constants.API_ERROR.BAD_REQUEST, errors[0])
   }
 
   const token = req.header('authorization')

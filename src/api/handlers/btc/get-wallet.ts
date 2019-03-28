@@ -10,10 +10,10 @@ const getWallet = (currency: Currency) => async (req: Request, res: Response) =>
   const { wallet } = sakiewkaCrypto[currency]
   const { constants } = sakiewkaCrypto
 
-  const validationErrors = validate(req, getWalletRequest, true)
+  const { errors } = validate(req, getWalletRequest, true)
 
-  if (validationErrors.length > 0) {
-    return errorResponse(res, constants.API_ERROR.BAD_REQUEST, validationErrors[0])
+  if (errors.length > 0) {
+    return errorResponse(res, constants.API_ERROR.BAD_REQUEST, errors[0])
   }
 
   const backendResponse = await wallet.getWallet(
