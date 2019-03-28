@@ -20,6 +20,8 @@ export default (request: Request, model: RequestModel, authRequired?: boolean) =
     })
   }
 
+  if (errors.length > 0) return { errors }
+
   if (authRequired && !request.rawHeaders.includes('Authorization')) {
     return { errors: ['Request header Authorization is required.'] }
   }
