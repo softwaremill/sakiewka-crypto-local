@@ -73,7 +73,7 @@ export const getTransferRequest = {}
 
 export const listUtxoRequest = {
   body: createSchema({
-    feeRateSatoshi: Joi.number().required(),
+    feeRateSatoshi: Joi.string().required(),
     recipients: Joi.array().items(Joi.object({
       address: Joi.string().required(),
       amount: bigNumberJoi.bigNumber().required()
@@ -131,7 +131,7 @@ export const sendTransactionRequest = {
 
 export const maxTransferAmountRequest = {
   query: createSchema({
-    feeRate: Joi.number().required(),
+    feeRate: Joi.string().required(),
     recipient: Joi.string().required(),
   })
 }

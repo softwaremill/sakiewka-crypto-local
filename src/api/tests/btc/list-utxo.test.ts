@@ -52,7 +52,7 @@ describe(`${currency}/wallet/utxo`, () => {
       .set('Authorization', `Bearer ${token}`)
       .send({
         feeRateSatoshi: '12',
-        recipients: [{ address: '0x0', amount: '123' }]
+        recipients: [{ address: '0x0', amount: '0.00000123' }]
       })
 
     const callArgs = mockFn.mock.calls[0]
@@ -64,6 +64,6 @@ describe(`${currency}/wallet/utxo`, () => {
     expect(callArgs[1]).to.eq('1233')
     expect(callArgs[2]).to.eq('12')
     expect(callArgs[3][0].address).to.eq('0x0')
-    expect(callArgs[3][0].amount.toString()).to.eq('123')
+    expect(callArgs[3][0].amount.toString()).to.eq('0.00000123')
   })
 })
