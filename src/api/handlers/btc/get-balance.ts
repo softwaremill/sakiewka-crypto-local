@@ -9,10 +9,10 @@ const getBalance = (currency: Currency) => async (req: Request, res: Response) =
   const { constants } = sakiewkaCrypto
   const { wallet } = sakiewkaCrypto[currency]
 
-  const validationErrors = validate(req, getBalanceRequest, true)
+  const { errors } = validate(req, getBalanceRequest, true)
 
-  if (validationErrors.length > 0) {
-    return errorResponse(res, constants.API_ERROR.BAD_REQUEST, validationErrors[0])
+  if (errors.length > 0) {
+    return errorResponse(res, constants.API_ERROR.BAD_REQUEST, errors[0])
   }
 
   const token = req.header('authorization')

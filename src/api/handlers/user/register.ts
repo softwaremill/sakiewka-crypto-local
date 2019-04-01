@@ -8,13 +8,13 @@ import validate from '../../validate'
 const { constants, user } = sakiewkaCrypto
 
 const register = async (req: Request, res: Response) => {
-  const validationErrors = validate(req, registerRequest)
+  const { errors, body } = validate(req, registerRequest)
 
-  if (validationErrors.length > 0) {
-    return errorResponse(res, constants.API_ERROR.BAD_REQUEST, validationErrors[0])
+  if (errors.length > 0) {
+    return errorResponse(res, constants.API_ERROR.BAD_REQUEST, errors[0])
   }
 
-  const { login, password } = req.body
+  const { login, password } = body
   const backendResponse = await user.register(login, password)
 
   jsonResponse(res, backendResponse)

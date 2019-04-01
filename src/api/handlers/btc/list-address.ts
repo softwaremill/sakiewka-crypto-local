@@ -10,14 +10,14 @@ const listAddresses = (currency: Currency) => async (req: Request, res: Response
   const { constants } = sakiewkaCrypto
   const { address } = sakiewkaCrypto[currency]
 
-  const validationErrors = validate(req, listAddressesRequest, true)
+  const { errors, queryParams } = validate(req, listAddressesRequest, true)
 
-  if (validationErrors.length > 0) {
-    return errorResponse(res, constants.API_ERROR.BAD_REQUEST, validationErrors[0])
+  if (errors.length > 0) {
+    return errorResponse(res, constants.API_ERROR.BAD_REQUEST, errors[0])
   }
 
   const backendResponse = await address.listAddresses(
-    req.header('authorization'), req.param('walletId'), req.query.limit, req.query.nextPageToken
+    req.header('authorization'), req.param('walletId'), queryParams.limit, queryParams.nextPageToken
   )
 
   jsonResponse(res, backendResponse)

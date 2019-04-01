@@ -9,16 +9,16 @@ const createKey = (currency: Currency) => async (req: Request, res: Response) =>
   const { constants } = sakiewkaCrypto
   const { key } = sakiewkaCrypto[currency]
 
-  const validationErrors = validate(req, createKeyRequest)
+  const { errors, body } = validate(req, createKeyRequest)
 
-  if (validationErrors.length > 0) {
-    return errorResponse(res, constants.API_ERROR.BAD_REQUEST, validationErrors[0])
+  if (errors.length > 0) {
+    return errorResponse(res, constants.API_ERROR.BAD_REQUEST, errors[0])
   }
 
   const newKeyPair = key.generateNewKeyPair()
 
-  if (req.body.passphrase) {
-    const encryptedKeyPair = key.encryptKeyPair(newKeyPair, req.body.passphrase)
+  if (body.passphrase) {
+    const encryptedKeyPair = key.encryptKeyPair(newKeyPair, body.passphrase)
     return jsonResponse(res, { keyPair: encryptedKeyPair })
   }
 

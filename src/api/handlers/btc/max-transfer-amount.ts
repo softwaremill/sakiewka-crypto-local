@@ -10,12 +10,12 @@ const maxTransferAmount = (currency: Currency) => async (req: Request, res: Resp
   const { constants } = sakiewkaCrypto
   const { wallet } = sakiewkaCrypto[currency]
 
-  const validationErrors = validate(req, maxTransferAmountRequest, true)
+  const { errors, queryParams } = validate(req, maxTransferAmountRequest, true)
 
-  if (validationErrors.length > 0) {
-    return errorResponse(res, constants.API_ERROR.BAD_REQUEST, validationErrors[0])
+  if (errors.length > 0) {
+    return errorResponse(res, constants.API_ERROR.BAD_REQUEST, errors[0])
   }
-  const { feeRate, recipient } = req.query
+  const { feeRate, recipient } = queryParams
   const backendResponse = await wallet.maxTransferAmount(req.header('authorization'), req.param('walletId'), feeRate, recipient)
 
   jsonResponse(res, backendResponse)

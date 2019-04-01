@@ -9,15 +9,15 @@ const getKey = (currency: Currency) => async (req: Request, res: Response) => {
   const { key } = sakiewkaCrypto[currency]
   const { constants } = sakiewkaCrypto
 
-  const validationErrors = validate(req, getKeyRequest, true)
+  const { errors, queryParams } = validate(req, getKeyRequest, true)
 
-  if (validationErrors.length > 0) {
-    return errorResponse(res, constants.API_ERROR.BAD_REQUEST, validationErrors[0])
+  if (errors.length > 0) {
+    return errorResponse(res, constants.API_ERROR.BAD_REQUEST, errors[0])
   }
 
   const token = req.header('authorization')
   const addressData = await key.getKey(
-    token, req.param('id'), req.query.includePrivate
+    token, req.param('id'), queryParams.includePrivate
   )
 
   jsonResponse(res, addressData)

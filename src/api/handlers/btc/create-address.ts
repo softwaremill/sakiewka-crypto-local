@@ -9,14 +9,14 @@ const createNewAddress = (currency: Currency) => async (req: Request, res: Respo
   const { address } = sakiewkaCrypto[currency]
   const { constants } = sakiewkaCrypto
 
-  const validationErrors = validate(req, createNewAddressRequest, true)
+  const { errors, body } = validate(req, createNewAddressRequest, true)
 
-  if (validationErrors.length > 0) {
-    return errorResponse(res, constants.API_ERROR.BAD_REQUEST, validationErrors[0])
+  if (errors.length > 0) {
+    return errorResponse(res, constants.API_ERROR.BAD_REQUEST, errors[0])
   }
 
   const token = req.header('authorization')
-  const newAddress = await address.createNewAddress(token, req.param('walletId'), req.body.name)
+  const newAddress = await address.createNewAddress(token, req.param('walletId'), body.name)
 
   jsonResponse(res, newAddress)
 }

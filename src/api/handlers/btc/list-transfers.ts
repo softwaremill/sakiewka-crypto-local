@@ -8,18 +8,17 @@ import validate from '../../validate'
 const { constants, transfers } = sakiewkaCrypto
 
 const listTransfers = async (req: Request, res: Response) => {
-  const validationErrors = validate(req, listTransfersRequest, true)
+  const { errors, queryParams } = validate(req, listTransfersRequest, true)
 
-  if (validationErrors.length > 0) {
-    return errorResponse(res, constants.API_ERROR.BAD_REQUEST, validationErrors[0])
+  if (errors.length > 0) {
+    return errorResponse(res, constants.API_ERROR.BAD_REQUEST, errors[0])
   }
 
-  console.log(JSON.stringify(req.query))
   const backendResponse = await transfers.listTransfers(
     req.header('authorization'),
-    req.query.walletId,
-    req.query.limit,
-    req.query.nextPageToken
+    queryParams.walletId,
+    queryParams.limit,
+    queryParams.nextPageToken
   )
 
   jsonResponse(res, backendResponse)

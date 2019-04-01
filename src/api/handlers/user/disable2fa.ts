@@ -8,13 +8,13 @@ import validate from '../../validate'
 const { constants, user } = sakiewkaCrypto
 
 const disable2fa = async (req: Request, res: Response) => {
-  const validationErrors = validate(req, disable2faRequest)
+  const { errors, body } = validate(req, disable2faRequest)
 
-  if (validationErrors.length > 0) {
-    return errorResponse(res, constants.API_ERROR.BAD_REQUEST, validationErrors[0])
+  if (errors.length > 0) {
+    return errorResponse(res, constants.API_ERROR.BAD_REQUEST, errors[0])
   }
 
-  const { password, code } = req.body
+  const { password, code } = body
   const token = req.header('authorization')
   const backendResponse = await user.disable2fa(token, password, code)
 

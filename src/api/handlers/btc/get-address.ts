@@ -8,10 +8,10 @@ import validate from '../../validate'
 const getWallet = (currency: Currency) => async (req: Request, res: Response) => {
   const { address } = sakiewkaCrypto[currency]
   const { constants } = sakiewkaCrypto
-  const validationErrors = validate(req, getAddressRequest, true)
+  const { errors } = validate(req, getAddressRequest, true)
 
-  if (validationErrors.length > 0) {
-    return errorResponse(res, constants.API_ERROR.BAD_REQUEST, validationErrors[0])
+  if (errors.length > 0) {
+    return errorResponse(res, constants.API_ERROR.BAD_REQUEST, errors[0])
   }
 
   const token = req.header('authorization')
