@@ -19,9 +19,6 @@
   produces: 
     - application/son
   paths: 
-    # ==========
-    # BTC
-    # ==========
 
     # ------------
     # USER
@@ -274,6 +271,570 @@
             description: unexpected error
             schema: 
               $ref: "#/definitions/ErrorModel"
+    # ==========
+    # BTG
+    # ==========
+    
+    # ------------
+    # WALLET
+    # ------------
+
+    /btg/wallet:
+      post: 
+        tags: 
+          - BTG - wallet
+        description: Creates new wallet.
+        produces: 
+          - application/json
+        security:
+          - Bearer: []
+        parameters:
+          - name: body
+            in: body
+            required: true
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                passphrase:
+                  type: string
+                userPubKey:
+                  type: string
+                backupPubKey:
+                  type: string
+        responses:
+          "200":
+            description: success
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    id: 
+                      type: string
+                    initialAddress: 
+                      type: string
+                    servicePubKey: 
+                      type: string
+                    keys: 
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          type:
+                            type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+      get: 
+        tags: 
+          - BTG - wallet
+        description: Lists user wallets.
+        produces: 
+          - application/json
+        security:
+          - Bearer: []
+        parameters:
+          - name: nextPageToken
+            in: query
+            required: false
+            type: string
+          - name: limit
+            in: query
+            required: true
+            type: integer
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    nextPageToken: 
+                      type: string
+                    wallets: 
+                      type: array
+                      items:
+                        type: object
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+
+    /btg/wallet/{walletId}:
+      get: 
+        tags: 
+          - BTG - wallet
+        description: Shows user wallet details.
+        produces: 
+          - application/json
+        security:
+          - Bearer: []
+        parameters: 
+          - name: walletId
+            in: path
+            required: true
+            description: wallet id
+            type: string
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    id: 
+                      type: string
+                    name: 
+                      type: string
+                    currency: 
+                      type: string
+                    created: 
+                      type: string
+                    keys: 
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          type:
+                            type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+
+    /btg/wallet/{walletId}/balance:
+      get: 
+        tags: 
+          - BTG - wallet
+        description: Shows wallet balance.
+        produces: 
+          - application/json
+        security:
+          - Bearer: []
+        parameters:
+          - name: walletId
+            in: path
+            required: true
+            description: wallet id
+            type: string
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    confirming: 
+                      type: integer
+                    confirmed: 
+                      type: integer
+                    locked: 
+                      type: integer
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+
+    /btg/wallet/{walletId}/max-transfer-amount:
+      get: 
+        tags: 
+          - BTG - wallet
+        description: Calculates max transfer amount for given address.
+        produces: 
+          - application/json
+        security:
+          - Bearer: []
+        parameters: 
+          - name: walletId
+            in: path
+            required: true
+            description: wallet id
+            type: string
+          - name: recipient
+            in: query
+            required: true
+            type: string
+          - name: feeRate
+            in: query
+            required: true
+            type: integer
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    amount: 
+                      type: number
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+
+    /btg/wallet/{walletId}/utxo:
+      post: 
+        tags: 
+          - BTG - wallet
+        description: Gets list of unspents to be used for sending given amounts to given recipients
+        produces: 
+          - application/json
+        security:
+          - Bearer: []
+        parameters: 
+          - name: walletId
+            in: path
+            required: true
+            description: wallet id
+            type: string
+          - name: body
+            in: body
+            schema:
+              type: object
+              properties:
+                feeRateSatoshi: 
+                  type: integer
+                recipients:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      address:
+                        type: string
+                      amount:
+                        type: string
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    outputs: 
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          txHash:
+                            type: string
+                          n:
+                            type: number
+                          amount:
+                            type: string
+                          path:
+                            type: object
+                            properties:
+                              cosignerIndex:
+                                type: number
+                              change:
+                                type: number
+                              addressIndex:
+                                type: number
+                    amount:
+                      type: string
+                    change:
+                      type: string
+                    fee:
+                      type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+
+    /btg/wallet/{walletId}/address:
+      post: 
+        tags: 
+          - BTG - wallet
+        description: Creates new wallet address.
+        produces: 
+          - application/json
+        security:
+          - Bearer: []
+        parameters: 
+          - name: walletId
+            in: path
+            required: true
+            description: wallet id
+            type: string
+          - name: body
+            in: body
+            schema:
+              type: object
+              properties:
+                name: 
+                  type: string
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    address: 
+                      type: string
+                    path: 
+                      type: object
+                      items:
+                        properties:
+                          cosignerIndex:
+                            type: string
+                          change:
+                            type: string
+                          addressIndex:
+                            type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+
+      get: 
+        tags: 
+          - BTG - wallet
+        description: List addresses.
+        produces: 
+          - application/json
+        security:
+          - Bearer: []
+        parameters: 
+          - name: nextPageToken
+            in: query
+            required: false
+            type: string
+          - name: limit
+            in: query
+            required: true
+            type: integer
+          - name: walletId
+            in: path
+            required: true
+            description: wallet id
+            type: string
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    addresses: 
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          address: 
+                            type: string
+                          name: 
+                            type: string
+                          created: 
+                            type: string
+                          path: 
+                            type: object
+                            properties:
+                              cosignerIndex:
+                                type: string
+                              change:
+                                type: string
+                              addressIndex:
+                                type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+
+    /btg/wallet/{walletId}/address/{addressId}:
+      get: 
+        tags: 
+          - BTG - wallet
+        description: Shows address details.
+        produces: 
+          - application/json
+        security:
+          - Bearer: []
+        parameters: 
+          - name: walletId
+            in: path
+            required: true
+            description: wallet id
+            type: string
+          - name: addressId
+            in: path
+            required: true
+            description: address id
+            type: string
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    address: 
+                      type: string
+                    name: 
+                      type: string
+                    created: 
+                      type: string
+                    path: 
+                      type: object
+                      properties:
+                        cosignerIndex:
+                          type: string
+                        change:
+                          type: string
+                        addressIndex:
+                          type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+
+    /btg/wallet/{walletId}/send:
+      post: 
+        tags: 
+          - BTG - wallet
+        description: Sends bitcoins to given recipients.
+        produces: 
+          - application/json
+        security:
+          - Bearer: []
+        parameters: 
+          - name: walletId
+            in: path
+            required: true
+            description: wallet id
+            type: string
+          - name: body
+            in: body
+            schema:
+              type: object
+              properties:
+                recipients: 
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      address:
+                        type: string
+                      amount:
+                        type: string
+                xprv:
+                  type: string
+                passphrase:
+                  type: string
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+
+    # ------------
+    # KEY
+    # ------------
+
+    /btg/key:
+      post: 
+        tags: 
+          - BTG - key
+        description: Creates new key.
+        produces: 
+          - application/json
+        parameters: 
+          - name: body
+            in: body
+            required: true
+            schema:
+              type: object
+              properties:
+                passphrase:
+                  type: string
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    keyPair:
+                      type: object
+                      properties:
+                        pubKey:
+                          type: string
+                        prvKey:
+                          type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+
+    /btg/key/{keyId}:
+      get: 
+        tags: 
+          - BTG - key
+        description: Shows key details.
+        produces: 
+          - application/json
+        security:
+          - Bearer: []
+        parameters: 
+          - name: includePrivate
+            in: query
+            required: false
+            type: string
+          - name: keyId
+            in: path
+            required: true
+            description: key id
+            type: string
+        responses: 
+          "200":
+            schema: 
+              type: object
+              properties: 
+                data:
+                  type: object
+                  properties:
+                    id: 
+                      type: string
+                    pubKey: 
+                      type: string
+                    prvKey: 
+                      type: string
+                    keyType: 
+                      type: string
+                    created: 
+                      type: string
+          default: 
+            description: unexpected error
+            schema: 
+              $ref: "#/definitions/ErrorModel"
+
+    # ==========
+    # BTC
+    # ==========
+    
     # ------------
     # WALLET
     # ------------
@@ -829,6 +1390,7 @@
             description: unexpected error
             schema: 
               $ref: "#/definitions/ErrorModel"
+
 
     /transfers:
       get:
