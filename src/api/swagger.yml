@@ -636,6 +636,8 @@
                       items:
                         type: object
                         properties:
+                          id:
+                            type: string
                           address: 
                             type: string
                           name: 
@@ -1414,7 +1416,58 @@
             in: query
             required: false
             type: string
-    /transfers/monthly-summary/${month}/${year}/${fiatCurrency}:
+        responses:
+          "200":
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    transfers:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          chain:
+                            type: string
+                          wallet:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                              balance:
+                                type: string
+                          timestamp:
+                            type: string
+                          transaction:
+                            type: object
+                            properties:
+                              hash:
+                                type: string
+                              inputs:
+                                type: object
+                                properties:
+                                  wallet:
+                                    type: object
+                              outputs:
+                                type: object
+                                properties:
+                                  wallet:
+                                    type: object
+                              block:
+                                type: object
+                                properties:
+                                  hash:
+                                    type: string
+                                  number:
+                                    type: number
+                                  timestamp:
+                                    type: string
+                status:
+                  type: string
+
+    /transfers/monthly-summary/{month}/{year}/{fiatCurrency}:
       get:
         tags:
           - Transfers info
@@ -1436,6 +1489,33 @@
             in: path
             required: true
             type: string
+        responses:
+          "200":
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    chains:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          chain:
+                            type: string
+                          totalOutputsOther:
+                            type: string
+                          totalOutputsWallet:
+                            type: string
+                          totalOutputsService:
+                            type: string
+                          totalOutputsOtherInFiat:
+                            type: string
+                          totalOutputsServiceInFiat:
+                            type: string
+                status:
+                  type: string
   # ==========
   # MODELS
   # ==========
