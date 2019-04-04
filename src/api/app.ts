@@ -7,12 +7,12 @@ import logger from './logger'
 import dotenv from 'dotenv'
 import clientApp from './handlers/client-app'
 import notFound from './handlers/not-found'
-import login from './handlers/user/login'
-import logout from './handlers/user/logout'
-import info from './handlers/user/info'
-import monthlySummary from './handlers/btc/monthly-summary'
+import { login } from './handlers/user/login'
+import { logout } from './handlers/user/logout'
+import { info } from './handlers/user/info'
+import { monthlySummary } from './handlers/btc/monthly-summary'
 import listTransfers from './handlers/btc/list-transfers'
-import register from './handlers/user/register'
+import { register } from './handlers/user/register'
 import createWallet from './handlers/btc/create-wallet'
 import listWallets from './handlers/btc/list-wallet'
 import getWallet from './handlers/btc/get-wallet'
@@ -24,13 +24,14 @@ import listAddresses from './handlers/btc/list-address'
 import createKey from './handlers/btc/create-key'
 import getKey from './handlers/btc/get-key'
 import send from './handlers/btc/send'
-import sakiewkaCrypto, { Currency, ApiError } from 'sakiewka-crypto'
+import { constants, Currency, ApiError, sakiewkaApi, backendFactory, sakiewkaModule } from 'sakiewka-crypto'
 import { errorResponse } from './response'
-import init2fa from './handlers/user/init2fa'
-import confirm2fa from './handlers/user/confirm2fa'
-import disable2fa from './handlers/user/disable2fa'
+import { init2fa } from './handlers/user/init2fa'
+import { confirm2fa } from './handlers/user/confirm2fa'
+import { disable2fa } from './handlers/user/disable2fa'
 import maxTransferAmount from './handlers/btc/max-transfer-amount';
 import setupPassword from './handlers/user/setup-password';
+import chainNetworkType from './handlers/chain-network-type';
 const swaggerDocument = YAML.load(`${__dirname}/swagger.yml`)
 dotenv.config()
 
@@ -38,7 +39,6 @@ const app = express()
 app.use(bodyParser.json())
 
 const uuidv4 = require('uuid/v4')
-const { constants } = sakiewkaCrypto
 
 // catches middleware errors
 app.use((err: Error, req: Request, res: Response, next: Function) => {
@@ -78,6 +78,13 @@ function isApiError(error: any): error is ApiError {
   return error.code !== undefined && error.errors !== undefined
 }
 
+const backendApi = backendFactory(process.env.BACKEND_API_URL);
+const sakiewkaApiModule = sakiewkaApi(backendApi, process.env.BTC_NETWORK)
+//@ts-ignore
+app.sakiewkaApi = sakiewkaApiModule
+//@ts-ignore
+app.backendApi = backendApi
+
 // ENDPOINTS
 // docs
 app.use(`/${constants.BASE_API_PATH}/docs`, swaggerUI.serve, swaggerUI.setup(swaggerDocument))
@@ -86,38 +93,44 @@ app.use(`/${constants.BASE_API_PATH}/docs`, swaggerUI.serve, swaggerUI.setup(swa
 app.get('/', errorHandled(clientApp))
 
 // user
-app.post(`/${constants.BASE_API_PATH}/user/login`, errorHandled(login))
-app.post(`/${constants.BASE_API_PATH}/user/logout`, errorHandled(logout))
-app.post(`/${constants.BASE_API_PATH}/user/register`, errorHandled(register))
-app.get(`/${constants.BASE_API_PATH}/user/info`, errorHandled(info))
-app.post(`/${constants.BASE_API_PATH}/user/2fa/init`, errorHandled(init2fa))
-app.post(`/${constants.BASE_API_PATH}/user/2fa/confirm`, errorHandled(confirm2fa))
-app.post(`/${constants.BASE_API_PATH}/user/2fa/disable`, errorHandled(disable2fa))
-app.post(`/${constants.BASE_API_PATH}/user/setup-password`, errorHandled(setupPassword))
+app.post(`/${constants.BASE_API_PATH}/user/login`, errorHandled(login(sakiewkaApiModule)))
+app.post(`/${constants.BASE_API_PATH}/user/logout`, errorHandled(logout(sakiewkaApiModule)))
+app.post(`/${constants.BASE_API_PATH}/user/register`, errorHandled(register(sakiewkaApiModule)))
+app.get(`/${constants.BASE_API_PATH}/user/info`, errorHandled(info(sakiewkaApiModule)))
+app.post(`/${constants.BASE_API_PATH}/user/2fa/init`, errorHandled(init2fa(sakiewkaApiModule)))
+app.post(`/${constants.BASE_API_PATH}/user/2fa/confirm`, errorHandled(confirm2fa(sakiewkaApiModule)))
+app.post(`/${constants.BASE_API_PATH}/user/2fa/disable`, errorHandled(disable2fa(sakiewkaApiModule)))
+app.post(`/${constants.BASE_API_PATH}/user/setup-password`, errorHandled(setupPassword(sakiewkaApiModule)))
 
-  const currencies = [Currency.BTC, Currency.BTG]
-  currencies.forEach(currency => {
+const currencies = [Currency.BTC, Currency.BTG]
+currencies.forEach(currency => {
+  const sakiewkaCryptoModule = sakiewkaModule(currency, process.env.BTC_NETWORK)
+  //@ts-ignore
+  app[currency] = { cryptoModule: sakiewkaCryptoModule }
+
   //wallet
   const BASE_PATH = `${constants.BASE_API_PATH}/${currency}`
-  app.post(`/${BASE_PATH}/wallet`, errorHandled(createWallet(currency)))
-  app.get(`/${BASE_PATH}/wallet`, errorHandled(listWallets(currency)))
-  app.get(`/${BASE_PATH}/wallet/:id`, errorHandled(getWallet(currency)))
-  app.get(`/${BASE_PATH}/wallet/:walletId/balance`, errorHandled(getBalance(currency)))
-  app.post(`/${BASE_PATH}/wallet/:walletId/utxo`, errorHandled(listUtxo(currency)))
-  app.post(`/${BASE_PATH}/wallet/:walletId/address`, errorHandled(createAddress(currency)))
-  app.get(`/${BASE_PATH}/wallet/:walletId/address/:address`, errorHandled(getAddress(currency)))
-  app.get(`/${BASE_PATH}/wallet/:walletId/address/`, errorHandled(listAddresses(currency)))
-  app.post(`/${BASE_PATH}/wallet/:walletId/send`, errorHandled(send(currency)))
-  app.get(`/${BASE_PATH}/wallet/:walletId/max-transfer-amount`, errorHandled(maxTransferAmount(currency)))
+  app.post(`/${BASE_PATH}/wallet`, errorHandled(createWallet(sakiewkaApiModule, currency)))
+  app.get(`/${BASE_PATH}/wallet`, errorHandled(listWallets(sakiewkaApiModule, currency)))
+  app.get(`/${BASE_PATH}/wallet/:id`, errorHandled(getWallet(sakiewkaApiModule, currency)))
+  app.get(`/${BASE_PATH}/wallet/:walletId/balance`, errorHandled(getBalance(sakiewkaApiModule, currency)))
+  app.post(`/${BASE_PATH}/wallet/:walletId/utxo`, errorHandled(listUtxo(sakiewkaApiModule, currency)))
+  app.post(`/${BASE_PATH}/wallet/:walletId/address`, errorHandled(createAddress(sakiewkaApiModule, currency)))
+  app.get(`/${BASE_PATH}/wallet/:walletId/address/:address`, errorHandled(getAddress(sakiewkaApiModule, currency)))
+  app.get(`/${BASE_PATH}/wallet/:walletId/address/`, errorHandled(listAddresses(sakiewkaApiModule, currency)))
+  app.post(`/${BASE_PATH}/wallet/:walletId/send`, errorHandled(send(sakiewkaApiModule, currency)))
+  app.get(`/${BASE_PATH}/wallet/:walletId/max-transfer-amount`, errorHandled(maxTransferAmount(sakiewkaApiModule, currency)))
 
   // key
-  app.post(`/${BASE_PATH}/key`, errorHandled(createKey(currency)))
-  app.get(`/${BASE_PATH}/key/:id`, errorHandled(getKey(currency)))
+  app.post(`/${BASE_PATH}/key`, errorHandled(createKey(sakiewkaCryptoModule)))
+  app.get(`/${BASE_PATH}/key/:id`, errorHandled(getKey(sakiewkaApiModule, currency)))
 })
 
 //transfers
-app.get(`/${constants.BASE_API_PATH}/transfers/monthly-summary/:month/:year/:fiatCurrency`, errorHandled(monthlySummary))
-app.get(`/${constants.BASE_API_PATH}/transfers`, errorHandled(listTransfers))
+app.get(`/${constants.BASE_API_PATH}/transfers/monthly-summary/:month/:year/:fiatCurrency`, errorHandled(monthlySummary(sakiewkaApiModule)))
+app.get(`/${constants.BASE_API_PATH}/transfers`, errorHandled(listTransfers(sakiewkaApiModule)))
+
+app.get(`/${constants.BASE_API_PATH}/chain-network-type`, errorHandled(chainNetworkType(backendApi)))
 
 app.all('*', errorHandled(notFound))
 

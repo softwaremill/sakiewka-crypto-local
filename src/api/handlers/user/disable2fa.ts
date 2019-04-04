@@ -1,13 +1,11 @@
 import { Request, Response } from 'express'
 
-import sakiewkaCrypto from 'sakiewka-crypto'
+import { constants } from 'sakiewka-crypto'
 import { errorResponse, jsonResponse } from '../../response'
 import { disable2faRequest } from '../../models'
 import validate from '../../validate'
 
-const { constants, user } = sakiewkaCrypto
-
-const disable2fa = async (req: Request, res: Response) => {
+export const disable2fa = (sakiewkaCrypto) => async (req: Request, res: Response) => {
   const { errors, body } = validate(req, disable2faRequest)
 
   if (errors.length > 0) {
@@ -16,9 +14,7 @@ const disable2fa = async (req: Request, res: Response) => {
 
   const { password, code } = body
   const token = req.header('authorization')
-  const backendResponse = await user.disable2fa(token, password, code)
+  const backendResponse = await sakiewkaCrypto.user.disable2fa(token, password, code)
 
   jsonResponse(res, backendResponse)
 }
-
-export default disable2fa

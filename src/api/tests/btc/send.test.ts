@@ -3,10 +3,10 @@ import app from '../../app'
 import supertest from 'supertest'
 import { BigNumber } from "bignumber.js";
 
-import sakiewkaCrypto from 'sakiewka-crypto'
 import { currency } from '../helpers'
-const { constants } = sakiewkaCrypto
-const { transaction } = sakiewkaCrypto[currency]
+import { constants } from 'sakiewka-crypto'
+// @ts-ignore
+const { transaction } = app.sakiewkaApi[currency]
 
 // @ts-ignore
 const mockFn = jest.fn(() => {
@@ -47,7 +47,7 @@ describe(`/${currency}/wallet/walletId/send-coins`, () => {
 
   it('should send btc using xprv', async () => {
     const token = 'testToken'
-    const recipients = [{address: 'abcd', amount: '0.00000123'}]
+    const recipients = [{ address: 'abcd', amount: '0.00000123' }]
 
     const response = await supertest(app)
       .post(`/${constants.BASE_API_PATH}/${currency}/wallet/221/send`)
@@ -59,19 +59,19 @@ describe(`/${currency}/wallet/walletId/send-coins`, () => {
 
     const callArgs = mockFn.mock.calls[0]
 
-    expect(response.status).to.be.equal(200,response.text)
+    expect(response.status).to.be.equal(200, response.text)
     const data = response.body.data
     expect(data).to.eq('coins sent')
     expect(callArgs[0]).to.eq(`Bearer ${token}`)
     expect(callArgs[1]).to.eq('221')
-    expect(callArgs[2][0]).to.eql({address: 'abcd', amount: new BigNumber('0.00000123')})
+    expect(callArgs[2][0]).to.eql({ address: 'abcd', amount: new BigNumber('0.00000123') })
     expect(callArgs[3]).to.eq('abc')
     expect(callArgs[4]).to.be.undefined
   })
 
   it('should send btc using passphrase', async () => {
     const token = 'testToken'
-    const recipients = [{address: 'abcd', amount: new BigNumber('0.00000123')}]
+    const recipients = [{ address: 'abcd', amount: new BigNumber('0.00000123') }]
 
     const response = await supertest(app)
       .post(`/${constants.BASE_API_PATH}/${currency}/wallet/221/send`)
@@ -83,12 +83,12 @@ describe(`/${currency}/wallet/walletId/send-coins`, () => {
 
     const callArgs = mockFn.mock.calls[0]
 
-    expect(response.status).to.be.equal(200,response.text)
+    expect(response.status).to.be.equal(200, response.text)
     const data = response.body.data
     expect(data).to.eq('coins sent')
     expect(callArgs[0]).to.eq(`Bearer ${token}`)
     expect(callArgs[1]).to.eq('221')
-    expect(callArgs[2][0]).to.eql({address: 'abcd', amount: new BigNumber('0.00000123')})
+    expect(callArgs[2][0]).to.eql({ address: 'abcd', amount: new BigNumber('0.00000123') })
     expect(callArgs[3]).to.eq('abc')
     expect(callArgs[4]).to.be.undefined
   })

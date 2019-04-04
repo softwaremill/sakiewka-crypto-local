@@ -2,8 +2,7 @@ import { expect } from 'chai'
 import app from '../app'
 import supertest from 'supertest'
 
-import sakiewkaCrypto from 'sakiewka-crypto'
-const { constants } = sakiewkaCrypto
+import { constants } from 'sakiewka-crypto'
 
 describe('404', () => {
   it('should properly handle wrong path', async () => {

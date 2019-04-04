@@ -1,13 +1,11 @@
 import { Request, Response } from 'express'
 
-import sakiewkaCrypto from 'sakiewka-crypto'
+import { constants } from 'sakiewka-crypto'
 import { errorResponse, jsonResponse } from '../../response'
 import { loginRequest } from '../../models'
 import validate from '../../validate'
 
-const { constants, user } = sakiewkaCrypto
-
-const login = async (req: Request, res: Response) => {
+export const login = (sakiewkaCrypto) => async (req: Request, res: Response) => {
   const { errors, body } = validate(req, loginRequest)
 
   if (errors.length > 0) {
@@ -15,9 +13,7 @@ const login = async (req: Request, res: Response) => {
   }
 
   const { login, password, code } = body
-  const backendResponse = await user.login(login, password, code)
+  const backendResponse = await sakiewkaCrypto.user.login(login, password, code)
 
   jsonResponse(res, backendResponse)
 }
-
-export default login
