@@ -1,14 +1,14 @@
 import app from '../app'
 import supertest from 'supertest'
-import sakiewkaCrypto from 'sakiewka-crypto'
+import { constants } from 'sakiewka-crypto'
+// @ts-ignore
+const { user } = app.sakiewkaApi
 
 const chai = require('chai')
 chai.use(require('chai-uuid'))
 const expect = chai.expect
 
 declare var jest: any
-
-const { constants, user } = sakiewkaCrypto
 
 // @ts-ignore
 user.login = jest.fn(() => {

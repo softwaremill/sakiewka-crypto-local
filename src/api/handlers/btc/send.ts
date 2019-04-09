@@ -3,11 +3,10 @@ import { Request, Response } from 'express'
 import { jsonResponse, errorResponse } from '../../response'
 import { sendTransactionRequest } from '../../models'
 import validate from '../../validate'
-import sakiewkaCrypto , {Currency} from 'sakiewka-crypto'
+import { Currency, constants } from 'sakiewka-crypto'
 
 
-const sendCoins = (currency: Currency) => async (req: Request, res: Response) => {
-  const { constants } = sakiewkaCrypto
+const sendCoins = (sakiewkaCrypto, currency: Currency) => async (req: Request, res: Response) => {
   const { transaction } = sakiewkaCrypto[currency]
 
   const { errors, body } = validate(req, sendTransactionRequest, true)

@@ -2,8 +2,9 @@ import { expect } from 'chai'
 import app from '../../app'
 import supertest from 'supertest'
 
-import sakiewkaCrypto from 'sakiewka-crypto'
-const { constants, user } = sakiewkaCrypto
+import { constants } from 'sakiewka-crypto'
+// @ts-ignore
+const { user } = app.sakiewkaApi
 
 // @ts-ignore
 const mockFn = jest.fn(() => {

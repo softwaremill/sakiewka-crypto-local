@@ -1,13 +1,11 @@
 import { Request, Response } from 'express'
 
-import sakiewkaCrypto from 'sakiewka-crypto'
+import { constants } from 'sakiewka-crypto'
 import { jsonResponse, errorResponse } from '../../response'
 import { monthlySummaryRequest } from '../../models'
 import validate from '../../validate'
 
-const { transfers, constants } = sakiewkaCrypto
-
-export default async (req: Request, res: Response) => {
+export const monthlySummary = (sakiewkaApi) => async (req: Request, res: Response) => {
   const { errors } = validate(req, monthlySummaryRequest, true)
 
   if (errors.length > 0) {
@@ -15,7 +13,7 @@ export default async (req: Request, res: Response) => {
   }
 
   const token = req.header('authorization')
-  const backendResponse = await transfers.monthlySummary(token,req.params.month,req.params.year,req.params.fiatCurrency)
+  const backendResponse = await sakiewkaApi.transfers.monthlySummary(token, req.params.month, req.params.year, req.params.fiatCurrency)
 
   jsonResponse(res, backendResponse)
 }

@@ -3,13 +3,10 @@ import { Request, Response } from 'express'
 import { jsonResponse, errorResponse } from '../../response'
 import { maxTransferAmountRequest } from '../../models'
 import validate from '../../validate'
-import sakiewkaCrypto, { Currency } from 'sakiewka-crypto'
+import { constants, Currency } from 'sakiewka-crypto'
 
-
-const maxTransferAmount = (currency: Currency) => async (req: Request, res: Response) => {
-  const { constants } = sakiewkaCrypto
+const maxTransferAmount = (sakiewkaCrypto, currency: Currency) => async (req: Request, res: Response) => {
   const { wallet } = sakiewkaCrypto[currency]
-
   const { errors, queryParams } = validate(req, maxTransferAmountRequest, true)
 
   if (errors.length > 0) {
