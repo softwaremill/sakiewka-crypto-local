@@ -108,8 +108,6 @@ export const createNewAddressRequest = {
 
 export const getAddressRequest = {}
 
-export const getBalanceRequest = {}
-
 export const listAddressesRequest = {
   query: createSchema({
     nextPageToken: Joi.string(),
