@@ -28,9 +28,14 @@ import { errorResponse } from './response'
 import { init2fa } from './handlers/user/init2fa'
 import { confirm2fa } from './handlers/user/confirm2fa'
 import { disable2fa } from './handlers/user/disable2fa'
-import maxTransferAmount from './handlers/btc/max-transfer-amount';
-import setupPassword from './handlers/user/setup-password';
-import chainNetworkType from './handlers/chain-network-type';
+import maxTransferAmount from './handlers/btc/max-transfer-amount'
+import setupPassword from './handlers/user/setup-password'
+import chainNetworkType from './handlers/chain-network-type'
+import createWebhook from './handlers/btc/create-webhook'
+import deleteWebhook from './handlers/btc/delete-webhook'
+import listWebhooks from './handlers/btc/list-webhooks'
+import getWebhook from './handlers/btc/get-webhook'
+
 const swaggerDocument = YAML.load(`${__dirname}/swagger.yml`)
 dotenv.config()
 
@@ -77,11 +82,11 @@ function isApiError(error: any): error is ApiError {
   return error.code !== undefined && error.errors !== undefined
 }
 
-const backendApi = backendFactory(process.env.BACKEND_API_URL);
+const backendApi = backendFactory(process.env.BACKEND_API_URL)
 const sakiewkaApiModule = sakiewkaApi(backendApi, process.env.BTC_NETWORK)
-//@ts-ignore
+// @ts-ignore
 app.sakiewkaApi = sakiewkaApiModule
-//@ts-ignore
+// @ts-ignore
 app.backendApi = backendApi
 
 // ENDPOINTS
@@ -104,10 +109,10 @@ app.post(`/${constants.BASE_API_PATH}/user/setup-password`, errorHandled(setupPa
 const currencies = [Currency.BTC, Currency.BTG]
 currencies.forEach(currency => {
   const sakiewkaCryptoModule = sakiewkaModule(currency, process.env.BTC_NETWORK)
-  //@ts-ignore
+  // @ts-ignore
   app[currency] = { cryptoModule: sakiewkaCryptoModule }
 
-  //wallet
+  // wallet
   const BASE_PATH = `${constants.BASE_API_PATH}/${currency}`
   app.post(`/${BASE_PATH}/wallet`, errorHandled(createWallet(sakiewkaApiModule, currency)))
   app.get(`/${BASE_PATH}/wallet`, errorHandled(listWallets(sakiewkaApiModule, currency)))
@@ -119,12 +124,18 @@ currencies.forEach(currency => {
   app.post(`/${BASE_PATH}/wallet/:walletId/send`, errorHandled(send(sakiewkaApiModule, currency)))
   app.get(`/${BASE_PATH}/wallet/:walletId/max-transfer-amount`, errorHandled(maxTransferAmount(sakiewkaApiModule, currency)))
 
+  // webhooks
+  app.post(`/${BASE_PATH}/wallet/:walletId/webhooks`, errorHandled(createWebhook(sakiewkaApiModule, currency)))
+  app.get(`/${BASE_PATH}/wallet/:walletId/webhooks`, errorHandled(listWebhooks(sakiewkaApiModule, currency)))
+  app.get(`/${BASE_PATH}/wallet/:walletId/webhooks/:webhookId`, errorHandled(getWebhook(sakiewkaApiModule, currency)))
+  app.delete(`/${BASE_PATH}/wallet/:walletId/webhooks/:webhookId`, errorHandled(deleteWebhook(sakiewkaApiModule, currency)))
+
   // key
   app.post(`/${BASE_PATH}/key`, errorHandled(createKey(sakiewkaCryptoModule)))
   app.get(`/${BASE_PATH}/key/:id`, errorHandled(getKey(sakiewkaApiModule, currency)))
 })
 
-//transfers
+// transfers
 app.get(`/${constants.BASE_API_PATH}/transfers/monthly-summary/:month/:year/:fiatCurrency`, errorHandled(monthlySummary(sakiewkaApiModule)))
 app.get(`/${constants.BASE_API_PATH}/transfers`, errorHandled(listTransfers(sakiewkaApiModule)))
 

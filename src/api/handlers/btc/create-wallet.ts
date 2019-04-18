@@ -4,9 +4,8 @@ import { errorResponse, jsonResponse } from '../../response'
 import { createWalletRequest } from '../../models'
 import validate from '../../validate'
 
-
 const crateWallet = (sakiewkaCrypto, currency: Currency) => async (req: Request, res: Response) => {
-  const { wallet } = sakiewkaCrypto[currency];
+  const { wallet } = sakiewkaCrypto[currency]
   const { errors, body } = validate(req, createWalletRequest, true)
 
   if (errors.length > 0) {
