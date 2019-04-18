@@ -14,9 +14,9 @@ const createWebhook = (sakiewkaCrypto, currency: Currency) => async (req: Reques
 
   const token = req.header('authorization')
   const walletId = req.params.walletId
-  const { callbackUrl, settings } = body
+  const { callbackUrl, type, settings } = body
   const walletData = await webhooks.createWebhook(
-    token, walletId, callbackUrl, settings
+    token, walletId, callbackUrl, type, settings
   )
 
   jsonResponse(res, walletData)

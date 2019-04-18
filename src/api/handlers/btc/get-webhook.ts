@@ -1,9 +1,16 @@
 import { Request, Response } from 'express'
-import { Currency } from 'sakiewka-crypto'
-import { jsonResponse } from '../../response'
+import { constants, Currency } from 'sakiewka-crypto'
+import { errorResponse, jsonResponse } from '../../response'
+import validate from '../../validate'
+import { getWebhookRequest } from '../../models'
 
 const getWebhook = (sakiewkaCrypto, currency: Currency) => async (req: Request, res: Response) => {
   const { webhooks } = sakiewkaCrypto[currency]
+  const { errors } = validate(req, getWebhookRequest, true)
+
+  if (errors.length > 0) {
+    return errorResponse(res, constants.API_ERROR.BAD_REQUEST, errors[0])
+  }
 
   const token = req.header('authorization')
   const walletId = req.params.walletId

@@ -5,7 +5,6 @@ import { getWalletRequest } from '../../models'
 import validate from '../../validate'
 import { Currency, constants } from 'sakiewka-crypto'
 
-
 const getWallet = (sakiewkaCrypto, currency: Currency) => async (req: Request, res: Response) => {
   const { wallet } = sakiewkaCrypto[currency]
   const { errors } = validate(req, getWalletRequest, true)
