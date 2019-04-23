@@ -32,7 +32,7 @@ describe(`/${currency}/wallet/walletId/webhooks`, () => {
       .set('Authorization', 'Bearer abc')
       .send({
         callbackUrl: 'http://test.callbackurl.com',
-        type: constants.WebhookType.TRANSFER_CONFIRMATION,
+        type: constants.WebhookType.TRANSFER,
         settings: {
           confirmations: 6
         },
@@ -50,7 +50,7 @@ describe(`/${currency}/wallet/walletId/webhooks`, () => {
       .set('Authorization', `Bearer ${token}`)
       .send({
         callbackUrl: 'http://test.callbackurl.com',
-        type: constants.WebhookType.TRANSFER_CONFIRMATION,
+        type: constants.WebhookType.TRANSFER,
         settings: {
           confirmations: 6
         }
@@ -64,7 +64,7 @@ describe(`/${currency}/wallet/walletId/webhooks`, () => {
     expect(callArgs[0]).to.eq(`Bearer ${token}`)
     expect(callArgs[1]).to.eq('testwallet123')
     expect(callArgs[2]).to.eq('http://test.callbackurl.com')
-    expect(callArgs[3]).to.eq(constants.WebhookType.TRANSFER_CONFIRMATION)
+    expect(callArgs[3]).to.eq('transfer')
     expect(callArgs[4]).deep.eq({
       confirmations: 6
     })
