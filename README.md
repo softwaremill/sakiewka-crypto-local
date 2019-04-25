@@ -4,8 +4,9 @@ Local api.
 
 ### Usage:
 
-First run:  
-1.  `npm ci`  
+Run:
+1. `npm ci`
+2. `npm run build`
 
 Api documentation is available at `/api/docs`
 

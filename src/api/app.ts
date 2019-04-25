@@ -35,6 +35,11 @@ import createWebhook from './handlers/btc/create-webhook'
 import deleteWebhook from './handlers/btc/delete-webhook'
 import listWebhooks from './handlers/btc/list-webhooks'
 import getWebhook from './handlers/btc/get-webhook'
+import createNewPolicy from './handlers/btc/create-policy';
+import assignPolicy from './handlers/btc/assign-policy';
+import listPolicies from './handlers/btc/list-policies';
+import listPoliciesForWallet from './handlers/btc/list-policies-for-wallet';
+import listWalletsForPolicy from './handlers/btc/list-wallets-for-policy';
 
 const swaggerDocument = YAML.load(`${__dirname}/swagger.yml`)
 dotenv.config()
@@ -123,6 +128,13 @@ currencies.forEach(currency => {
   app.get(`/${BASE_PATH}/wallet/:walletId/address/`, errorHandled(listAddresses(sakiewkaApiModule, currency)))
   app.post(`/${BASE_PATH}/wallet/:walletId/send`, errorHandled(send(sakiewkaApiModule, currency)))
   app.get(`/${BASE_PATH}/wallet/:walletId/max-transfer-amount`, errorHandled(maxTransferAmount(sakiewkaApiModule, currency)))
+  app.get(`/${BASE_PATH}/wallet/:walletId/policy`, errorHandled(listPoliciesForWallet(sakiewkaApiModule, currency)))
+  
+  // policies
+  app.post(`/${BASE_PATH}/policy`, errorHandled(createNewPolicy(sakiewkaApiModule, currency)))
+  app.post(`/${BASE_PATH}/policy/:policyId/assign`, errorHandled(assignPolicy(sakiewkaApiModule, currency)))
+  app.get(`/${BASE_PATH}/policy`, errorHandled(listPolicies(sakiewkaApiModule, currency)))
+  app.get(`/${BASE_PATH}/policy/:policyId/wallet`, errorHandled(listWalletsForPolicy(sakiewkaApiModule, currency)))
 
   // webhooks
   app.post(`/${BASE_PATH}/wallet/:walletId/webhooks`, errorHandled(createWebhook(sakiewkaApiModule, currency)))
