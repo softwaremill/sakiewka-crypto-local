@@ -14,7 +14,7 @@ const createNewPolicy = (sakiewkaApi, currency: Currency) => async (req: Request
   }
 
   const token = req.header('authorization')
-  const response = await policy.createPolicy(token, body)
+  const response = await policy.createPolicy(token, body.name, body.policySettings)
 
   jsonResponse(res, response)
 }

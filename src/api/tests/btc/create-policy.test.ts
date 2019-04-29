@@ -34,9 +34,13 @@ describe(`/${currency}/policy`, () => {
 
   it('should pass proper arguments to createPolicy and return result of its call', async () => {
     const token = 'testToken'
-    const newPolicy = {
+    const policySettings = {
       kind: 'whitelist',
       addresses: ['0x1', '0x2']
+    };
+    const newPolicy = {
+      name: 'ps1',
+      policySettings
     };
     const response = await supertest(app)
       .post(`/${constants.BASE_API_PATH}/${currency}/policy`)
@@ -49,6 +53,7 @@ describe(`/${currency}/policy`, () => {
     const data = response.body.data
     expect(data).to.eq('new policy')
     expect(callArgs[0]).to.eq(`Bearer ${token}`)
-    expect(callArgs[1]).to.eql(newPolicy)
+    expect(callArgs[1]).to.eq('ps1')
+    expect(callArgs[2]).to.eql(policySettings)
   })
 })

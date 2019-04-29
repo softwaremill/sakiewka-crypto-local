@@ -158,7 +158,10 @@ export const setupPasswordRequest = {
 }
 
 export const createNewPolicyRequest = {
-  body: Joi.object()
+  body: createSchema({
+    name: Joi.string(),
+    policySettings: Joi.object()
+  })
 }
 
 export const assignPolicyRequest = {
