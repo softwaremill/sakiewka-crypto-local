@@ -18,7 +18,7 @@ class ChainTransferApi(currency: String) {
   import ChainTransferApi.Response._
 
   private val walletIdPathInput: EndpointInput[Id @@ Wallet] = currency / "wallet" / path[Id @@ Wallet]("walletId")
-  implicit val schemaForStoredKeyType: SchemaFor[BitcoinTransferHistoryType] = SchemaFor(Schema.SString)
+  implicit val schemaForBitcoinTransferHistoryType: SchemaFor[BitcoinTransferHistoryType] = SchemaFor(Schema.SString)
 
   import ChainTransferApi.Response._
 
