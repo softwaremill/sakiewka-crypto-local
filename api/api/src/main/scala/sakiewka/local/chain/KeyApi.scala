@@ -5,6 +5,7 @@ import java.time.Instant
 import io.circe.generic.auto._
 import sakiewka.local.Common.{Id, secureEndpoint, _}
 import sakiewka.local.Success_OUT
+import sakiewka.local.chain.KeyApi.Response.KeyPair
 import tapir.json.circe._
 import tapir.{path, _}
 
@@ -19,11 +20,21 @@ class KeyApi(currency: String) {
     .out(jsonBody[Success_OUT[GetKeyResponse]])
 
   private val createKey = baseEndpoint.post
-    .in(currency / "key")
+    .in(currency / "key" / "local")
     .in(jsonBody[CreateKeyRequest])
-    .out(jsonBody[Success_OUT[CreateKeyResponse]])
+    .out(jsonBody[Success_OUT[KeyPairResponse]])
 
-  val endpoints: List[Endpoint[_, _, _, _]] = List(getKey, createKey)
+  private val encryptKey = baseEndpoint.post
+    .in(currency / "key" / "local" / "encrypt")
+    .in(jsonBody[EncryptKeyRequest])
+    .out(jsonBody[Success_OUT[KeyPairResponse]])
+
+  private val decryptKey = baseEndpoint.post
+    .in(currency / "key" / "local" / "decrypt")
+    .in(jsonBody[DecryptKeyRequest])
+    .out(jsonBody[Success_OUT[KeyPairResponse]])
+
+  val endpoints: List[Endpoint[_, _, _, _]] = List(getKey, createKey, decryptKey, encryptKey)
 }
 
 object KeyApi {
@@ -32,6 +43,8 @@ object KeyApi {
 
     case class CreateKeyRequest(passphrase: Option[String])
 
+    case class EncryptKeyRequest(keyPair: KeyPair, passphrase: String)
+    case class DecryptKeyRequest(keyPair: KeyPair, passphrase: String)
   }
 
   object Response {
@@ -42,7 +55,7 @@ object KeyApi {
                               keyType: StoredKeyType,
                               created: Instant)
 
-    case class CreateKeyResponse(keyPair: KeyPair)
+    case class KeyPairResponse(keyPair: KeyPair)
 
     case class KeyPair(pubKey: XPub, prvKey: EncryptedXPrv) //TODO Either[Xprv, EncryptedXprv]
 
