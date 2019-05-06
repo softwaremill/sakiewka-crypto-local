@@ -32,8 +32,8 @@ describe(`/${currency}/wallet/walletId/webhooks`, () => {
       .set('Authorization', 'Bearer abc')
       .send({
         callbackUrl: 'http://test.callbackurl.com',
-        type: constants.WebhookType.TRANSFER,
         settings: {
+          type: 'transfer',
           confirmations: 6
         },
         extraProperty: 'You should not expect me here'
@@ -50,8 +50,8 @@ describe(`/${currency}/wallet/walletId/webhooks`, () => {
       .set('Authorization', `Bearer ${token}`)
       .send({
         callbackUrl: 'http://test.callbackurl.com',
-        type: constants.WebhookType.TRANSFER,
         settings: {
+          type: 'transfer',
           confirmations: 6
         }
       })
@@ -64,8 +64,8 @@ describe(`/${currency}/wallet/walletId/webhooks`, () => {
     expect(callArgs[0]).to.eq(`Bearer ${token}`)
     expect(callArgs[1]).to.eq('testwallet123')
     expect(callArgs[2]).to.eq('http://test.callbackurl.com')
-    expect(callArgs[3]).to.eq('transfer')
-    expect(callArgs[4]).deep.eq({
+    expect(callArgs[3]).deep.eq({
+      type: 'transfer',
       confirmations: 6
     })
   })

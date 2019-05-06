@@ -63,7 +63,6 @@ export const createWalletRequest = {
 export const createWebhookRequest = {
   body: createSchema({
     callbackUrl: Joi.string().required(),
-    type: Joi.string().required(),
     settings: Joi.object()
   })
 }
