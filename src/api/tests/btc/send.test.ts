@@ -17,7 +17,7 @@ const mockFn = jest.fn(() => {
 
 transaction.send = mockFn
 
-describe(`/${currency}/wallet/walletId/send-coins`, () => {
+describe(`/${currency}/wallet/walletId/send`, () => {
   it('should exist', async () => {
     const response = await supertest(app)
       .post(`/${constants.BASE_API_PATH}/${currency}/wallet/123/send`)

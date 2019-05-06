@@ -7,25 +7,23 @@ import { constants } from 'sakiewka-crypto'
 const { key } = app[currency].cryptoModule
 
 // @ts-ignore
-const mockFnGenerate = jest.fn(() => {
-  return 'test key'
-})
-
-// @ts-ignore
 const mockFnEncrypt = jest.fn(() => {
   return 'test key'
 })
 
-key.generateNewKeyPair = mockFnGenerate
 key.encryptKeyPair = mockFnEncrypt
 
-describe(`/${currency}/key/local`, () => {
+describe(`/${currency}/key/local/encrypt`, () => {
   it('should not accept extra parameters', async () => {
     const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/${currency}/key/local`)
+      .post(`/${constants.BASE_API_PATH}/${currency}/key/local/encrypt`)
       .set('Authorization', 'Bearer abc')
       .send({
-        extraProp: 'test',
+        keyPair: {
+          pubKey: '0x1',
+          prvKey: '0x2',
+          extraProp: 'test'
+        },
         passphrase: 'aaa'
       })
 
@@ -33,33 +31,24 @@ describe(`/${currency}/key/local`, () => {
     expect(response.body.errors[0].message).to.be.equal('"extraProp" is not allowed')
   })
 
-  it('should return keys', async () => {
-    const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/${currency}/key/local`)
-
-    const callArgs = mockFnGenerate.mock.calls[0]
-
-    expect(response.status).to.be.equal(200)
-    const data = response.body.data
-    expect(data.keyPair).to.eq('test key')
-    expect(callArgs[0]).to.eq(undefined)
-  })
-
   it('should return encrypted key', async () => {
+    const keyPair = {
+      pubKey: '0x1',
+      prvKey: '0x2'
+    };
     const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/${currency}/key/local`)
+      .post(`/${constants.BASE_API_PATH}/${currency}/key/local/encrypt`)
       .send({
+        keyPair,
         passphrase: 'abcd'
       })
 
-    const callArgsGenerate = mockFnGenerate.mock.calls[1]
     const callArgsEncrypt = mockFnEncrypt.mock.calls[0]
 
     expect(response.status).to.be.equal(200)
     const data = response.body.data
     expect(data.keyPair).to.eq('test key')
-    expect(callArgsGenerate[0]).to.eq(undefined)
-    expect(callArgsEncrypt[0]).to.eq('test key')
+    expect(callArgsEncrypt[0]).to.eql(keyPair)
     expect(callArgsEncrypt[1]).to.eq('abcd')
   })
 })

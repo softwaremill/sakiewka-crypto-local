@@ -13,6 +13,7 @@
     "watch-test": "npm run test -- --watchAll",
     "build": "tsc && npm run swagger",
     "swagger": "cp src/api/swagger.yml dist/api/swagger.yml",
+    "generateSwagger": "cd api; sbt \"api/run ../src/api/swagger.yml\"; cd ..;",
     "watch": "tsc -w",
     "start": "node $NODE_DEBUG_OPTION dist/api/server.js",
     "serve-debug": "NODE_ENV=dev DEBUG=* nodemon --inspect dist/api/server.js",

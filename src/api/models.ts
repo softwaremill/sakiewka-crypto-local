@@ -103,6 +103,26 @@ export const createKeyRequest = {
   })
 }
 
+export const encryptKeyRequest = {
+  body: createSchema({
+    keyPair: Joi.object({
+      pubKey: Joi.string(),
+      prvKey: Joi.string()
+    }),
+    passphrase: Joi.string()
+  })
+}
+
+export const decryptKeyRequest = {
+  body: createSchema({
+    keyPair: Joi.object({
+      pubKey: Joi.string(),
+      prvKey: Joi.string()
+    }),
+    passphrase: Joi.string()
+  })
+}
+
 export const getKeyRequest = {
   query: createSchema({
     includePrivate: Joi.string()

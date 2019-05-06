@@ -33,6 +33,10 @@ To run integration tests you have to specify `BACKEND_API_URL` in `.env` file.
 `npm run watch-debug` - Runs local server and watches files for changes.  
 
 
+##### Swagger:
+To regenerate swagger from tapir definitions run `npm run generateSwagger` and commit changes to repository.
+This is not automated cause running sbt from npm would require custom docker image on jenkins. We will fix it some day.
+
 ## Dev Environment
 
 To connect with `sakiewka-api` at dev environment (https://api.dev.sakiewka.sml.io) you can run this command:

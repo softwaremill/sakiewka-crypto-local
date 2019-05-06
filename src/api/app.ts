@@ -40,6 +40,8 @@ import assignPolicy from './handlers/btc/assign-policy';
 import listPolicies from './handlers/btc/list-policies';
 import listPoliciesForWallet from './handlers/btc/list-policies-for-wallet';
 import listWalletsForPolicy from './handlers/btc/list-wallets-for-policy';
+import encryptKey from './handlers/btc/encrypt-key.';
+import decryptKey from './handlers/btc/decrypt-key.';
 
 const swaggerDocument = YAML.load(`${__dirname}/swagger.yml`)
 dotenv.config()
@@ -143,8 +145,11 @@ currencies.forEach(currency => {
   app.delete(`/${BASE_PATH}/wallet/:walletId/webhooks/:webhookId`, errorHandled(deleteWebhook(sakiewkaApiModule, currency)))
 
   // key
-  app.post(`/${BASE_PATH}/key`, errorHandled(createKey(sakiewkaCryptoModule)))
   app.get(`/${BASE_PATH}/key/:id`, errorHandled(getKey(sakiewkaApiModule, currency)))
+  // key local
+  app.post(`/${BASE_PATH}/key/local`, errorHandled(createKey(sakiewkaCryptoModule)))
+  app.post(`/${BASE_PATH}/key/local/encrypt`, errorHandled(encryptKey(sakiewkaCryptoModule)))
+  app.post(`/${BASE_PATH}/key/local/decrypt`, errorHandled(decryptKey(sakiewkaCryptoModule)))
 })
 
 // transfers

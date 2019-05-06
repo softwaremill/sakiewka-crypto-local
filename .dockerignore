@@ -1,2 +1,7 @@
 node_modules
 npm-debug.log
+.idea
+api/target
+api/project/target
+api/project/project
+.git

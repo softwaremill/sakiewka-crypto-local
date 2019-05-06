@@ -1,1569 +1,1654 @@
----
-  swagger: "2.0"
-  info: 
-    version: "1.0.0"
-    title: sakiewka-crypto-local
-    description: Local api.
-    license: 
-      name: ISC
-  basePath: /api
-  securityDefinitions:
-    Bearer:
-      type: apiKey
-      name: Authorization
-      in: header
-  schemes: 
-    - http
-  consumes: 
-    - application/json
-  produces: 
-    - application/son
-  paths: 
-
-    # ------------
-    # USER
-    # ------------
-
-    /user/login:
-      post: 
-        tags: 
-          - User
-        description: Logs user in.
-        produces: 
-          - application/json
-        parameters: 
-          - name: body
-            in: body
-            required: true
+openapi: 3.0.1
+info:
+  title: sakiewka-crypto-local
+  version: '1.0'
+paths:
+  /api/user/register:
+    post:
+      operationId: postApiUserRegister
+      requestBody:
+        content:
+          application/json:
             schema:
-              type: object
-              properties:
-                login:
-                  type: string
-                password:
-                  type: string
-                code:
-                  type: integer
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-                  properties:
-                    name: 
-                      type: string
-                    password: 
-                      type: string
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-    /user/register:
-      post: 
-        tags: 
-          - User
-        description: Registers user.
-        produces: 
-          - application/json
-        parameters: 
-          - name: body
-            in: body
-            required: true
+              $ref: '#/components/schemas/RegisterRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_EmptyResponse'
+  /api/user/setup-password:
+    post:
+      operationId: postApiUserSetup-password
+      requestBody:
+        content:
+          application/json:
             schema:
-              type: object
-              properties:
-                login:
-                  type: string
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-                  properties:
-                    status: 
-                      type: string
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-    /user/info:
-      get: 
-        tags: 
-          - User
-        description: Shows user info.
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-                  properties:
-                    email: 
-                      type: string
-                    token: 
-                      type: string
-                    tokenInfo: 
-                      type: string
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-    /user/2fa/init:
-      post: 
-        tags: 
-          - User
-        description: Initiate two factory authentication.
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-            type: object
-            properties:
-              password:
-                type: string
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-                  properties:
-                    qrCodeUrl: 
-                      type: string
-                    email: 
-                      type: string
-                    secretKey: 
-                      type: string
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-    /user/2fa/confirm:
-      post: 
-        tags: 
-          - User
-        description: Confirm two factory authentication.
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-            type: object
-            properties:
-              password:
-                type: string
-              code:
-                type: integer
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-    /user/2fa/disable:
-      post: 
-        tags: 
-          - User
-        description: Disable two factory authentication.
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-            type: object
-            properties:
-              password:
-                type: string
-              code:
-                type: integer
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-    /user/logout:
-      post: 
-        tags: 
-          - User
-        description: Logs user out.
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-    /user/setup-password:
-      post: 
-        tags: 
-          - User
-        description: Configures password for user's account.
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        parameters:
-          - name: body
-            in: body
-            required: true
+              $ref: '#/components/schemas/SetupPasswordRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_EmptyResponse'
+  /api/user/login:
+    post:
+      operationId: postApiUserLogin
+      requestBody:
+        content:
+          application/json:
             schema:
-              type: object
-              properties:
-                password:
-                  type: string
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-    # ==========
-    # BTG
-    # ==========
-    
-    # ------------
-    # WALLET
-    # ------------
-
-    /btg/wallet:
-      post: 
-        tags: 
-          - BTG - wallet
-        description: Creates new wallet.
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        parameters:
-          - name: body
-            in: body
-            required: true
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_LoginResponse'
+  /api/user/info:
+    get:
+      operationId: getApiUserInfo
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInfoResponse'
+      security:
+      - httpAuth: []
+  /api/user/logout:
+    post:
+      operationId: postApiUserLogout
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_EmptyResponse'
+      security:
+      - httpAuth: []
+  /api/user/2fa/confirm:
+    post:
+      operationId: postApiUser2faConfirm
+      requestBody:
+        content:
+          application/json:
             schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                passphrase:
-                  type: string
-                userPubKey:
-                  type: string
-                backupPubKey:
-                  type: string
-        responses:
-          "200":
-            description: success
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-                  properties:
-                    id: 
-                      type: string
-                    initialAddress: 
-                      type: string
-                    servicePubKey: 
-                      type: string
-                    keys: 
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          id:
-                            type: string
-                          type:
-                            type: string
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-      get: 
-        tags: 
-          - BTG - wallet
-        description: Lists user wallets.
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        parameters:
-          - name: nextPageToken
-            in: query
-            required: false
-            type: string
-          - name: limit
-            in: query
-            required: true
-            type: integer
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-                  properties:
-                    nextPageToken: 
-                      type: string
-                    wallets: 
-                      type: array
-                      items:
-                        type: object
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-    /btg/wallet/{walletId}:
-      get: 
-        tags: 
-          - BTG - wallet
-        description: Shows user wallet details.
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        parameters: 
-          - name: walletId
-            in: path
-            required: true
-            description: wallet id
-            type: string
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-                  properties:
-                    id: 
-                      type: string
-                    name: 
-                      type: string
-                    currency: 
-                      type: string
-                    created: 
-                      type: string
-                    keys: 
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          id:
-                            type: string
-                          type:
-                            type: string
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-    /btg/wallet/{walletId}/balance:
-      get: 
-        tags: 
-          - BTG - wallet
-        description: Shows wallet balance.
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        parameters:
-          - name: walletId
-            in: path
-            required: true
-            description: wallet id
-            type: string
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-                  properties:
-                    confirming: 
-                      type: integer
-                    confirmed: 
-                      type: integer
-                    locked: 
-                      type: integer
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-    /btg/wallet/{walletId}/max-transfer-amount:
-      get: 
-        tags: 
-          - BTG - wallet
-        description: Calculates max transfer amount for given address.
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        parameters: 
-          - name: walletId
-            in: path
-            required: true
-            description: wallet id
-            type: string
-          - name: recipient
-            in: query
-            required: true
-            type: string
-          - name: feeRate
-            in: query
-            required: true
-            type: integer
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-                  properties:
-                    amount: 
-                      type: number
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-    /btg/wallet/{walletId}/utxo:
-      post: 
-        tags: 
-          - BTG - wallet
-        description: Gets list of unspents to be used for sending given amounts to given recipients
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        parameters: 
-          - name: walletId
-            in: path
-            required: true
-            description: wallet id
-            type: string
-          - name: body
-            in: body
+              $ref: '#/components/schemas/Confirm2faRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_EmptyResponse'
+      security:
+      - httpAuth: []
+  /api/user/2fa/init:
+    post:
+      operationId: postApiUser2faInit
+      requestBody:
+        content:
+          application/json:
             schema:
-              type: object
-              properties:
-                feeRateSatoshi: 
-                  type: integer
-                recipients:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      address:
-                        type: string
-                      amount:
-                        type: string
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-                  properties:
-                    outputs: 
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          txHash:
-                            type: string
-                          n:
-                            type: number
-                          amount:
-                            type: string
-                          path:
-                            type: object
-                            properties:
-                              cosignerIndex:
-                                type: number
-                              change:
-                                type: number
-                              addressIndex:
-                                type: number
-                    amount:
-                      type: string
-                    change:
-                      type: string
-                    fee:
-                      type: string
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-    /btg/wallet/{walletId}/address:
-      post: 
-        tags: 
-          - BTG - wallet
-        description: Creates new wallet address.
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        parameters: 
-          - name: walletId
-            in: path
-            required: true
-            description: wallet id
-            type: string
-          - name: body
-            in: body
+              $ref: '#/components/schemas/Init2faRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Init2FaResponse'
+      security:
+      - httpAuth: []
+  /api/user/2fa/disable:
+    post:
+      operationId: postApiUser2faDisable
+      requestBody:
+        content:
+          application/json:
             schema:
-              type: object
-              properties:
-                name: 
-                  type: string
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-                  properties:
-                    address: 
-                      type: string
-                    path: 
-                      type: object
-                      items:
-                        properties:
-                          cosignerIndex:
-                            type: string
-                          change:
-                            type: string
-                          addressIndex:
-                            type: string
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-      get: 
-        tags: 
-          - BTG - wallet
-        description: List addresses.
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        parameters: 
-          - name: nextPageToken
-            in: query
-            required: false
-            type: string
-          - name: limit
-            in: query
-            required: true
-            type: integer
-          - name: walletId
-            in: path
-            required: true
-            description: wallet id
-            type: string
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-                  properties:
-                    addresses: 
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          id:
-                            type: string
-                          address: 
-                            type: string
-                          name: 
-                            type: string
-                          created: 
-                            type: string
-                          path: 
-                            type: object
-                            properties:
-                              cosignerIndex:
-                                type: string
-                              change:
-                                type: string
-                              addressIndex:
-                                type: string
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-    /btg/wallet/{walletId}/address/{addressId}:
-      get: 
-        tags: 
-          - BTG - wallet
-        description: Shows address details.
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        parameters: 
-          - name: walletId
-            in: path
-            required: true
-            description: wallet id
-            type: string
-          - name: addressId
-            in: path
-            required: true
-            description: address id
-            type: string
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-                  properties:
-                    address: 
-                      type: string
-                    name: 
-                      type: string
-                    created: 
-                      type: string
-                    path: 
-                      type: object
-                      properties:
-                        cosignerIndex:
-                          type: string
-                        change:
-                          type: string
-                        addressIndex:
-                          type: string
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-    /btg/wallet/{walletId}/send:
-      post: 
-        tags: 
-          - BTG - wallet
-        description: Sends bitcoins to given recipients.
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        parameters: 
-          - name: walletId
-            in: path
-            required: true
-            description: wallet id
-            type: string
-          - name: body
-            in: body
+              $ref: '#/components/schemas/Disable2faRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_EmptyResponse'
+      security:
+      - httpAuth: []
+  /api/transfers/monthly-summary/{month}/{year}/{fiatCurrency}:
+    get:
+      operationId: getApiTransfersMonthly-summaryMonthYearFiatcurrency
+      parameters:
+      - name: month
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: year
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: fiatCurrency
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPeriodSummary'
+      security:
+      - httpAuth: []
+  /api/transfers:
+    get:
+      operationId: getApiTransfers
+      parameters:
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: integer
+      - name: nextPageToken
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListBtcTransfer'
+      security:
+      - httpAuth: []
+  /api/btc/wallet:
+    get:
+      operationId: getApiBtcWallet
+      parameters:
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: integer
+      - name: nextPageToken
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_ListWalletsResponse'
+      security:
+      - httpAuth: []
+    post:
+      operationId: postApiBtcWallet
+      requestBody:
+        content:
+          application/json:
             schema:
-              type: object
-              properties:
-                recipients: 
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      address:
-                        type: string
-                      amount:
-                        type: string
-                xprv:
-                  type: string
-                passphrase:
-                  type: string
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: string
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-    # ------------
-    # KEY
-    # ------------
-
-    /btg/key:
-      post: 
-        tags: 
-          - BTG - key
-        description: Creates new key.
-        produces: 
-          - application/json
-        parameters: 
-          - name: body
-            in: body
-            required: true
+              $ref: '#/components/schemas/CreateWalletRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_CreateWalletResponse'
+      security:
+      - httpAuth: []
+  /api/btc/wallet/{walletId}:
+    get:
+      operationId: getApiBtcWalletWalletid
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_GetWalletResponse'
+      security:
+      - httpAuth: []
+  /api/btc/wallet/{walletId}/address/{address}:
+    get:
+      operationId: getApiBtcWalletWalletidAddressAddress
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: address
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_GetAddressResponse'
+      security:
+      - httpAuth: []
+  /api/btc/wallet/{walletId}/address:
+    get:
+      operationId: getApiBtcWalletWalletidAddress
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: integer
+      - name: nextPageToken
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_ListAddressesResponse'
+      security:
+      - httpAuth: []
+    post:
+      operationId: postApiBtcWalletWalletidAddress
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: change
+        in: query
+        required: false
+        schema:
+          type: boolean
+      requestBody:
+        content:
+          application/json:
             schema:
-              type: object
-              properties:
-                passphrase:
-                  type: string
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-                  properties:
-                    keyPair:
-                      type: object
-                      properties:
-                        pubKey:
-                          type: string
-                        prvKey:
-                          type: string
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-    /btg/key/{keyId}:
-      get: 
-        tags: 
-          - BTG - key
-        description: Shows key details.
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        parameters: 
-          - name: includePrivate
-            in: query
-            required: false
-            type: string
-          - name: keyId
-            in: path
-            required: true
-            description: key id
-            type: string
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-                  properties:
-                    id: 
-                      type: string
-                    pubKey: 
-                      type: string
-                    prvKey: 
-                      type: string
-                    keyType: 
-                      type: string
-                    created: 
-                      type: string
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-    # ==========
-    # BTC
-    # ==========
-    
-    # ------------
-    # WALLET
-    # ------------
-
-    /btc/wallet:
-      post: 
-        tags: 
-          - BTC - wallet
-        description: Creates new wallet.
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        parameters:
-          - name: body
-            in: body
-            required: true
+              $ref: '#/components/schemas/CreateAddressRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_CreateAddressResponse'
+      security:
+      - httpAuth: []
+  /api/btc/key/{keyId}:
+    get:
+      operationId: getApiBtcKeyKeyid
+      parameters:
+      - name: keyId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: includePrivate
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_GetKeyResponse'
+      security:
+      - httpAuth: []
+  /api/btc/key/local:
+    post:
+      operationId: postApiBtcKeyLocal
+      requestBody:
+        content:
+          application/json:
             schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                passphrase:
-                  type: string
-                userPubKey:
-                  type: string
-                backupPubKey:
-                  type: string
-        responses:
-          "200":
-            description: success
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-                  properties:
-                    id: 
-                      type: string
-                    initialAddress: 
-                      type: string
-                    servicePubKey: 
-                      type: string
-                    keys: 
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          id:
-                            type: string
-                          type:
-                            type: string
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-      get: 
-        tags: 
-          - BTC - wallet
-        description: Lists user wallets.
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        parameters:
-          - name: nextPageToken
-            in: query
-            required: false
-            type: string
-          - name: limit
-            in: query
-            required: true
-            type: integer
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-                  properties:
-                    nextPageToken: 
-                      type: string
-                    wallets: 
-                      type: array
-                      items:
-                        type: object
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-    /btc/wallet/{walletId}:
-      get: 
-        tags: 
-          - BTC - wallet
-        description: Shows user wallet details.
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        parameters: 
-          - name: walletId
-            in: path
-            required: true
-            description: wallet id
-            type: string
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-                  properties:
-                    id: 
-                      type: string
-                    name: 
-                      type: string
-                    currency: 
-                      type: string
-                    created: 
-                      type: string
-                    keys: 
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          id:
-                            type: string
-                          type:
-                            type: string
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-    /btc/wallet/{walletId}/balance:
-      get: 
-        tags: 
-          - BTC - wallet
-        description: Shows wallet balance.
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        parameters:
-          - name: walletId
-            in: path
-            required: true
-            description: wallet id
-            type: string
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-                  properties:
-                    confirming: 
-                      type: integer
-                    confirmed: 
-                      type: integer
-                    locked: 
-                      type: integer
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-    /btc/wallet/{walletId}/max-transfer-amount:
-      get: 
-        tags: 
-          - BTC - wallet
-        description: Calculates max transfer amount for given address.
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        parameters: 
-          - name: walletId
-            in: path
-            required: true
-            description: wallet id
-            type: string
-          - name: recipient
-            in: query
-            required: true
-            type: string
-          - name: feeRate
-            in: query
-            required: true
-            type: integer
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-                  properties:
-                    amount: 
-                      type: number
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-    /btc/wallet/{walletId}/utxo:
-      post: 
-        tags: 
-          - BTC - wallet
-        description: Gets list of unspents to be used for sending given amounts to given recipients
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        parameters: 
-          - name: walletId
-            in: path
-            required: true
-            description: wallet id
-            type: string
-          - name: body
-            in: body
+              $ref: '#/components/schemas/CreateKeyRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_KeyPairResponse'
+  /api/btc/key/local/decrypt:
+    post:
+      operationId: postApiBtcKeyLocalDecrypt
+      requestBody:
+        content:
+          application/json:
             schema:
-              type: object
-              properties:
-                feeRateSatoshi: 
-                  type: integer
-                recipients:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      address:
-                        type: string
-                      amount:
-                        type: string
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-                  properties:
-                    outputs: 
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          txHash:
-                            type: string
-                          n:
-                            type: number
-                          amount:
-                            type: string
-                          path:
-                            type: object
-                            properties:
-                              cosignerIndex:
-                                type: number
-                              change:
-                                type: number
-                              addressIndex:
-                                type: number
-                    amount:
-                      type: string
-                    change:
-                      type: string
-                    fee:
-                      type: string
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-    /btc/wallet/{walletId}/address:
-      post: 
-        tags: 
-          - BTC - wallet
-        description: Creates new wallet address.
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        parameters: 
-          - name: walletId
-            in: path
-            required: true
-            description: wallet id
-            type: string
-          - name: body
-            in: body
+              $ref: '#/components/schemas/DecryptKeyRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_KeyPairResponse'
+  /api/btc/key/local/encrypt:
+    post:
+      operationId: postApiBtcKeyLocalEncrypt
+      requestBody:
+        content:
+          application/json:
             schema:
-              type: object
-              properties:
-                name: 
-                  type: string
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-                  properties:
-                    address: 
-                      type: string
-                    path: 
-                      type: object
-                      items:
-                        properties:
-                          cosignerIndex:
-                            type: string
-                          change:
-                            type: string
-                          addressIndex:
-                            type: string
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-      get: 
-        tags: 
-          - BTC - wallet
-        description: List addresses.
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        parameters: 
-          - name: nextPageToken
-            in: query
-            required: false
-            type: string
-          - name: limit
-            in: query
-            required: true
-            type: integer
-          - name: walletId
-            in: path
-            required: true
-            description: wallet id
-            type: string
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-                  properties:
-                    addresses: 
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          address: 
-                            type: string
-                          name: 
-                            type: string
-                          created: 
-                            type: string
-                          path: 
-                            type: object
-                            properties:
-                              cosignerIndex:
-                                type: string
-                              change:
-                                type: string
-                              addressIndex:
-                                type: string
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-    /btc/wallet/{walletId}/address/{addressId}:
-      get: 
-        tags: 
-          - BTC - wallet
-        description: Shows address details.
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        parameters: 
-          - name: walletId
-            in: path
-            required: true
-            description: wallet id
-            type: string
-          - name: addressId
-            in: path
-            required: true
-            description: address id
-            type: string
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-                  properties:
-                    address: 
-                      type: string
-                    name: 
-                      type: string
-                    created: 
-                      type: string
-                    path: 
-                      type: object
-                      properties:
-                        cosignerIndex:
-                          type: string
-                        change:
-                          type: string
-                        addressIndex:
-                          type: string
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-    /btc/wallet/{walletId}/send:
-      post: 
-        tags: 
-          - BTC - wallet
-        description: Sends bitcoins to given recipients.
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        parameters: 
-          - name: walletId
-            in: path
-            required: true
-            description: wallet id
-            type: string
-          - name: body
-            in: body
+              $ref: '#/components/schemas/EncryptKeyRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_KeyPairResponse'
+  /api/btc/wallet/{walletId}/send:
+    post:
+      operationId: postApiBtcWalletWalletidSend
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
             schema:
-              type: object
-              properties:
-                recipients: 
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      address:
-                        type: string
-                      amount:
-                        type: string
-                xprv:
-                  type: string
-                passphrase:
-                  type: string
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: string
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-    # ------------
-    # KEY
-    # ------------
-
-    /btc/key:
-      post: 
-        tags: 
-          - BTC - key
-        description: Creates new key.
-        produces: 
-          - application/json
-        parameters: 
-          - name: body
-            in: body
-            required: true
+              $ref: '#/components/schemas/SendRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_String'
+      security:
+      - httpAuth: []
+  /api/btc/wallet/{walletId}/webhook/{webhookId}:
+    get:
+      operationId: getApiBtcWalletWalletidWebhookWebhookid
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: webhookId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetWebhookResponse'
+      security:
+      - httpAuth: []
+    delete:
+      operationId: deleteApiBtcWalletWalletidWebhookWebhookid
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: webhookId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
             schema:
-              type: object
-              properties:
-                passphrase:
-                  type: string
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-                  properties:
-                    keyPair:
-                      type: object
-                      properties:
-                        pubKey:
-                          type: string
-                        prvKey:
-                          type: string
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-    /btc/key/{keyId}:
-      get: 
-        tags: 
-          - BTC - key
-        description: Shows key details.
-        produces: 
-          - application/json
-        security:
-          - Bearer: []
-        parameters: 
-          - name: includePrivate
-            in: query
-            required: false
-            type: string
-          - name: keyId
-            in: path
-            required: true
-            description: key id
-            type: string
-        responses: 
-          "200":
-            schema: 
-              type: object
-              properties: 
-                data:
-                  type: object
-                  properties:
-                    id: 
-                      type: string
-                    pubKey: 
-                      type: string
-                    prvKey: 
-                      type: string
-                    keyType: 
-                      type: string
-                    created: 
-                      type: string
-          default: 
-            description: unexpected error
-            schema: 
-              $ref: "#/definitions/ErrorModel"
-
-
-    /transfers:
-      get:
-        tags:
-          - Transfers info
-        description: Lists incoming and outgoing transfers
-        produces:
-          - application/json
-        security:
-          - Bearer: []
-        parameters:
-          - name: limit
-            in: query
-            required: true
-            type: integer
-          - name: nextPageToken
-            in: query
-            required: false
-            type: string
-          - name: walletId
-            in: query
-            required: false
-            type: string
-        responses:
-          "200":
+              $ref: '#/components/schemas/CreateWebhookRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_EmptyResponse'
+      security:
+      - httpAuth: []
+  /api/btc/wallet/{walletId}/webhook:
+    get:
+      operationId: getApiBtcWalletWalletidWebhook
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: integer
+      - name: nextPageToken
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetWebhookListResponse'
+      security:
+      - httpAuth: []
+    post:
+      operationId: postApiBtcWalletWalletidWebhook
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
             schema:
-              type: object
-              properties:
-                data:
-                  type: object
-                  properties:
-                    transfers:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          chain:
-                            type: string
-                          wallet:
-                            type: object
-                            properties:
-                              id:
-                                type: string
-                              balance:
-                                type: string
-                          timestamp:
-                            type: string
-                          transaction:
-                            type: object
-                            properties:
-                              hash:
-                                type: string
-                              inputs:
-                                type: object
-                                properties:
-                                  wallet:
-                                    type: object
-                              outputs:
-                                type: object
-                                properties:
-                                  wallet:
-                                    type: object
-                              block:
-                                type: object
-                                properties:
-                                  hash:
-                                    type: string
-                                  number:
-                                    type: number
-                                  timestamp:
-                                    type: string
-                status:
-                  type: string
-
-    /transfers/monthly-summary/{month}/{year}/{fiatCurrency}:
-      get:
-        tags:
-          - Transfers info
-        description: Lists incoming and outgoing transfers
-        produces:
-          - application/json
-        security:
-          - Bearer: []
-        parameters:
-          - name: month
-            in: path
-            required: true
-            type: integer
-          - name: year
-            in: path
-            required: true
-            type: integer
-          - name: fiatCurrency
-            in: path
-            required: true
-            type: string
-        responses:
-          "200":
+              $ref: '#/components/schemas/CreateWebhookRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_EmptyResponse'
+      security:
+      - httpAuth: []
+  /api/btc/wallet/{walletId}/transfers/{txHash}:
+    get:
+      operationId: getApiBtcWalletWalletidTransfersTxhash
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: txHash
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_List_BitcoinTransferWithHistoryResponse'
+      security:
+      - httpAuth: []
+  /api/btc/wallet/{walletId}/transfers:
+    get:
+      operationId: getApiBtcWalletWalletidTransfers
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: integer
+      - name: nextPageToken
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_ListBtcTransfer'
+      security:
+      - httpAuth: []
+  /api/btg/wallet:
+    get:
+      operationId: getApiBtgWallet
+      parameters:
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: integer
+      - name: nextPageToken
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_ListWalletsResponse'
+      security:
+      - httpAuth: []
+    post:
+      operationId: postApiBtgWallet
+      requestBody:
+        content:
+          application/json:
             schema:
-              type: object
-              properties:
-                data:
-                  type: object
-                  properties:
-                    chains:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          chain:
-                            type: string
-                          totalOutputsOther:
-                            type: string
-                          totalOutputsWallet:
-                            type: string
-                          totalOutputsService:
-                            type: string
-                          totalOutputsOtherInFiat:
-                            type: string
-                          totalOutputsServiceInFiat:
-                            type: string
-                status:
-                  type: string
-  # ==========
-  # MODELS
-  # ==========
-
-  definitions: 
-
-    ResponseModel: 
+              $ref: '#/components/schemas/CreateWalletRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_CreateWalletResponse'
+      security:
+      - httpAuth: []
+  /api/btg/wallet/{walletId}:
+    get:
+      operationId: getApiBtgWalletWalletid
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_GetWalletResponse'
+      security:
+      - httpAuth: []
+  /api/btg/wallet/{walletId}/address/{address}:
+    get:
+      operationId: getApiBtgWalletWalletidAddressAddress
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: address
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_GetAddressResponse'
+      security:
+      - httpAuth: []
+  /api/btg/wallet/{walletId}/address:
+    get:
+      operationId: getApiBtgWalletWalletidAddress
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: integer
+      - name: nextPageToken
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_ListAddressesResponse'
+      security:
+      - httpAuth: []
+    post:
+      operationId: postApiBtgWalletWalletidAddress
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: change
+        in: query
+        required: false
+        schema:
+          type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAddressRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_CreateAddressResponse'
+      security:
+      - httpAuth: []
+  /api/btg/key/{keyId}:
+    get:
+      operationId: getApiBtgKeyKeyid
+      parameters:
+      - name: keyId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: includePrivate
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_GetKeyResponse'
+      security:
+      - httpAuth: []
+  /api/btg/key/local:
+    post:
+      operationId: postApiBtgKeyLocal
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateKeyRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_KeyPairResponse'
+  /api/btg/key/local/decrypt:
+    post:
+      operationId: postApiBtgKeyLocalDecrypt
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DecryptKeyRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_KeyPairResponse'
+  /api/btg/key/local/encrypt:
+    post:
+      operationId: postApiBtgKeyLocalEncrypt
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EncryptKeyRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_KeyPairResponse'
+  /api/btg/wallet/{walletId}/send:
+    post:
+      operationId: postApiBtgWalletWalletidSend
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_String'
+      security:
+      - httpAuth: []
+  /api/btg/wallet/{walletId}/webhook/{webhookId}:
+    get:
+      operationId: getApiBtgWalletWalletidWebhookWebhookid
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: webhookId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetWebhookResponse'
+      security:
+      - httpAuth: []
+    delete:
+      operationId: deleteApiBtgWalletWalletidWebhookWebhookid
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: webhookId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWebhookRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_EmptyResponse'
+      security:
+      - httpAuth: []
+  /api/btg/wallet/{walletId}/webhook:
+    get:
+      operationId: getApiBtgWalletWalletidWebhook
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: integer
+      - name: nextPageToken
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetWebhookListResponse'
+      security:
+      - httpAuth: []
+    post:
+      operationId: postApiBtgWalletWalletidWebhook
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWebhookRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_EmptyResponse'
+      security:
+      - httpAuth: []
+  /api/btg/wallet/{walletId}/transfers/{txHash}:
+    get:
+      operationId: getApiBtgWalletWalletidTransfersTxhash
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: txHash
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_List_BitcoinTransferWithHistoryResponse'
+      security:
+      - httpAuth: []
+  /api/btg/wallet/{walletId}/transfers:
+    get:
+      operationId: getApiBtgWalletWalletidTransfers
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: integer
+      - name: nextPageToken
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_ListBtcTransfer'
+      security:
+      - httpAuth: []
+components:
+  schemas:
+    CreateWebhookRequest:
+      required:
+      - callbackUrl
+      - type
+      - webhookSettings
       type: object
-      properties: 
+      properties:
+        callbackUrl:
+          type: string
+        type:
+          oneOf:
+          - $ref: '#/components/schemas/Transfer'
+        webhookSettings:
+          oneOf:
+          - $ref: '#/components/schemas/TransferWebhookSettings'
+    CreateWalletRequest:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+        passphrase:
+          type: string
+        userPubKey:
+          type: string
+        backupPubKey:
+          type: string
+    Init2FaResponse:
+      required:
+      - qrCodeUrl
+      - email
+      - secretKey
+      type: object
+      properties:
+        qrCodeUrl:
+          type: string
+        email:
+          type: string
+        secretKey:
+          type: string
+    Success_OUT_CreateAddressResponse:
+      required:
+      - data
+      - status
+      type: object
+      properties:
         data:
-          type: object
-
-    ErrorModel: 
+          $ref: '#/components/schemas/CreateAddressResponse'
+        status:
+          type: string
+    DecryptKeyRequest:
+      required:
+      - keyPair
+      - passphrase
       type: object
-      properties: 
-        error:
-          type: object
-          properties:
-            message: 
-              type: string
-
-  components:
-    schemas:
-      SendBtcUsingXprvRequest:
-        type: object
-        properties:
-          recipients: 
-            type: array
-            items:
-              type: object
-              properties:
-                address:
-                  type: string
-                amount:
-                  type: string
-          xprv:
+      properties:
+        keyPair:
+          $ref: '#/components/schemas/KeyPair'
+        passphrase:
+          type: string
+    SetupPasswordRequest:
+      required:
+      - password
+      type: object
+      properties:
+        password:
+          type: string
+    SendRequest:
+      required:
+      - recipients
+      type: object
+      properties:
+        xprv:
+          type: string
+        recipients:
+          $ref: '#/components/schemas/Map'
+        passphrase:
+          type: string
+    KeyPair:
+      required:
+      - pubKey
+      - prvKey
+      type: object
+      properties:
+        pubKey:
+          type: string
+        prvKey:
+          type: string
+    LoginResponse:
+      required:
+      - token
+      type: object
+      properties:
+        token:
+          type: string
+    UserPeriodSummaryCurrencyEntry:
+      required:
+      - chain
+      - totalOutputsOther
+      - totalOutputsWallet
+      - totalOutputsService
+      - totalOutputsOtherInFiat
+      - totalOutputsServiceInFiat
+      type: object
+      properties:
+        chain:
+          type: string
+        totalOutputsOther:
+          type: string
+        totalOutputsWallet:
+          type: string
+        totalOutputsService:
+          type: string
+        totalOutputsOtherInFiat:
+          type: string
+        totalOutputsServiceInFiat:
+          type: string
+    CreateAddressRequest:
+      type: object
+      properties:
+        name:
+          type: string
+    Backup:
+      type: object
+    CreateKeyRequest:
+      type: object
+      properties:
+        passphrase:
+          type: string
+    Success_OUT_GetAddressResponse:
+      required:
+      - data
+      - status
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/GetAddressResponse'
+        status:
+          type: string
+    MaxTransferResponse:
+      required:
+      - amount
+      type: object
+      properties:
+        amount:
+          type: string
+    ListAddressesResponse:
+      required:
+      - addresses
+      type: object
+      properties:
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetAddressResponse'
+        nextPageToken:
+          type: string
+    UserPeriodSummary:
+      required:
+      - chains
+      type: object
+      properties:
+        chains:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserPeriodSummaryCurrencyEntry'
+    BitcoinTx:
+      required:
+      - hash
+      - inputs
+      - outputs
+      type: object
+      properties:
+        hash:
+          type: string
+        inputs:
+          $ref: '#/components/schemas/ClassifiedRecipients'
+        outputs:
+          $ref: '#/components/schemas/ClassifiedRecipients'
+    CreateAddressResponse:
+      required:
+      - address
+      - path
+      type: object
+      properties:
+        address:
+          type: string
+        path:
+          $ref: '#/components/schemas/BIP45DerivationPath'
+    Map:
+      type: object
+    StoredKeyType:
+      required:
+      - id
+      - type
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          oneOf:
+          - $ref: '#/components/schemas/User'
+          - $ref: '#/components/schemas/Service'
+          - $ref: '#/components/schemas/Backup'
+    Service:
+      type: object
+    Success_OUT_ListAddressesResponse:
+      required:
+      - data
+      - status
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ListAddressesResponse'
+        status:
+          type: string
+    BIP45DerivationPath:
+      required:
+      - cosignerIndex
+      - change
+      - addressIndex
+      type: object
+      properties:
+        cosignerIndex:
+          type: integer
+        change:
+          type: integer
+        addressIndex:
+          type: integer
+    Wallet1:
+      required:
+      - id
+      - name
+      - currency
+      - created
+      - balance
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        currency:
+          type: string
+        created:
+          type: string
+          format: date-time
+        balance:
+          $ref: '#/components/schemas/WalletBalance'
+    Transfer:
+      type: object
+    GetWalletResponse:
+      required:
+      - id
+      - name
+      - currency
+      - created
+      - keys
+      - balance
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        currency:
+          type: string
+        created:
+          type: string
+          format: date-time
+        keys:
+          type: array
+          items:
             type: string
-      SendBtcUsingPassphraseRequest:
-        type: object
-        properties:
-          recipients: 
-            type: array
-            items:
-              type: object
-              properties:
-                address:
-                  type: string
-                amount:
-                  type: string
-          passphrase:
+        balance:
+          $ref: '#/components/schemas/WalletBalance'
+    BitcoinBlock:
+      required:
+      - hash
+      - number
+      - timestamp
+      type: object
+      properties:
+        hash:
+          type: string
+        number:
+          type: integer
+        timestamp:
+          type: string
+          format: date-time
+    Success_OUT_LoginResponse:
+      required:
+      - data
+      - status
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/LoginResponse'
+        status:
+          type: string
+    WalletBalance:
+      required:
+      - available
+      - locked
+      type: object
+      properties:
+        available:
+          type: string
+        locked:
+          type: string
+    UserInfoResponse:
+      required:
+      - email
+      - token
+      - tokenInfo
+      - expiry
+      type: object
+      properties:
+        email:
+          type: string
+        token:
+          type: string
+        tokenInfo:
+          $ref: '#/components/schemas/TokenInfo'
+        expiry:
+          type: string
+          format: date-time
+    Success_OUT_GetKeyResponse:
+      required:
+      - data
+      - status
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/GetKeyResponse'
+        status:
+          type: string
+    TransferWebhookSettings:
+      required:
+      - confirmations
+      type: object
+      properties:
+        confirmations:
+          type: integer
+    Success_OUT_MaxTransferResponse:
+      required:
+      - data
+      - status
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/MaxTransferResponse'
+        status:
+          type: string
+    ListWalletsResponse:
+      required:
+      - data
+      - nextPageToken
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Wallet1'
+        nextPageToken:
+          type: string
+    GetWebhookListResponse:
+      required:
+      - webhooks
+      type: object
+      properties:
+        webhooks:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetWebhookResponse'
+        nextPageToken:
+          type: string
+    User:
+      type: object
+    Success_OUT_String:
+      required:
+      - data
+      - status
+      type: object
+      properties:
+        data:
+          type: string
+        status:
+          type: string
+    Init2faRequest:
+      required:
+      - password
+      type: object
+      properties:
+        password:
+          type: string
+    LoginRequest:
+      required:
+      - login
+      - password
+      type: object
+      properties:
+        login:
+          type: string
+        password:
+          type: string
+        code:
+          type: string
+    EncryptKeyRequest:
+      required:
+      - keyPair
+      - passphrase
+      type: object
+      properties:
+        keyPair:
+          $ref: '#/components/schemas/KeyPair'
+        passphrase:
+          type: string
+    BitcoinTransferHistoryItem:
+      required:
+      - timestamp
+      - type
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        block:
+          $ref: '#/components/schemas/BitcoinBlock'
+        type:
+          type: string
+    GetWebhookResponse:
+      required:
+      - id
+      - walletId
+      - callbackUrl
+      - settings
+      type: object
+      properties:
+        id:
+          type: string
+        walletId:
+          type: string
+        callbackUrl:
+          type: string
+        settings:
+          oneOf:
+          - $ref: '#/components/schemas/TransferWebhookSettings'
+    TokenInfo:
+      required:
+      - scope
+      type: object
+      properties:
+        scope:
+          type: array
+          items:
             type: string
+    CreateWalletResponse:
+      required:
+      - id
+      - initialAddress
+      - servicePubKey
+      - keys
+      type: object
+      properties:
+        id:
+          type: string
+        initialAddress:
+          type: string
+        servicePubKey:
+          type: string
+        keys:
+          type: array
+          items:
+            type: string
+    GetAddressResponse:
+      required:
+      - id
+      - address
+      - path
+      - created
+      type: object
+      properties:
+        id:
+          type: string
+        address:
+          type: string
+        path:
+          $ref: '#/components/schemas/BIP45DerivationPath'
+        name:
+          type: string
+        created:
+          type: string
+          format: date-time
+    EmptyResponse:
+      type: object
+    Success_OUT_EmptyResponse:
+      required:
+      - data
+      - status
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/EmptyResponse'
+        status:
+          type: string
+    ClassifiedRecipients:
+      required:
+      - wallet
+      - service
+      - other
+      type: object
+      properties:
+        wallet:
+          $ref: '#/components/schemas/Map'
+        service:
+          $ref: '#/components/schemas/Map'
+        other:
+          $ref: '#/components/schemas/Map'
+    Success_OUT_List_BitcoinTransferWithHistoryResponse:
+      required:
+      - data
+      - status
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/BitcoinTransferWithHistoryResponse'
+        status:
+          type: string
+    BitcoinTransferWithHistoryResponse:
+      required:
+      - wallet
+      - timestamp
+      - transaction
+      - history
+      type: object
+      properties:
+        wallet:
+          $ref: '#/components/schemas/Wallet1'
+        timestamp:
+          type: string
+          format: date-time
+        transaction:
+          $ref: '#/components/schemas/BitcoinTx'
+        block:
+          $ref: '#/components/schemas/BitcoinBlock'
+        history:
+          type: array
+          items:
+            $ref: '#/components/schemas/BitcoinTransferHistoryItem'
+    Success_OUT_ListBtcTransfer:
+      required:
+      - data
+      - status
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ListBtcTransfer'
+        status:
+          type: string
+    Wallet:
+      required:
+      - id
+      - balance
+      type: object
+      properties:
+        id:
+          type: string
+        balance:
+          type: string
+    BitcoinTransfer:
+      required:
+      - chain
+      - wallet
+      - timestamp
+      - transaction
+      type: object
+      properties:
+        chain:
+          type: string
+        wallet:
+          $ref: '#/components/schemas/Wallet'
+        timestamp:
+          type: string
+          format: date-time
+        transaction:
+          $ref: '#/components/schemas/BitcoinTx'
+        block:
+          $ref: '#/components/schemas/BitcoinBlock'
+    Success_OUT_ListWalletsResponse:
+      required:
+      - data
+      - status
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ListWalletsResponse'
+        status:
+          type: string
+    KeyPairResponse:
+      required:
+      - keyPair
+      type: object
+      properties:
+        keyPair:
+          $ref: '#/components/schemas/KeyPair'
+    RegisterRequest:
+      required:
+      - email
+      type: object
+      properties:
+        email:
+          type: string
+    Success_OUT_CreateWalletResponse:
+      required:
+      - data
+      - status
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/CreateWalletResponse'
+        status:
+          type: string
+    Success_OUT_KeyPairResponse:
+      required:
+      - data
+      - status
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/KeyPairResponse'
+        status:
+          type: string
+    Confirm2faRequest:
+      required:
+      - password
+      - code
+      type: object
+      properties:
+        password:
+          type: string
+        code:
+          type: integer
+    GetKeyResponse:
+      required:
+      - id
+      - pubKey
+      - keyType
+      - created
+      type: object
+      properties:
+        id:
+          type: string
+        pubKey:
+          type: string
+        prvKey:
+          type: string
+        keyType:
+          $ref: '#/components/schemas/StoredKeyType'
+        created:
+          type: string
+          format: date-time
+    ListBtcTransfer:
+      required:
+      - transfers
+      type: object
+      properties:
+        transfers:
+          type: array
+          items:
+            $ref: '#/components/schemas/BitcoinTransfer'
+        nextPageToken:
+          type: string
+    Disable2faRequest:
+      required:
+      - password
+      - code
+      type: object
+      properties:
+        password:
+          type: string
+        code:
+          type: integer
+    Success_OUT_GetWalletResponse:
+      required:
+      - data
+      - status
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/GetWalletResponse'
+        status:
+          type: string
+  securitySchemes:
+    httpAuth:
+      type: http
+      scheme: bearer
