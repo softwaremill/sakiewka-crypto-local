@@ -8,11 +8,8 @@ WORKDIR /usr/src/app
 # where available (npm@5+)
 COPY package*.json ./
 
-RUN apk add --update alpine-sdk
-RUN apk add --update python
+RUN apk add --no-cache make gcc g++ python git
 RUN npm ci --only=production
-# If you are building your code for production
-# RUN npm ci --only=production
 
 # Bundle app source
 COPY . .
