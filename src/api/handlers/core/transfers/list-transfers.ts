@@ -5,7 +5,6 @@ import { listTransfersRequest } from '../../../models'
 import { constants } from 'sakiewka-crypto'
 import validate from '../../../validate'
 
-
 const listTransfers = (sakiewkaApi) => async (req: Request, res: Response) => {
   const { errors, queryParams } = validate(req, listTransfersRequest, true)
 
@@ -15,7 +14,6 @@ const listTransfers = (sakiewkaApi) => async (req: Request, res: Response) => {
 
   const backendResponse = await sakiewkaApi.transfers.listTransfers(
     req.header('authorization'),
-    queryParams.walletId,
     queryParams.limit,
     queryParams.nextPageToken
   )

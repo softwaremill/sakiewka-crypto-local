@@ -146,9 +146,21 @@ export const listAddressesRequest = {
 
 export const listTransfersRequest = {
   query: createSchema({
-    walletId: Joi.string(),
     nextPageToken: Joi.string(),
     limit: Joi.string().required()
+  })
+}
+
+export const listWalletTransfersRequest = {
+  query: createSchema({
+    nextPageToken: Joi.string().optional(),
+    limit: Joi.string().required()
+  })
+}
+
+export const findTransferByTxHashRequest = {
+  query: createSchema({
+    txHash: Joi.string().required()
   })
 }
 

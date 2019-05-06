@@ -42,6 +42,8 @@ import listPoliciesForWallet from './handlers/chain/bitcoin/list-policies-for-wa
 import listWalletsForPolicy from './handlers/chain/bitcoin/list-wallets-for-policy'
 import encryptKey from './handlers/chain/bitcoin/encrypt-key.'
 import decryptKey from './handlers/chain/bitcoin/decrypt-key.'
+import listWalletTransfers from './handlers/chain/bitcoin/list-wallet-transfers';
+import findTransferByTxHash from './handlers/chain/bitcoin/find-transfer-by-tx-hash';
 
 const swaggerDocument = YAML.load(`${__dirname}/swagger.yml`)
 dotenv.config()
@@ -150,6 +152,10 @@ currencies.forEach((currency) => {
   app.post(`/${BASE_PATH}/key/local`, errorHandled(createKey(sakiewkaCryptoModule)))
   app.post(`/${BASE_PATH}/key/local/encrypt`, errorHandled(encryptKey(sakiewkaCryptoModule)))
   app.post(`/${BASE_PATH}/key/local/decrypt`, errorHandled(decryptKey(sakiewkaCryptoModule)))
+
+  // transfers
+  app.get(`/${BASE_PATH}/wallet/:walletId/transfers/:txHash`, errorHandled(findTransferByTxHash(sakiewkaApiModule, currency)))
+  app.get(`/${BASE_PATH}/wallet/:walletId/transfers`, errorHandled(listWalletTransfers(sakiewkaApiModule, currency)))
 })
 
 // transfers
