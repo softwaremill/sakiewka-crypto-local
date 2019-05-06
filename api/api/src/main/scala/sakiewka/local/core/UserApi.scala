@@ -13,7 +13,7 @@ object UserApi {
 
   object Request {
 
-    case class RegisterRequest(email: String)
+    case class RegisterRequest(login: String)
 
     case class SetupPasswordRequest(password: String)
 
@@ -50,6 +50,7 @@ object UserApi {
     .out(jsonBody[Success_OUT[EmptyResponse]])
 
   private val setupPassword = userBaseEndpoint.post
+    .in(auth.bearer)
     .in("setup-password")
     .in(jsonBody[SetupPasswordRequest])
     .out(jsonBody[Success_OUT[EmptyResponse]])
@@ -62,7 +63,7 @@ object UserApi {
   private val info = userBaseEndpoint.get
     .in(auth.bearer)
     .in("info")
-    .out(jsonBody[UserInfoResponse])
+    .out(jsonBody[Success_OUT[UserInfoResponse]])
 
   private val logout = userBaseEndpoint.post
     .in(auth.bearer)
@@ -77,7 +78,7 @@ object UserApi {
     private val init2Fa = twoFactorEndpoint.post
       .in("init")
       .in(jsonBody[Init2faRequest])
-      .out(jsonBody[Init2FaResponse])
+      .out(jsonBody[Success_OUT[Init2FaResponse]])
 
     private val confirm2Fa = twoFactorEndpoint.post
       .in("confirm")

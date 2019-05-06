@@ -35,6 +35,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Success_OUT_EmptyResponse'
+      security:
+      - httpAuth: []
   /api/user/login:
     post:
       operationId: postApiUserLogin
@@ -60,7 +62,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserInfoResponse'
+                $ref: '#/components/schemas/Success_OUT_UserInfoResponse'
       security:
       - httpAuth: []
   /api/user/logout:
@@ -108,7 +110,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Init2FaResponse'
+                $ref: '#/components/schemas/Success_OUT_Init2FaResponse'
       security:
       - httpAuth: []
   /api/user/2fa/disable:
@@ -154,7 +156,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserPeriodSummary'
+                $ref: '#/components/schemas/Success_OUT_UserPeriodSummary'
       security:
       - httpAuth: []
   /api/transfers:
@@ -177,7 +179,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ListBtcTransfer'
+                $ref: '#/components/schemas/Success_OUT_ListBtcTransfer'
       security:
       - httpAuth: []
   /api/btc/wallet:
@@ -432,7 +434,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetWebhookResponse'
+                $ref: '#/components/schemas/Success_OUT_GetWebhookResponse'
       security:
       - httpAuth: []
     delete:
@@ -488,7 +490,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetWebhookListResponse'
+                $ref: '#/components/schemas/Success_OUT_GetWebhookListResponse'
       security:
       - httpAuth: []
     post:
@@ -817,7 +819,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetWebhookResponse'
+                $ref: '#/components/schemas/Success_OUT_GetWebhookResponse'
       security:
       - httpAuth: []
     delete:
@@ -873,7 +875,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetWebhookListResponse'
+                $ref: '#/components/schemas/Success_OUT_GetWebhookListResponse'
       security:
       - httpAuth: []
     post:
@@ -1013,6 +1015,16 @@ components:
           $ref: '#/components/schemas/KeyPair'
         passphrase:
           type: string
+    Success_OUT_GetWebhookListResponse:
+      required:
+      - data
+      - status
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/GetWebhookListResponse'
+        status:
+          type: string
     SetupPasswordRequest:
       required:
       - password
@@ -1098,6 +1110,16 @@ components:
       type: object
       properties:
         amount:
+          type: string
+    Success_OUT_GetWebhookResponse:
+      required:
+      - data
+      - status
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/GetWebhookResponse'
+        status:
           type: string
     ListAddressesResponse:
       required:
@@ -1472,6 +1494,16 @@ components:
           $ref: '#/components/schemas/Map'
         other:
           $ref: '#/components/schemas/Map'
+    Success_OUT_Init2FaResponse:
+      required:
+      - data
+      - status
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Init2FaResponse'
+        status:
+          type: string
     Success_OUT_List_BitcoinTransferWithHistoryResponse:
       required:
       - data
@@ -1525,6 +1557,16 @@ components:
           type: string
         balance:
           type: string
+    Success_OUT_UserPeriodSummary:
+      required:
+      - data
+      - status
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/UserPeriodSummary'
+        status:
+          type: string
     BitcoinTransfer:
       required:
       - chain
@@ -1563,10 +1605,10 @@ components:
           $ref: '#/components/schemas/KeyPair'
     RegisterRequest:
       required:
-      - email
+      - login
       type: object
       properties:
-        email:
+        login:
           type: string
     Success_OUT_CreateWalletResponse:
       required:
@@ -1576,6 +1618,16 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/CreateWalletResponse'
+        status:
+          type: string
+    Success_OUT_UserInfoResponse:
+      required:
+      - data
+      - status
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/UserInfoResponse'
         status:
           type: string
     Success_OUT_KeyPairResponse:
