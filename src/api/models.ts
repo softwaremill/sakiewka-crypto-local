@@ -176,3 +176,38 @@ export const setupPasswordRequest = {
     password: Joi.string().required()
   })
 }
+
+export const createNewPolicyRequest = {
+  body: createSchema({
+    name: Joi.string(),
+    policySettings: Joi.object()
+  })
+}
+
+export const assignPolicyRequest = {
+  query: createSchema({
+    policyId: Joi.string()
+  }),
+  body: createSchema({
+    walletId: Joi.string()
+  })
+}
+
+export const listPolicyRequest = {
+  query: createSchema({
+    nextPageToken: Joi.string(),
+    limit: Joi.string().required()
+  })
+}
+
+export const listPoliciesForWalletRequest = {
+  query: createSchema({
+    walletId: Joi.string()
+  })
+}
+
+export const listWalletsForPolicyRequest = {
+  query: createSchema({
+    policyId: Joi.string()
+  })
+}
