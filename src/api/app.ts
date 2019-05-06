@@ -7,41 +7,41 @@ import logger from './logger'
 import dotenv from 'dotenv'
 import clientApp from './handlers/client-app'
 import notFound from './handlers/not-found'
-import { login } from './handlers/user/login'
-import { logout } from './handlers/user/logout'
-import { info } from './handlers/user/info'
-import { monthlySummary } from './handlers/btc/monthly-summary'
-import listTransfers from './handlers/btc/list-transfers'
-import { register } from './handlers/user/register'
-import createWallet from './handlers/btc/create-wallet'
-import listWallets from './handlers/btc/list-wallet'
-import getWallet from './handlers/btc/get-wallet'
-import listUtxo from './handlers/btc/list-utxo'
-import createAddress from './handlers/btc/create-address'
-import getAddress from './handlers/btc/get-address'
-import listAddresses from './handlers/btc/list-address'
-import createKey from './handlers/btc/create-key'
-import getKey from './handlers/btc/get-key'
-import send from './handlers/btc/send'
-import { constants, Currency, ApiError, sakiewkaApi, backendFactory, sakiewkaModule } from 'sakiewka-crypto'
+import { login } from './handlers/core/user/login'
+import { logout } from './handlers/core/user/logout'
+import { info } from './handlers/core/user/info'
+import { monthlySummary } from './handlers/core/transfers/monthly-summary'
+import listTransfers from './handlers/core/transfers/list-transfers'
+import { register } from './handlers/core/user/register'
+import createWallet from './handlers/chain/bitcoin/create-wallet'
+import listWallets from './handlers/chain/bitcoin/list-wallet'
+import getWallet from './handlers/chain/bitcoin/get-wallet'
+import listUtxo from './handlers/chain/bitcoin/list-utxo'
+import createAddress from './handlers/chain/bitcoin/create-address'
+import getAddress from './handlers/chain/bitcoin/get-address'
+import listAddresses from './handlers/chain/bitcoin/list-address'
+import createKey from './handlers/chain/bitcoin/create-key'
+import getKey from './handlers/chain/bitcoin/get-key'
+import send from './handlers/chain/bitcoin/send'
+import { ApiError, backendFactory, constants, Currency, sakiewkaApi, sakiewkaModule } from 'sakiewka-crypto'
 import { errorResponse } from './response'
-import { init2fa } from './handlers/user/init2fa'
-import { confirm2fa } from './handlers/user/confirm2fa'
-import { disable2fa } from './handlers/user/disable2fa'
-import maxTransferAmount from './handlers/btc/max-transfer-amount'
-import setupPassword from './handlers/user/setup-password'
+import { init2fa } from './handlers/core/user/init2fa'
+import { confirm2fa } from './handlers/core/user/confirm2fa'
+import { disable2fa } from './handlers/core/user/disable2fa'
+import maxTransferAmount from './handlers/chain/bitcoin/max-transfer-amount'
+import setupPassword from './handlers/core/user/setup-password'
 import chainNetworkType from './handlers/chain-network-type'
-import createWebhook from './handlers/btc/create-webhook'
-import deleteWebhook from './handlers/btc/delete-webhook'
-import listWebhooks from './handlers/btc/list-webhooks'
-import getWebhook from './handlers/btc/get-webhook'
-import createNewPolicy from './handlers/btc/create-policy';
-import assignPolicy from './handlers/btc/assign-policy';
-import listPolicies from './handlers/btc/list-policies';
-import listPoliciesForWallet from './handlers/btc/list-policies-for-wallet';
-import listWalletsForPolicy from './handlers/btc/list-wallets-for-policy';
-import encryptKey from './handlers/btc/encrypt-key.';
-import decryptKey from './handlers/btc/decrypt-key.';
+import createWebhook from './handlers/chain/bitcoin/create-webhook'
+import deleteWebhook from './handlers/chain/bitcoin/delete-webhook'
+import listWebhooks from './handlers/chain/bitcoin/list-webhooks'
+import getWebhook from './handlers/chain/bitcoin/get-webhook'
+import createNewPolicy from './handlers/chain/bitcoin/create-policy'
+import assignPolicy from './handlers/chain/bitcoin/assign-policy'
+import listPolicies from './handlers/chain/bitcoin/list-policies'
+import listPoliciesForWallet from './handlers/chain/bitcoin/list-policies-for-wallet'
+import listWalletsForPolicy from './handlers/chain/bitcoin/list-wallets-for-policy'
+import encryptKey from './handlers/chain/bitcoin/encrypt-key.'
+import decryptKey from './handlers/chain/bitcoin/decrypt-key.'
 
 const swaggerDocument = YAML.load(`${__dirname}/swagger.yml`)
 dotenv.config()
@@ -65,23 +65,23 @@ app.use((err: Error, req: Request, res: Response, next: Function) => {
 const errorHandled = (fn: Function) => {
   return (req: Request, res: Response, next: Function) => {
     fn(req, res)
-      .catch((err: any) => {
-        const errorId = uuidv4()
-        logger.error('Error during request processing', {
-          errorId,
-          stack: (err.stack || err.stacktrace),
-          error: err,
-          url: req.url,
-          body: req.body,
-          headers: req.headers
-        })
-        if (isApiError(err)) {
-          errorResponse(res, err)
-        } else {
-          // @ts-ignore
-          errorResponse(res, constants.API_ERROR.SERVER_ERROR, `${err.message} ${err.stack}`, errorId)
-        }
-      })
+            .catch((err: any) => {
+              const errorId = uuidv4()
+              logger.error('Error during request processing', {
+                errorId,
+                stack: (err.stack || err.stacktrace),
+                error: err,
+                url: req.url,
+                body: req.body,
+                headers: req.headers
+              })
+              if (isApiError(err)) {
+                errorResponse(res, err)
+              } else {
+                    // @ts-ignore
+                errorResponse(res, constants.API_ERROR.SERVER_ERROR, `${err.message} ${err.stack}`, errorId)
+              }
+            })
   }
 }
 
@@ -114,12 +114,12 @@ app.post(`/${constants.BASE_API_PATH}/user/2fa/disable`, errorHandled(disable2fa
 app.post(`/${constants.BASE_API_PATH}/user/setup-password`, errorHandled(setupPassword(sakiewkaApiModule)))
 
 const currencies = [Currency.BTC, Currency.BTG]
-currencies.forEach(currency => {
+currencies.forEach((currency) => {
   const sakiewkaCryptoModule = sakiewkaModule(currency, process.env.BTC_NETWORK)
-  // @ts-ignore
+    // @ts-ignore
   app[currency] = { cryptoModule: sakiewkaCryptoModule }
 
-  // wallet
+    // wallet
   const BASE_PATH = `${constants.BASE_API_PATH}/${currency}`
   app.post(`/${BASE_PATH}/wallet`, errorHandled(createWallet(sakiewkaApiModule, currency)))
   app.get(`/${BASE_PATH}/wallet`, errorHandled(listWallets(sakiewkaApiModule, currency)))
@@ -131,22 +131,22 @@ currencies.forEach(currency => {
   app.post(`/${BASE_PATH}/wallet/:walletId/send`, errorHandled(send(sakiewkaApiModule, currency)))
   app.get(`/${BASE_PATH}/wallet/:walletId/max-transfer-amount`, errorHandled(maxTransferAmount(sakiewkaApiModule, currency)))
   app.get(`/${BASE_PATH}/wallet/:walletId/policy`, errorHandled(listPoliciesForWallet(sakiewkaApiModule, currency)))
-  
-  // policies
+
+    // policies
   app.post(`/${BASE_PATH}/policy`, errorHandled(createNewPolicy(sakiewkaApiModule, currency)))
   app.post(`/${BASE_PATH}/policy/:policyId/assign`, errorHandled(assignPolicy(sakiewkaApiModule, currency)))
   app.get(`/${BASE_PATH}/policy`, errorHandled(listPolicies(sakiewkaApiModule, currency)))
   app.get(`/${BASE_PATH}/policy/:policyId/wallet`, errorHandled(listWalletsForPolicy(sakiewkaApiModule, currency)))
 
-  // webhooks
+    // webhooks
   app.post(`/${BASE_PATH}/wallet/:walletId/webhooks`, errorHandled(createWebhook(sakiewkaApiModule, currency)))
   app.get(`/${BASE_PATH}/wallet/:walletId/webhooks`, errorHandled(listWebhooks(sakiewkaApiModule, currency)))
   app.get(`/${BASE_PATH}/wallet/:walletId/webhooks/:webhookId`, errorHandled(getWebhook(sakiewkaApiModule, currency)))
   app.delete(`/${BASE_PATH}/wallet/:walletId/webhooks/:webhookId`, errorHandled(deleteWebhook(sakiewkaApiModule, currency)))
 
-  // key
+    // key
   app.get(`/${BASE_PATH}/key/:id`, errorHandled(getKey(sakiewkaApiModule, currency)))
-  // key local
+    // key local
   app.post(`/${BASE_PATH}/key/local`, errorHandled(createKey(sakiewkaCryptoModule)))
   app.post(`/${BASE_PATH}/key/local/encrypt`, errorHandled(encryptKey(sakiewkaCryptoModule)))
   app.post(`/${BASE_PATH}/key/local/decrypt`, errorHandled(decryptKey(sakiewkaCryptoModule)))
