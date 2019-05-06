@@ -9,7 +9,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 RUN apk add --no-cache make gcc g++ python git
-RUN npm ci --only=production
+RUN npm ci
 
 # Bundle app source
 COPY . .
