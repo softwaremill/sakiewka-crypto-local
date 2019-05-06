@@ -158,11 +158,7 @@ export const listWalletTransfersRequest = {
   })
 }
 
-export const findTransferByTxHashRequest = {
-  query: createSchema({
-    txHash: Joi.string().required()
-  })
-}
+export const findTransferByTxHashRequest = {}
 
 export const sendTransactionRequest = {
   body: createSchema({

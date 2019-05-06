@@ -7,7 +7,7 @@ import validate from '../../../validate'
 
 const findTransferByTxHash = (sakiewkaCrypto, currency: Currency) => async (req: Request, res: Response) => {
   const { transfers } = sakiewkaCrypto[currency]
-  const { errors, queryParams } = validate(req, findTransferByTxHashRequest, true)
+  const { errors } = validate(req, findTransferByTxHashRequest, true)
 
   if (errors.length > 0) {
     return errorResponse(res, constants.API_ERROR.BAD_REQUEST, errors[0])
@@ -15,8 +15,8 @@ const findTransferByTxHash = (sakiewkaCrypto, currency: Currency) => async (req:
 
   const backendResponse = await transfers.findTransferByTxHash(
     req.header('authorization'),
-    queryParams.walletId,
-    queryParams.txHash
+    req.params.walletId,
+    req.params.txHash
   )
 
   jsonResponse(res, backendResponse)
