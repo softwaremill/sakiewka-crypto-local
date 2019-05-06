@@ -1,4 +1,4 @@
-FROM node:10
+FROM node:10-alpine
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -8,7 +8,9 @@ WORKDIR /usr/src/app
 # where available (npm@5+)
 COPY package*.json ./
 
-RUN npm ci
+RUN apk add --update alpine-sdk
+RUN apk add --update python
+RUN npm ci --only=production
 # If you are building your code for production
 # RUN npm ci --only=production
 
