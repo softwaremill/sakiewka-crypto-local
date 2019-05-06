@@ -1,9 +1,10 @@
 package sakiewka.local.chain
 
-//noinspection TypeAnnotation
+import tapir.Endpoint
+
 class ChainApi(val currency: String) {
 
-  val endpoints = new WalletApi(currency).endpoints ++
+  val endpoints: List[Endpoint[_, _, _, _]] = new WalletApi(currency).endpoints ++
     new AddressApi(currency).endpoints ++
     new KeyApi(currency).endpoints ++
     new OutgointTransferApi(currency).endpoints ++

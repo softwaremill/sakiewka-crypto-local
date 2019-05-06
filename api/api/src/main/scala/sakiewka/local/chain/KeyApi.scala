@@ -63,12 +63,13 @@ object KeyApi {
 
     sealed trait KeyType
 
-    case object User extends KeyType
+    object KeyType {
 
-    case object Service extends KeyType
+      case object User extends KeyType
 
-    case object Backup extends KeyType
+      case object Service extends KeyType
 
+      case object Backup extends KeyType
+    }
   }
-
 }

@@ -52,10 +52,13 @@ object ChainTransferApi {
 
     sealed trait BitcoinTransferHistoryType
 
-    case object Created extends BitcoinTransferHistoryType
+    object BitcoinTransferHistoryType {
 
-    case object Mined extends BitcoinTransferHistoryType
+      case object Created extends BitcoinTransferHistoryType
 
-    case object Removed extends BitcoinTransferHistoryType
+      case object Mined extends BitcoinTransferHistoryType
+
+      case object Removed extends BitcoinTransferHistoryType
+    }
   }
 }

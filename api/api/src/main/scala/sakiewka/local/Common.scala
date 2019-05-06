@@ -1,12 +1,11 @@
 package sakiewka.local
 
-import tapir.{auth, endpoint, query}
+import tapir.{Endpoint, EndpointInput, auth, endpoint, query}
 
 case class Success_OUT[T](data: T, status: String = "success")
 
 case class EmptyResponse()
 
-//noinspection TypeAnnotation
 object Common {
   type Id = String
   type AddressValue = String
@@ -17,11 +16,11 @@ object Common {
   type Recipients = Map[AddressValue, String]
   type BlockHash = String
   type BlockNumber = Long
-  val baseEndpoint = endpoint.in("api")
+  val baseEndpoint: Endpoint[Unit, Unit, Unit, Nothing] = endpoint.in("api")
 
-  val secureEndpoint = endpoint
+  val secureEndpoint: Endpoint[TxHash, Unit, Unit, Nothing] = endpoint
     .in("api")
     .in(auth.bearer)
 
-  val pagingInput = query[Int]("limit") and query[Option[String]]("nextPageToken")
+  val pagingInput: EndpointInput[(Int, Option[String])] = query[Int]("limit") and query[Option[String]]("nextPageToken")
 }

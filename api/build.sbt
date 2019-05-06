@@ -5,7 +5,7 @@ lazy val commonSettings = commonSmlBuildSettings ++ acyclicSettings ++ Seq(
 )
 
 val circeVersion = "0.11.1"
-val tapirVersion = "0.7"
+val tapirVersion = "0.7.6"
 
 lazy val api: Project = (project in file("api"))
   .settings(commonSettings: _*)
