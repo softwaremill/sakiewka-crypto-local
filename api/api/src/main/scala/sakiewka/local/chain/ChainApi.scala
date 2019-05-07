@@ -9,5 +9,6 @@ class ChainApi(val currency: String) {
     new KeyApi(currency).endpoints ++
     new OutgointTransferApi(currency).endpoints ++
     new WebhookApi(currency).endpoints ++
-    new ChainTransferApi(currency).endpoints
+    new ChainTransferApi(currency).endpoints ++
+    new FeeRateApi(currency).endpoints
 }
