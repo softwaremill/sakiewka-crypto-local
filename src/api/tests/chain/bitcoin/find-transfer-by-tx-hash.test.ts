@@ -16,10 +16,10 @@ const mockFn = jest.fn(() => {
 
 transfers.findTransferByTxHash = mockFn
 
-describe(`/${currency}/wallet/:walletId/transfers/:txHash`, () => {
+describe(`/${currency}/wallet/:walletId/transfer/:txHash`, () => {
   it('should not accept incomplete request', async () => {
     const response = await supertest(app)
-      .get(`/${constants.BASE_API_PATH}/${currency}/wallet/12/transfers/0x1`)
+      .get(`/${constants.BASE_API_PATH}/${currency}/wallet/12/transfer/0x1`)
 
     expect(response.status).to.be.equal(400)
     expect(response.body.errors[0].message).to.be.equal('Request header Authorization is required.')
@@ -29,7 +29,7 @@ describe(`/${currency}/wallet/:walletId/transfers/:txHash`, () => {
     const token = 'testToken'
 
     const response = await supertest(app)
-      .get(`/${constants.BASE_API_PATH}/${currency}/wallet/12/transfers/0x1`)
+      .get(`/${constants.BASE_API_PATH}/${currency}/wallet/12/transfer/0x1`)
       .set('Authorization', `Bearer ${token}`)
 
     const callArgs = mockFn.mock.calls[0]

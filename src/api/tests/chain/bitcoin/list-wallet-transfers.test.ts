@@ -16,14 +16,14 @@ const mockFn = jest.fn(() => {
 
 transfers.listTransfers = mockFn
 
-describe(`/${currency}/wallet/:id/transfers`, () => {
+describe(`/${currency}/wallet/:id/transfer`, () => {
   beforeEach(() => {
     mockFn.mockClear()
   })
 
   it('should not accept request with missing limit param', async () => {
     const response = await supertest(app)
-      .get(`/${constants.BASE_API_PATH}/${currency}/wallet/12/transfers`)
+      .get(`/${constants.BASE_API_PATH}/${currency}/wallet/12/transfer`)
       .set('Authorization', 'testToken')
 
     expect(response.status).to.be.equal(400)
@@ -32,7 +32,7 @@ describe(`/${currency}/wallet/:id/transfers`, () => {
 
   it('should not accept request with missing header', async () => {
     const response = await supertest(app)
-      .get(`/${constants.BASE_API_PATH}/${currency}/wallet/12/transfers?limit=20`)
+      .get(`/${constants.BASE_API_PATH}/${currency}/wallet/12/transfer?limit=20`)
 
     expect(response.status).to.be.equal(400)
     expect(response.body.errors[0].message).to.be.equal('Request header Authorization is required.')
@@ -40,7 +40,7 @@ describe(`/${currency}/wallet/:id/transfers`, () => {
 
   it('should return transfers', async () => {
     const response = await supertest(app)
-      .get(`/${constants.BASE_API_PATH}/${currency}/wallet/12/transfers?limit=20`)
+      .get(`/${constants.BASE_API_PATH}/${currency}/wallet/12/transfer?limit=20`)
       .set('Authorization', 'testToken')
 
     expect(response.status).to.be.equal(200)

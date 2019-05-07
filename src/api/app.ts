@@ -152,13 +152,13 @@ currencies.forEach((currency) => {
   app.post(`/${BASE_PATH}/key/local/decrypt`, errorHandled(decryptKey(sakiewkaCryptoModule)))
 
   // transfers
-  app.get(`/${BASE_PATH}/wallet/:walletId/transfers/:txHash`, errorHandled(findTransferByTxHash(sakiewkaApiModule, currency)))
-  app.get(`/${BASE_PATH}/wallet/:walletId/transfers`, errorHandled(listWalletTransfers(sakiewkaApiModule, currency)))
+  app.get(`/${BASE_PATH}/wallet/:walletId/transfer/:txHash`, errorHandled(findTransferByTxHash(sakiewkaApiModule, currency)))
+  app.get(`/${BASE_PATH}/wallet/:walletId/transfer`, errorHandled(listWalletTransfers(sakiewkaApiModule, currency)))
 })
 
 // transfers
-app.get(`/${constants.BASE_API_PATH}/transfers/monthly-summary/:month/:year/:fiatCurrency`, errorHandled(monthlySummary(sakiewkaApiModule)))
-app.get(`/${constants.BASE_API_PATH}/transfers`, errorHandled(listTransfers(sakiewkaApiModule)))
+app.get(`/${constants.BASE_API_PATH}/transfer/monthly-summary/:month/:year/:fiatCurrency`, errorHandled(monthlySummary(sakiewkaApiModule)))
+app.get(`/${constants.BASE_API_PATH}/transfer`, errorHandled(listTransfers(sakiewkaApiModule)))
 
 app.get(`/${constants.BASE_API_PATH}/chain-network-type`, errorHandled(chainNetworkType(backendApi)))
 
