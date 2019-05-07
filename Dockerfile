@@ -1,5 +1,7 @@
 FROM node:10-alpine
 
+RUN apk add --no-cache make gcc g++ python git
+
 # Create app directory
 WORKDIR /usr/src/app
 
@@ -8,7 +10,6 @@ WORKDIR /usr/src/app
 # where available (npm@5+)
 COPY package*.json ./
 
-RUN apk add --no-cache make gcc g++ python git
 RUN npm ci
 
 # Bundle app source
