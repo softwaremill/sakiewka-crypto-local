@@ -16,7 +16,7 @@ object Common {
   type Recipients = Map[AddressValue, String]
   type BlockHash = String
   type BlockNumber = Long
-  val baseEndpoint: Endpoint[Unit, Unit, Unit, Nothing] = endpoint.in("api")
+  val baseEndpoint: Endpoint[Unit, Unit, Unit, Nothing] = endpoint.in("api/v1.0")
 
   val secureEndpoint: Endpoint[TxHash, Unit, Unit, Nothing] = endpoint
     .in("api")
