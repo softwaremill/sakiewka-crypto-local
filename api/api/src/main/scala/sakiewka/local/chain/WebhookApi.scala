@@ -31,12 +31,12 @@ class WebhookApi(val currency: String) {
 
   private val getWebhook = secureEndpoint.get
     .in(webhookIdPathInput)
-    .out(jsonBody[GetWebhookResponse])
+    .out(jsonBody[Success_OUT[GetWebhookResponse]])
 
   private val getWebhookList = secureEndpoint.get
     .in(walletIdPathInput / "webhook")
     .in(pagingInput)
-    .out(jsonBody[GetWebhookListResponse])
+    .out(jsonBody[Success_OUT[GetWebhookListResponse]])
 
   val endpoints: List[Endpoint[_, _, _, _]] = List(createWebhook, deleteWebhook, getWebhook, getWebhookList)
 }

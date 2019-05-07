@@ -7,41 +7,43 @@ import logger from './logger'
 import dotenv from 'dotenv'
 import clientApp from './handlers/client-app'
 import notFound from './handlers/not-found'
-import { login } from './handlers/user/login'
-import { logout } from './handlers/user/logout'
-import { info } from './handlers/user/info'
-import { monthlySummary } from './handlers/btc/monthly-summary'
-import listTransfers from './handlers/btc/list-transfers'
-import { register } from './handlers/user/register'
-import createWallet from './handlers/btc/create-wallet'
-import listWallets from './handlers/btc/list-wallet'
-import getWallet from './handlers/btc/get-wallet'
-import listUtxo from './handlers/btc/list-utxo'
-import createAddress from './handlers/btc/create-address'
-import getAddress from './handlers/btc/get-address'
-import listAddresses from './handlers/btc/list-address'
-import createKey from './handlers/btc/create-key'
-import getKey from './handlers/btc/get-key'
-import send from './handlers/btc/send'
-import { constants, Currency, ApiError, sakiewkaApi, backendFactory, sakiewkaModule } from 'sakiewka-crypto'
+import { login } from './handlers/core/user/login'
+import { logout } from './handlers/core/user/logout'
+import { info } from './handlers/core/user/info'
+import { monthlySummary } from './handlers/core/transfers/monthly-summary'
+import listTransfers from './handlers/core/transfers/list-transfers'
+import { register } from './handlers/core/user/register'
+import createWallet from './handlers/chain/bitcoin/create-wallet'
+import listWallets from './handlers/chain/bitcoin/list-wallet'
+import getWallet from './handlers/chain/bitcoin/get-wallet'
+import listUtxo from './handlers/chain/bitcoin/list-utxo'
+import createAddress from './handlers/chain/bitcoin/create-address'
+import getAddress from './handlers/chain/bitcoin/get-address'
+import listAddresses from './handlers/chain/bitcoin/list-address'
+import createKey from './handlers/chain/bitcoin/create-key'
+import getKey from './handlers/chain/bitcoin/get-key'
+import send from './handlers/chain/bitcoin/send'
+import { ApiError, backendFactory, constants, Currency, sakiewkaApi, sakiewkaModule } from 'sakiewka-crypto'
 import { errorResponse } from './response'
-import { init2fa } from './handlers/user/init2fa'
-import { confirm2fa } from './handlers/user/confirm2fa'
-import { disable2fa } from './handlers/user/disable2fa'
-import maxTransferAmount from './handlers/btc/max-transfer-amount'
-import setupPassword from './handlers/user/setup-password'
+import { init2fa } from './handlers/core/user/init2fa'
+import { confirm2fa } from './handlers/core/user/confirm2fa'
+import { disable2fa } from './handlers/core/user/disable2fa'
+import maxTransferAmount from './handlers/chain/bitcoin/max-transfer-amount'
+import setupPassword from './handlers/core/user/setup-password'
 import chainNetworkType from './handlers/chain-network-type'
-import createWebhook from './handlers/btc/create-webhook'
-import deleteWebhook from './handlers/btc/delete-webhook'
-import listWebhooks from './handlers/btc/list-webhooks'
-import getWebhook from './handlers/btc/get-webhook'
-import createNewPolicy from './handlers/btc/create-policy';
-import assignPolicy from './handlers/btc/assign-policy';
-import listPolicies from './handlers/btc/list-policies';
-import listPoliciesForWallet from './handlers/btc/list-policies-for-wallet';
-import listWalletsForPolicy from './handlers/btc/list-wallets-for-policy';
-import encryptKey from './handlers/btc/encrypt-key.';
-import decryptKey from './handlers/btc/decrypt-key.';
+import createWebhook from './handlers/chain/bitcoin/create-webhook'
+import deleteWebhook from './handlers/chain/bitcoin/delete-webhook'
+import listWebhooks from './handlers/chain/bitcoin/list-webhooks'
+import getWebhook from './handlers/chain/bitcoin/get-webhook'
+import createNewPolicy from './handlers/chain/bitcoin/create-policy'
+import assignPolicy from './handlers/chain/bitcoin/assign-policy'
+import listPolicies from './handlers/chain/bitcoin/list-policies'
+import listPoliciesForWallet from './handlers/chain/bitcoin/list-policies-for-wallet'
+import listWalletsForPolicy from './handlers/chain/bitcoin/list-wallets-for-policy'
+import encryptKey from './handlers/chain/bitcoin/encrypt-key.'
+import decryptKey from './handlers/chain/bitcoin/decrypt-key.'
+import listWalletTransfers from './handlers/chain/bitcoin/list-wallet-transfers';
+import findTransferByTxHash from './handlers/chain/bitcoin/find-transfer-by-tx-hash';
 
 const swaggerDocument = YAML.load(`${__dirname}/swagger.yml`)
 dotenv.config()
@@ -114,7 +116,7 @@ app.post(`/${constants.BASE_API_PATH}/user/2fa/disable`, errorHandled(disable2fa
 app.post(`/${constants.BASE_API_PATH}/user/setup-password`, errorHandled(setupPassword(sakiewkaApiModule)))
 
 const currencies = [Currency.BTC, Currency.BTG]
-currencies.forEach(currency => {
+currencies.forEach((currency) => {
   const sakiewkaCryptoModule = sakiewkaModule(currency, process.env.BTC_NETWORK)
   // @ts-ignore
   app[currency] = { cryptoModule: sakiewkaCryptoModule }
@@ -131,7 +133,7 @@ currencies.forEach(currency => {
   app.post(`/${BASE_PATH}/wallet/:walletId/send`, errorHandled(send(sakiewkaApiModule, currency)))
   app.get(`/${BASE_PATH}/wallet/:walletId/max-transfer-amount`, errorHandled(maxTransferAmount(sakiewkaApiModule, currency)))
   app.get(`/${BASE_PATH}/wallet/:walletId/policy`, errorHandled(listPoliciesForWallet(sakiewkaApiModule, currency)))
-  
+
   // policies
   app.post(`/${BASE_PATH}/policy`, errorHandled(createNewPolicy(sakiewkaApiModule, currency)))
   app.post(`/${BASE_PATH}/policy/:policyId/assign`, errorHandled(assignPolicy(sakiewkaApiModule, currency)))
@@ -150,6 +152,10 @@ currencies.forEach(currency => {
   app.post(`/${BASE_PATH}/key/local`, errorHandled(createKey(sakiewkaCryptoModule)))
   app.post(`/${BASE_PATH}/key/local/encrypt`, errorHandled(encryptKey(sakiewkaCryptoModule)))
   app.post(`/${BASE_PATH}/key/local/decrypt`, errorHandled(decryptKey(sakiewkaCryptoModule)))
+
+  // transfers
+  app.get(`/${BASE_PATH}/wallet/:walletId/transfers/:txHash`, errorHandled(findTransferByTxHash(sakiewkaApiModule, currency)))
+  app.get(`/${BASE_PATH}/wallet/:walletId/transfers`, errorHandled(listWalletTransfers(sakiewkaApiModule, currency)))
 })
 
 // transfers
