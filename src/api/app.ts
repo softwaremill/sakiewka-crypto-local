@@ -16,7 +16,6 @@ import { register } from './handlers/core/user/register'
 import createWallet from './handlers/chain/bitcoin/create-wallet'
 import listWallets from './handlers/chain/bitcoin/list-wallet'
 import getWallet from './handlers/chain/bitcoin/get-wallet'
-import listUtxo from './handlers/chain/bitcoin/list-utxo'
 import createAddress from './handlers/chain/bitcoin/create-address'
 import getAddress from './handlers/chain/bitcoin/get-address'
 import listAddresses from './handlers/chain/bitcoin/list-address'
@@ -126,7 +125,6 @@ currencies.forEach((currency) => {
   app.post(`/${BASE_PATH}/wallet`, errorHandled(createWallet(sakiewkaApiModule, currency)))
   app.get(`/${BASE_PATH}/wallet`, errorHandled(listWallets(sakiewkaApiModule, currency)))
   app.get(`/${BASE_PATH}/wallet/:id`, errorHandled(getWallet(sakiewkaApiModule, currency)))
-  app.post(`/${BASE_PATH}/wallet/:walletId/utxo`, errorHandled(listUtxo(sakiewkaApiModule, currency)))
   app.post(`/${BASE_PATH}/wallet/:walletId/address`, errorHandled(createAddress(sakiewkaApiModule, currency)))
   app.get(`/${BASE_PATH}/wallet/:walletId/address/:address`, errorHandled(getAddress(sakiewkaApiModule, currency)))
   app.get(`/${BASE_PATH}/wallet/:walletId/address/`, errorHandled(listAddresses(sakiewkaApiModule, currency)))
