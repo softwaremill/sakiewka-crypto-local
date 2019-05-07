@@ -67,23 +67,23 @@ app.use((err: Error, req: Request, res: Response, next: Function) => {
 const errorHandled = (fn: Function) => {
   return (req: Request, res: Response, next: Function) => {
     fn(req, res)
-            .catch((err: any) => {
-              const errorId = uuidv4()
-              logger.error('Error during request processing', {
-                errorId,
-                stack: (err.stack || err.stacktrace),
-                error: err,
-                url: req.url,
-                body: req.body,
-                headers: req.headers
-              })
-              if (isApiError(err)) {
-                errorResponse(res, err)
-              } else {
-                    // @ts-ignore
-                errorResponse(res, constants.API_ERROR.SERVER_ERROR, `${err.message} ${err.stack}`, errorId)
-              }
-            })
+      .catch((err: any) => {
+        const errorId = uuidv4()
+        logger.error('Error during request processing', {
+          errorId,
+          stack: (err.stack || err.stacktrace),
+          error: err,
+          url: req.url,
+          body: req.body,
+          headers: req.headers
+        })
+        if (isApiError(err)) {
+          errorResponse(res, err)
+        } else {
+          // @ts-ignore
+          errorResponse(res, constants.API_ERROR.SERVER_ERROR, `${err.message} ${err.stack}`, errorId)
+        }
+      })
   }
 }
 
@@ -118,10 +118,10 @@ app.post(`/${constants.BASE_API_PATH}/user/setup-password`, errorHandled(setupPa
 const currencies = [Currency.BTC, Currency.BTG]
 currencies.forEach((currency) => {
   const sakiewkaCryptoModule = sakiewkaModule(currency, process.env.BTC_NETWORK)
-    // @ts-ignore
+  // @ts-ignore
   app[currency] = { cryptoModule: sakiewkaCryptoModule }
 
-    // wallet
+  // wallet
   const BASE_PATH = `${constants.BASE_API_PATH}/${currency}`
   app.post(`/${BASE_PATH}/wallet`, errorHandled(createWallet(sakiewkaApiModule, currency)))
   app.get(`/${BASE_PATH}/wallet`, errorHandled(listWallets(sakiewkaApiModule, currency)))
@@ -134,21 +134,21 @@ currencies.forEach((currency) => {
   app.get(`/${BASE_PATH}/wallet/:walletId/max-transfer-amount`, errorHandled(maxTransferAmount(sakiewkaApiModule, currency)))
   app.get(`/${BASE_PATH}/wallet/:walletId/policy`, errorHandled(listPoliciesForWallet(sakiewkaApiModule, currency)))
 
-    // policies
+  // policies
   app.post(`/${BASE_PATH}/policy`, errorHandled(createNewPolicy(sakiewkaApiModule, currency)))
   app.post(`/${BASE_PATH}/policy/:policyId/assign`, errorHandled(assignPolicy(sakiewkaApiModule, currency)))
   app.get(`/${BASE_PATH}/policy`, errorHandled(listPolicies(sakiewkaApiModule, currency)))
   app.get(`/${BASE_PATH}/policy/:policyId/wallet`, errorHandled(listWalletsForPolicy(sakiewkaApiModule, currency)))
 
-    // webhooks
+  // webhooks
   app.post(`/${BASE_PATH}/wallet/:walletId/webhooks`, errorHandled(createWebhook(sakiewkaApiModule, currency)))
   app.get(`/${BASE_PATH}/wallet/:walletId/webhooks`, errorHandled(listWebhooks(sakiewkaApiModule, currency)))
   app.get(`/${BASE_PATH}/wallet/:walletId/webhooks/:webhookId`, errorHandled(getWebhook(sakiewkaApiModule, currency)))
   app.delete(`/${BASE_PATH}/wallet/:walletId/webhooks/:webhookId`, errorHandled(deleteWebhook(sakiewkaApiModule, currency)))
 
-    // key
+  // key
   app.get(`/${BASE_PATH}/key/:id`, errorHandled(getKey(sakiewkaApiModule, currency)))
-    // key local
+  // key local
   app.post(`/${BASE_PATH}/key/local`, errorHandled(createKey(sakiewkaCryptoModule)))
   app.post(`/${BASE_PATH}/key/local/encrypt`, errorHandled(encryptKey(sakiewkaCryptoModule)))
   app.post(`/${BASE_PATH}/key/local/decrypt`, errorHandled(decryptKey(sakiewkaCryptoModule)))
