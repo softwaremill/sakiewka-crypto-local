@@ -174,7 +174,7 @@ export const sendTransactionRequest = {
 
 export const maxTransferAmountRequest = {
   query: createSchema({
-    feeRate: Joi.string().required(),
+    feeRate: Joi.number().required(),
     recipient: Joi.string().required(),
   })
 }
