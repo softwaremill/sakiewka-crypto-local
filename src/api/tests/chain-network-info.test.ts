@@ -7,9 +7,7 @@ const { core } = app.backendApi
 
 // @ts-ignore
 const mockFn = jest.fn(() => {
-  return new Promise((resolve: Function) => {
-    resolve('regtest')
-  })
+  return Promise.resolve('regtest')
 })
 
 core.chainNetworkType = mockFn

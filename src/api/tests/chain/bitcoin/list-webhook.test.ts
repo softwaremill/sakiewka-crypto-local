@@ -9,9 +9,7 @@ const { webhooks } = app.sakiewkaApi[currency]
 
 // @ts-ignore
 const mockFn = jest.fn(() => {
-  return new Promise((resolve: Function) => {
-    resolve('test webhook')
-  })
+  return Promise.resolve('test webhook')
 })
 
 webhooks.listWebhooks = mockFn

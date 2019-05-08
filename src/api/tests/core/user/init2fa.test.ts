@@ -7,9 +7,7 @@ const { user } = app.sakiewkaApi
 
 // @ts-ignore
 const mockFn = jest.fn(() => {
-  return new Promise((resolve: Function) => {
-    resolve('qrImageUrl')
-  })
+  return Promise.resolve('qrImageUrl')
 })
 
 user.init2fa = mockFn

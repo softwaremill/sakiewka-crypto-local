@@ -8,9 +8,7 @@ const { user } = app.sakiewkaApi
 
 // @ts-ignore
 const mockFn = jest.fn(() => {
-  return new Promise((resolve: Function) => {
-    resolve('info')
-  })
+  return Promise.resolve('info')
 })
 
 user.info = mockFn

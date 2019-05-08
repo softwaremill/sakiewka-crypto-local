@@ -9,9 +9,7 @@ const { transfers } = app.sakiewkaApi[currency]
 
 // @ts-ignore
 const mockFn = jest.fn(() => {
-  return new Promise((resolve: Function) => {
-    resolve('test transfers')
-  })
+  return Promise.resolve('test transfers')
 })
 
 transfers.findTransferByTxHash = mockFn

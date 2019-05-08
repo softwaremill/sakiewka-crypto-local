@@ -7,9 +7,7 @@ const { user } = app.sakiewkaApi
 
 // @ts-ignore
 const mockFn = jest.fn(() => {
-  return new Promise((resolve: Function) => {
-    resolve()
-  })
+  return Promise.resolve()
 })
 
 user.logout = mockFn

@@ -8,9 +8,7 @@ const { transfers } = app.sakiewkaApi
 
 // @ts-ignore
 const mockFn = jest.fn(() => {
-  return new Promise((resolve: Function) => {
-    resolve('summary')
-  })
+  return Promise.resolve('summary')
 })
 
 transfers.monthlySummary = mockFn

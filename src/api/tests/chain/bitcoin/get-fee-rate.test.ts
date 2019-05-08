@@ -8,9 +8,7 @@ const { feeRates } = app.sakiewkaApi[currency]
 
 // @ts-ignore
 const mockFn = jest.fn(() => {
-  return new Promise((resolve: Function) => {
-    resolve('test fee')
-  })
+  return Promise.resolve('test fee')
 })
 
 feeRates.getFeeRate = mockFn

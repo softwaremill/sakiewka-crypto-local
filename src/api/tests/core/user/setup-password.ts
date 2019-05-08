@@ -8,9 +8,7 @@ const { user } = app.sakiewkaApi
 
 // @ts-ignore
 const mockFn = jest.fn(() => {
-  return new Promise((resolve: Function) => {
-    resolve('test wallet')
-  })
+  return Promise.resolve('test wallet')
 })
 
 user.verifyEmail = mockFn

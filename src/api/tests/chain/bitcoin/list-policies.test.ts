@@ -9,9 +9,7 @@ const { policy } = app.sakiewkaApi[currency]
 
 // @ts-ignore
 const mockFn = jest.fn(() => {
-  return new Promise((resolve: Function) => {
-    resolve('test policy')
-  })
+  return Promise.resolve('test policy')
 })
 
 policy.listPolicies = mockFn

@@ -9,9 +9,7 @@ const { address } = app.sakiewkaApi[currency]
 
 // @ts-ignore
 const mockFn = jest.fn(() => {
-  return new Promise((resolve: Function) => {
-    resolve('new address')
-  })
+  return Promise.resolve('new address')
 })
 
 address.createNewAddress = mockFn

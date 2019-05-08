@@ -10,9 +10,7 @@ const { transaction } = app.sakiewkaApi[currency]
 
 // @ts-ignore
 const mockFn = jest.fn(() => {
-  return new Promise((resolve: Function) => {
-    resolve('coins sent')
-  })
+  return Promise.resolve('coins sent')
 })
 
 transaction.send = mockFn

@@ -9,9 +9,7 @@ const { address } = app.sakiewkaApi[currency]
 
 // @ts-ignore
 const mockFn = jest.fn(() => {
-  return new Promise((resolve: Function) => {
-    resolve('test addresses')
-  })
+  return Promise.resolve('test addresses')
 })
 
 address.listAddresses = mockFn
