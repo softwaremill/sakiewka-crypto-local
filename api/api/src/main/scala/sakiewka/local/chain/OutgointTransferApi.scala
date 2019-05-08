@@ -27,7 +27,10 @@ object OutgointTransferApi {
 
   object Request {
 
-    case class SendRequest(xprv: Option[XPrv], recipients: Map[AddressValue, String], passphrase: Option[String])
+    case class SendRequest(xprv: Option[XPrv],
+                           recipients: Map[AddressValue, String],
+                           passphrase: Option[String],
+                           feeRate: Option[SatoshisPerByte])
 
   }
 

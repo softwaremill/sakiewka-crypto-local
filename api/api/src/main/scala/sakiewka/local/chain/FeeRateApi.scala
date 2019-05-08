@@ -14,7 +14,7 @@ class FeeRateApi(val currency: String) {
     .in("fee-rate")
     .out(jsonBody[Success_OUT[GetFeeRate_OUT]])
 
-  val endpoints: List[Endpoint[_,_,_,_]] = List(getFeeRate)
+  val endpoints: List[Endpoint[_, _, _, _]] = List(getFeeRate)
 }
 
 object FeeRateApi {
