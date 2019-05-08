@@ -5,7 +5,6 @@ import { sendTransactionRequest } from '../../../models'
 import validate from '../../../validate'
 import { Currency, constants } from 'sakiewka-crypto'
 
-
 const sendCoins = (sakiewkaCrypto, currency: Currency) => async (req: Request, res: Response) => {
   const { transaction } = sakiewkaCrypto[currency]
 
@@ -20,7 +19,8 @@ const sendCoins = (sakiewkaCrypto, currency: Currency) => async (req: Request, r
     req.params.walletId,
     body.recipients,
     body.xprv,
-    body.passphrase
+    body.passphrase,
+    body.feeRate
   )
 
   jsonResponse(res, backendResponse)

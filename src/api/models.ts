@@ -167,7 +167,8 @@ export const sendTransactionRequest = {
     recipients: Joi.array().items(Joi.object({
       address: Joi.string().required(),
       amount: bigNumberJoi.bigNumber().required()
-    })).required()
+    })).required(),
+    feeRate: Joi.number().optional()
   })
 }
 
