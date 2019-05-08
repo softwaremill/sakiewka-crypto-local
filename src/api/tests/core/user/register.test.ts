@@ -8,9 +8,7 @@ import { constants } from 'sakiewka-crypto'
 const { user } = app.sakiewkaApi
 
 // @ts-ignore
-const mockFn = jest.fn(() => {
-  return Promise.resolve('response')
-})
+const mockFn = jest.fn().mockResolvedValue('response')
 
 user.register = mockFn
 

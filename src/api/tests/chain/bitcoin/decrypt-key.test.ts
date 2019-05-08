@@ -7,9 +7,7 @@ import { constants } from 'sakiewka-crypto'
 const { key } = app[currency].cryptoModule
 
 // @ts-ignore
-const mockFnDecrypt = jest.fn(() => {
-  return 'test key'
-})
+const mockFnDecrypt = jest.fn().mockReturnValue('test key')
 
 key.decryptKeyPair = mockFnDecrypt
 

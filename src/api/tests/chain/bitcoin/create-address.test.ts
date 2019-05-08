@@ -8,9 +8,7 @@ import { constants } from 'sakiewka-crypto'
 const { address } = app.sakiewkaApi[currency]
 
 // @ts-ignore
-const mockFn = jest.fn(() => {
-  return Promise.resolve('new address')
-})
+const mockFn = jest.fn().mockResolvedValue('new address')
 
 address.createNewAddress = mockFn
 

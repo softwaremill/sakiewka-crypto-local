@@ -8,9 +8,7 @@ import { constants } from 'sakiewka-crypto'
 const { webhooks } = app.sakiewkaApi[currency]
 
 // @ts-ignore
-const mockFn = jest.fn(() => {
-  return Promise.resolve('test webhook')
-})
+const mockFn = jest.fn().mockResolvedValue('test webhook')
 
 webhooks.createWebhook = mockFn
 

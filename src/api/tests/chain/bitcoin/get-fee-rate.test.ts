@@ -7,9 +7,7 @@ import { constants } from 'sakiewka-crypto'
 const { feeRates } = app.sakiewkaApi[currency]
 
 // @ts-ignore
-const mockFn = jest.fn(() => {
-  return Promise.resolve('test fee')
-})
+const mockFn = jest.fn().mockResolvedValue('test fee')
 
 feeRates.getFeeRate = mockFn
 

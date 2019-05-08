@@ -9,9 +9,7 @@ import { constants } from 'sakiewka-crypto'
 const { transaction } = app.sakiewkaApi[currency]
 
 // @ts-ignore
-const mockFn = jest.fn(() => {
-  return Promise.resolve('coins sent')
-})
+const mockFn = jest.fn().mockResolvedValue('coins sent')
 
 transaction.send = mockFn
 

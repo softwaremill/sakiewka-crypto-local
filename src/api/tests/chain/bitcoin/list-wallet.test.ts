@@ -8,9 +8,7 @@ import { constants } from 'sakiewka-crypto'
 const { wallet } = app.sakiewkaApi[currency]
 
 // @ts-ignore
-const mockFn = jest.fn(() => {
-  return Promise.resolve('test wallet')
-})
+const mockFn = jest.fn().mockResolvedValue('test wallet')
 
 wallet.listWallets = mockFn
 
