@@ -131,9 +131,9 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_EmptyResponse'
       security:
       - httpAuth: []
-  /api/transfers/monthly-summary/{month}/{year}/{fiatCurrency}:
+  /api/v1.0/transfers/monthly-summary/{month}/{year}/{fiatCurrency}:
     get:
-      operationId: getApiTransfersMonthly-summaryMonthYearFiatcurrency
+      operationId: getApi/v1.0TransfersMonthly-summaryMonthYearFiatcurrency
       parameters:
       - name: month
         in: path
@@ -159,9 +159,9 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_UserPeriodSummary'
       security:
       - httpAuth: []
-  /api/transfers:
+  /api/v1.0/transfers:
     get:
-      operationId: getApiTransfers
+      operationId: getApi/v1.0Transfers
       parameters:
       - name: limit
         in: query
@@ -182,9 +182,9 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_ListBtcTransfer'
       security:
       - httpAuth: []
-  /api/btc/wallet:
+  /api/v1.0/btc/wallet:
     get:
-      operationId: getApiBtcWallet
+      operationId: getApi/v1.0BtcWallet
       parameters:
       - name: limit
         in: query
@@ -206,7 +206,7 @@ paths:
       security:
       - httpAuth: []
     post:
-      operationId: postApiBtcWallet
+      operationId: postApi/v1.0BtcWallet
       requestBody:
         content:
           application/json:
@@ -222,9 +222,9 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_CreateWalletResponse'
       security:
       - httpAuth: []
-  /api/btc/wallet/{walletId}:
+  /api/v1.0/btc/wallet/{walletId}:
     get:
-      operationId: getApiBtcWalletWalletid
+      operationId: getApi/v1.0BtcWalletWalletid
       parameters:
       - name: walletId
         in: path
@@ -240,9 +240,9 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_GetWalletResponse'
       security:
       - httpAuth: []
-  /api/btc/wallet/{walletId}/address/{address}:
+  /api/v1.0/btc/wallet/{walletId}/address/{address}:
     get:
-      operationId: getApiBtcWalletWalletidAddressAddress
+      operationId: getApi/v1.0BtcWalletWalletidAddressAddress
       parameters:
       - name: walletId
         in: path
@@ -263,9 +263,9 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_GetAddressResponse'
       security:
       - httpAuth: []
-  /api/btc/wallet/{walletId}/address:
+  /api/v1.0/btc/wallet/{walletId}/address:
     get:
-      operationId: getApiBtcWalletWalletidAddress
+      operationId: getApi/v1.0BtcWalletWalletidAddress
       parameters:
       - name: walletId
         in: path
@@ -292,7 +292,7 @@ paths:
       security:
       - httpAuth: []
     post:
-      operationId: postApiBtcWalletWalletidAddress
+      operationId: postApi/v1.0BtcWalletWalletidAddress
       parameters:
       - name: walletId
         in: path
@@ -319,9 +319,9 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_CreateAddressResponse'
       security:
       - httpAuth: []
-  /api/btc/key/{keyId}:
+  /api/v1.0/btc/key/{keyId}:
     get:
-      operationId: getApiBtcKeyKeyid
+      operationId: getApi/v1.0BtcKeyKeyid
       parameters:
       - name: keyId
         in: path
@@ -390,9 +390,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Success_OUT_KeyPairResponse'
-  /api/btc/wallet/{walletId}/send:
+  /api/v1.0/btc/wallet/{walletId}/send:
     post:
-      operationId: postApiBtcWalletWalletidSend
+      operationId: postApi/v1.0BtcWalletWalletidSend
       parameters:
       - name: walletId
         in: path
@@ -414,9 +414,9 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_String'
       security:
       - httpAuth: []
-  /api/btc/wallet/{walletId}/webhook/{webhookId}:
+  /api/v1.0/btc/wallet/{walletId}/webhook/{webhookId}:
     get:
-      operationId: getApiBtcWalletWalletidWebhookWebhookid
+      operationId: getApi/v1.0BtcWalletWalletidWebhookWebhookid
       parameters:
       - name: walletId
         in: path
@@ -438,7 +438,7 @@ paths:
       security:
       - httpAuth: []
     delete:
-      operationId: deleteApiBtcWalletWalletidWebhookWebhookid
+      operationId: deleteApi/v1.0BtcWalletWalletidWebhookWebhookid
       parameters:
       - name: walletId
         in: path
@@ -465,9 +465,9 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_EmptyResponse'
       security:
       - httpAuth: []
-  /api/btc/wallet/{walletId}/webhook:
+  /api/v1.0/btc/wallet/{walletId}/webhook:
     get:
-      operationId: getApiBtcWalletWalletidWebhook
+      operationId: getApi/v1.0BtcWalletWalletidWebhook
       parameters:
       - name: walletId
         in: path
@@ -494,7 +494,7 @@ paths:
       security:
       - httpAuth: []
     post:
-      operationId: postApiBtcWalletWalletidWebhook
+      operationId: postApi/v1.0BtcWalletWalletidWebhook
       parameters:
       - name: walletId
         in: path
@@ -516,9 +516,9 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_EmptyResponse'
       security:
       - httpAuth: []
-  /api/btc/wallet/{walletId}/transfers/{txHash}:
+  /api/v1.0/btc/wallet/{walletId}/transfers/{txHash}:
     get:
-      operationId: getApiBtcWalletWalletidTransfersTxhash
+      operationId: getApi/v1.0BtcWalletWalletidTransfersTxhash
       parameters:
       - name: walletId
         in: path
@@ -539,9 +539,9 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_List_BitcoinTransferWithHistoryResponse'
       security:
       - httpAuth: []
-  /api/btc/wallet/{walletId}/transfers:
+  /api/v1.0/btc/wallet/{walletId}/transfers:
     get:
-      operationId: getApiBtcWalletWalletidTransfers
+      operationId: getApi/v1.0BtcWalletWalletidTransfers
       parameters:
       - name: walletId
         in: path
@@ -567,9 +567,9 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_ListBtcTransfer'
       security:
       - httpAuth: []
-  /api/btg/wallet:
+  /api/v1.0/btg/wallet:
     get:
-      operationId: getApiBtgWallet
+      operationId: getApi/v1.0BtgWallet
       parameters:
       - name: limit
         in: query
@@ -591,7 +591,7 @@ paths:
       security:
       - httpAuth: []
     post:
-      operationId: postApiBtgWallet
+      operationId: postApi/v1.0BtgWallet
       requestBody:
         content:
           application/json:
@@ -607,9 +607,9 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_CreateWalletResponse'
       security:
       - httpAuth: []
-  /api/btg/wallet/{walletId}:
+  /api/v1.0/btg/wallet/{walletId}:
     get:
-      operationId: getApiBtgWalletWalletid
+      operationId: getApi/v1.0BtgWalletWalletid
       parameters:
       - name: walletId
         in: path
@@ -625,9 +625,9 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_GetWalletResponse'
       security:
       - httpAuth: []
-  /api/btg/wallet/{walletId}/address/{address}:
+  /api/v1.0/btg/wallet/{walletId}/address/{address}:
     get:
-      operationId: getApiBtgWalletWalletidAddressAddress
+      operationId: getApi/v1.0BtgWalletWalletidAddressAddress
       parameters:
       - name: walletId
         in: path
@@ -648,9 +648,9 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_GetAddressResponse'
       security:
       - httpAuth: []
-  /api/btg/wallet/{walletId}/address:
+  /api/v1.0/btg/wallet/{walletId}/address:
     get:
-      operationId: getApiBtgWalletWalletidAddress
+      operationId: getApi/v1.0BtgWalletWalletidAddress
       parameters:
       - name: walletId
         in: path
@@ -677,7 +677,7 @@ paths:
       security:
       - httpAuth: []
     post:
-      operationId: postApiBtgWalletWalletidAddress
+      operationId: postApi/v1.0BtgWalletWalletidAddress
       parameters:
       - name: walletId
         in: path
@@ -704,9 +704,9 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_CreateAddressResponse'
       security:
       - httpAuth: []
-  /api/btg/key/{keyId}:
+  /api/v1.0/btg/key/{keyId}:
     get:
-      operationId: getApiBtgKeyKeyid
+      operationId: getApi/v1.0BtgKeyKeyid
       parameters:
       - name: keyId
         in: path
@@ -775,9 +775,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Success_OUT_KeyPairResponse'
-  /api/btg/wallet/{walletId}/send:
+  /api/v1.0/btg/wallet/{walletId}/send:
     post:
-      operationId: postApiBtgWalletWalletidSend
+      operationId: postApi/v1.0BtgWalletWalletidSend
       parameters:
       - name: walletId
         in: path
@@ -799,9 +799,9 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_String'
       security:
       - httpAuth: []
-  /api/btg/wallet/{walletId}/webhook/{webhookId}:
+  /api/v1.0/btg/wallet/{walletId}/webhook/{webhookId}:
     get:
-      operationId: getApiBtgWalletWalletidWebhookWebhookid
+      operationId: getApi/v1.0BtgWalletWalletidWebhookWebhookid
       parameters:
       - name: walletId
         in: path
@@ -823,7 +823,7 @@ paths:
       security:
       - httpAuth: []
     delete:
-      operationId: deleteApiBtgWalletWalletidWebhookWebhookid
+      operationId: deleteApi/v1.0BtgWalletWalletidWebhookWebhookid
       parameters:
       - name: walletId
         in: path
@@ -850,9 +850,9 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_EmptyResponse'
       security:
       - httpAuth: []
-  /api/btg/wallet/{walletId}/webhook:
+  /api/v1.0/btg/wallet/{walletId}/webhook:
     get:
-      operationId: getApiBtgWalletWalletidWebhook
+      operationId: getApi/v1.0BtgWalletWalletidWebhook
       parameters:
       - name: walletId
         in: path
@@ -879,7 +879,7 @@ paths:
       security:
       - httpAuth: []
     post:
-      operationId: postApiBtgWalletWalletidWebhook
+      operationId: postApi/v1.0BtgWalletWalletidWebhook
       parameters:
       - name: walletId
         in: path
@@ -901,9 +901,9 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_EmptyResponse'
       security:
       - httpAuth: []
-  /api/btg/wallet/{walletId}/transfers/{txHash}:
+  /api/v1.0/btg/wallet/{walletId}/transfers/{txHash}:
     get:
-      operationId: getApiBtgWalletWalletidTransfersTxhash
+      operationId: getApi/v1.0BtgWalletWalletidTransfersTxhash
       parameters:
       - name: walletId
         in: path
@@ -924,9 +924,9 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_List_BitcoinTransferWithHistoryResponse'
       security:
       - httpAuth: []
-  /api/btg/wallet/{walletId}/transfers:
+  /api/v1.0/btg/wallet/{walletId}/transfers:
     get:
-      operationId: getApiBtgWalletWalletidTransfers
+      operationId: getApi/v1.0BtgWalletWalletidTransfers
       parameters:
       - name: walletId
         in: path
