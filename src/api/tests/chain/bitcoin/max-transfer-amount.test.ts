@@ -8,11 +8,7 @@ import { constants } from 'sakiewka-crypto'
 const { wallet } = app.sakiewkaApi[currency]
 
 // @ts-ignore
-const mockFn = jest.fn(() => {
-  return new Promise((resolve: Function) => {
-    resolve('test wallet')
-  })
-})
+const mockFn = jest.fn().mockResolvedValue('test wallet')
 
 wallet.maxTransferAmount = mockFn
 
@@ -54,7 +50,7 @@ describe(`/${currency}/wallet/max-transfer-amount`, () => {
     expect(data).to.eq('test wallet')
     expect(callArgs[0]).to.eq(`Bearer ${token}`)
     expect(callArgs[1]).to.eq('1233')
-    expect(callArgs[2]).to.eq('12')
+    expect(callArgs[2]).to.eq(12)
     expect(callArgs[3]).to.eq('0x0')
   })
 })

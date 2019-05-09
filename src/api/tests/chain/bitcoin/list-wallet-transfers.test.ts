@@ -8,11 +8,7 @@ import { currency } from '../../helpers'
 const { transfers } = app.sakiewkaApi[currency]
 
 // @ts-ignore
-const mockFn = jest.fn(() => {
-  return new Promise((resolve: Function) => {
-    resolve('my-transfers')
-  })
-})
+const mockFn = jest.fn().mockResolvedValue('my-transfers')
 
 transfers.listTransfers = mockFn
 

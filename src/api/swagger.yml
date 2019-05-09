@@ -3,9 +3,9 @@ info:
   title: sakiewka-crypto-local
   version: '1.0'
 paths:
-  /api/user/register:
+  /api/v1.0/user/register:
     post:
-      operationId: postApiUserRegister
+      operationId: postApi/v1.0UserRegister
       requestBody:
         content:
           application/json:
@@ -19,9 +19,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Success_OUT_EmptyResponse'
-  /api/user/setup-password:
+  /api/v1.0/user/setup-password:
     post:
-      operationId: postApiUserSetup-password
+      operationId: postApi/v1.0UserSetup-password
       requestBody:
         content:
           application/json:
@@ -37,9 +37,9 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_EmptyResponse'
       security:
       - httpAuth: []
-  /api/user/login:
+  /api/v1.0/user/login:
     post:
-      operationId: postApiUserLogin
+      operationId: postApi/v1.0UserLogin
       requestBody:
         content:
           application/json:
@@ -53,9 +53,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Success_OUT_LoginResponse'
-  /api/user/info:
+  /api/v1.0/user/info:
     get:
-      operationId: getApiUserInfo
+      operationId: getApi/v1.0UserInfo
       responses:
         '200':
           description: ''
@@ -65,9 +65,9 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_UserInfoResponse'
       security:
       - httpAuth: []
-  /api/user/logout:
+  /api/v1.0/user/logout:
     post:
-      operationId: postApiUserLogout
+      operationId: postApi/v1.0UserLogout
       responses:
         '200':
           description: ''
@@ -77,9 +77,9 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_EmptyResponse'
       security:
       - httpAuth: []
-  /api/user/2fa/confirm:
+  /api/v1.0/user/2fa/confirm:
     post:
-      operationId: postApiUser2faConfirm
+      operationId: postApi/v1.0User2faConfirm
       requestBody:
         content:
           application/json:
@@ -95,9 +95,9 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_EmptyResponse'
       security:
       - httpAuth: []
-  /api/user/2fa/init:
+  /api/v1.0/user/2fa/init:
     post:
-      operationId: postApiUser2faInit
+      operationId: postApi/v1.0User2faInit
       requestBody:
         content:
           application/json:
@@ -113,9 +113,9 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_Init2FaResponse'
       security:
       - httpAuth: []
-  /api/user/2fa/disable:
+  /api/v1.0/user/2fa/disable:
     post:
-      operationId: postApiUser2faDisable
+      operationId: postApi/v1.0User2faDisable
       requestBody:
         content:
           application/json:
@@ -342,9 +342,9 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_GetKeyResponse'
       security:
       - httpAuth: []
-  /api/btc/key/local:
+  /api/v1.0/btc/key/local:
     post:
-      operationId: postApiBtcKeyLocal
+      operationId: postApi/v1.0BtcKeyLocal
       requestBody:
         content:
           application/json:
@@ -358,9 +358,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Success_OUT_KeyPairResponse'
-  /api/btc/key/local/decrypt:
+  /api/v1.0/btc/key/local/decrypt:
     post:
-      operationId: postApiBtcKeyLocalDecrypt
+      operationId: postApi/v1.0BtcKeyLocalDecrypt
       requestBody:
         content:
           application/json:
@@ -374,9 +374,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Success_OUT_KeyPairResponse'
-  /api/btc/key/local/encrypt:
+  /api/v1.0/btc/key/local/encrypt:
     post:
-      operationId: postApiBtcKeyLocalEncrypt
+      operationId: postApi/v1.0BtcKeyLocalEncrypt
       requestBody:
         content:
           application/json:
@@ -727,9 +727,9 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_GetKeyResponse'
       security:
       - httpAuth: []
-  /api/btg/key/local:
+  /api/v1.0/btg/key/local:
     post:
-      operationId: postApiBtgKeyLocal
+      operationId: postApi/v1.0BtgKeyLocal
       requestBody:
         content:
           application/json:
@@ -743,9 +743,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Success_OUT_KeyPairResponse'
-  /api/btg/key/local/decrypt:
+  /api/v1.0/btg/key/local/decrypt:
     post:
-      operationId: postApiBtgKeyLocalDecrypt
+      operationId: postApi/v1.0BtgKeyLocalDecrypt
       requestBody:
         content:
           application/json:
@@ -759,9 +759,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Success_OUT_KeyPairResponse'
-  /api/btg/key/local/encrypt:
+  /api/v1.0/btg/key/local/encrypt:
     post:
-      operationId: postApiBtgKeyLocalEncrypt
+      operationId: postApi/v1.0BtgKeyLocalEncrypt
       requestBody:
         content:
           application/json:
@@ -952,6 +952,16 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_ListBtcTransfer'
       security:
       - httpAuth: []
+  /api/v1.0/fee-rate:
+    get:
+      operationId: getApi/v1.0Fee-rate
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_GetFeeRate_OUT'
 components:
   schemas:
     CreateWebhookRequest:
@@ -1043,6 +1053,8 @@ components:
           $ref: '#/components/schemas/Map'
         passphrase:
           type: string
+        feeRate:
+          type: integer
     KeyPair:
       required:
       - pubKey
@@ -1086,6 +1098,16 @@ components:
       type: object
       properties:
         name:
+          type: string
+    Success_OUT_GetFeeRate_OUT:
+      required:
+      - data
+      - status
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/GetFeeRate_OUT'
+        status:
           type: string
     Backup:
       type: object
@@ -1275,6 +1297,13 @@ components:
           $ref: '#/components/schemas/LoginResponse'
         status:
           type: string
+    GetFeeRate_OUT:
+      required:
+      - recommended
+      type: object
+      properties:
+        recommended:
+          type: integer
     WalletBalance:
       required:
       - available

@@ -6,11 +6,7 @@ import { constants } from 'sakiewka-crypto'
 const { core } = app.backendApi
 
 // @ts-ignore
-const mockFn = jest.fn(() => {
-  return new Promise((resolve: Function) => {
-    resolve('regtest')
-  })
-})
+const mockFn = jest.fn().mockResolvedValue('regtest')
 
 core.chainNetworkType = mockFn
 

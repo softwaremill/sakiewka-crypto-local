@@ -7,11 +7,7 @@ import { constants, crypto } from 'sakiewka-crypto'
 const { user } = app.sakiewkaApi
 
 // @ts-ignore
-const mockFn = jest.fn(() => {
-  return new Promise((resolve: Function) => {
-    resolve('test wallet')
-  })
-})
+const mockFn = jest.fn().mockResolvedValue('test wallet')
 
 user.verifyEmail = mockFn
 

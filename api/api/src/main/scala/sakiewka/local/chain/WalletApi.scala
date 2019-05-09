@@ -36,7 +36,7 @@ class WalletApi(val currency: String) {
 
   private val maxTransfer = secureEndpoint.get
     .in(walletIdPathInput)
-    .in(query[String]("recipient") and query[Int]("feeRate"))
+    .in(query[String]("recipient") and query[SatoshisPerByte]("feeRate"))
     .out(jsonBody[Success_OUT[MaxTransferResponse]])
 
   val endpoints: List[Endpoint[_, _, _, _]] = List(createWallet, getWallet, getWallets, maxTransfer)

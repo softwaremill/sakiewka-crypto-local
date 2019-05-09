@@ -6,11 +6,7 @@ import { constants } from 'sakiewka-crypto'
 const { user } = app.sakiewkaApi
 
 // @ts-ignore
-const mockFn = jest.fn(() => {
-  return new Promise((resolve: Function) => {
-    resolve('qrImageUrl')
-  })
-})
+const mockFn = jest.fn().mockResolvedValue('qrImageUrl')
 
 user.init2fa = mockFn
 
