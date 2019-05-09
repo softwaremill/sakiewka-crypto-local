@@ -79,6 +79,8 @@ paths:
       - httpAuth: []
   /api/v1.0/user/2fa/confirm:
     post:
+      tags:
+      - user
       operationId: postApi/v1.0User2faConfirm
       requestBody:
         content:
@@ -97,6 +99,8 @@ paths:
       - httpAuth: []
   /api/v1.0/user/2fa/init:
     post:
+      tags:
+      - user
       operationId: postApi/v1.0User2faInit
       requestBody:
         content:
@@ -115,6 +119,8 @@ paths:
       - httpAuth: []
   /api/v1.0/user/2fa/disable:
     post:
+      tags:
+      - user
       operationId: postApi/v1.0User2faDisable
       requestBody:
         content:
@@ -133,6 +139,8 @@ paths:
       - httpAuth: []
   /api/v1.0/transfers/monthly-summary/{month}/{year}/{fiatCurrency}:
     get:
+      tags:
+      - transfers
       operationId: getApi/v1.0TransfersMonthly-summaryMonthYearFiatcurrency
       parameters:
       - name: month
@@ -161,6 +169,8 @@ paths:
       - httpAuth: []
   /api/v1.0/transfers:
     get:
+      tags:
+      - transfers
       operationId: getApi/v1.0Transfers
       parameters:
       - name: limit
@@ -184,6 +194,8 @@ paths:
       - httpAuth: []
   /api/v1.0/btc/wallet:
     get:
+      tags:
+      - btc
       operationId: getApi/v1.0BtcWallet
       parameters:
       - name: limit
@@ -206,6 +218,8 @@ paths:
       security:
       - httpAuth: []
     post:
+      tags:
+      - btc
       operationId: postApi/v1.0BtcWallet
       requestBody:
         content:
@@ -224,6 +238,8 @@ paths:
       - httpAuth: []
   /api/v1.0/btc/wallet/{walletId}:
     get:
+      tags:
+      - btc
       operationId: getApi/v1.0BtcWalletWalletid
       parameters:
       - name: walletId
@@ -242,6 +258,8 @@ paths:
       - httpAuth: []
   /api/v1.0/btc/wallet/{walletId}/address/{address}:
     get:
+      tags:
+      - btc
       operationId: getApi/v1.0BtcWalletWalletidAddressAddress
       parameters:
       - name: walletId
@@ -265,6 +283,8 @@ paths:
       - httpAuth: []
   /api/v1.0/btc/wallet/{walletId}/address:
     get:
+      tags:
+      - btc
       operationId: getApi/v1.0BtcWalletWalletidAddress
       parameters:
       - name: walletId
@@ -292,6 +312,8 @@ paths:
       security:
       - httpAuth: []
     post:
+      tags:
+      - btc
       operationId: postApi/v1.0BtcWalletWalletidAddress
       parameters:
       - name: walletId
@@ -321,6 +343,8 @@ paths:
       - httpAuth: []
   /api/v1.0/btc/key/{keyId}:
     get:
+      tags:
+      - btc
       operationId: getApi/v1.0BtcKeyKeyid
       parameters:
       - name: keyId
@@ -344,6 +368,8 @@ paths:
       - httpAuth: []
   /api/v1.0/btc/key/local:
     post:
+      tags:
+      - btc
       operationId: postApi/v1.0BtcKeyLocal
       requestBody:
         content:
@@ -360,6 +386,8 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_KeyPairResponse'
   /api/v1.0/btc/key/local/decrypt:
     post:
+      tags:
+      - btc
       operationId: postApi/v1.0BtcKeyLocalDecrypt
       requestBody:
         content:
@@ -376,6 +404,8 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_KeyPairResponse'
   /api/v1.0/btc/key/local/encrypt:
     post:
+      tags:
+      - btc
       operationId: postApi/v1.0BtcKeyLocalEncrypt
       requestBody:
         content:
@@ -392,6 +422,8 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_KeyPairResponse'
   /api/v1.0/btc/wallet/{walletId}/send:
     post:
+      tags:
+      - btc
       operationId: postApi/v1.0BtcWalletWalletidSend
       parameters:
       - name: walletId
@@ -416,6 +448,8 @@ paths:
       - httpAuth: []
   /api/v1.0/btc/wallet/{walletId}/webhook/{webhookId}:
     get:
+      tags:
+      - btc
       operationId: getApi/v1.0BtcWalletWalletidWebhookWebhookid
       parameters:
       - name: walletId
@@ -438,6 +472,8 @@ paths:
       security:
       - httpAuth: []
     delete:
+      tags:
+      - btc
       operationId: deleteApi/v1.0BtcWalletWalletidWebhookWebhookid
       parameters:
       - name: walletId
@@ -467,6 +503,8 @@ paths:
       - httpAuth: []
   /api/v1.0/btc/wallet/{walletId}/webhook:
     get:
+      tags:
+      - btc
       operationId: getApi/v1.0BtcWalletWalletidWebhook
       parameters:
       - name: walletId
@@ -494,6 +532,8 @@ paths:
       security:
       - httpAuth: []
     post:
+      tags:
+      - btc
       operationId: postApi/v1.0BtcWalletWalletidWebhook
       parameters:
       - name: walletId
@@ -518,6 +558,8 @@ paths:
       - httpAuth: []
   /api/v1.0/btc/wallet/{walletId}/transfers/{txHash}:
     get:
+      tags:
+      - btc
       operationId: getApi/v1.0BtcWalletWalletidTransfersTxhash
       parameters:
       - name: walletId
@@ -541,6 +583,8 @@ paths:
       - httpAuth: []
   /api/v1.0/btc/wallet/{walletId}/transfers:
     get:
+      tags:
+      - btc
       operationId: getApi/v1.0BtcWalletWalletidTransfers
       parameters:
       - name: walletId
@@ -569,6 +613,8 @@ paths:
       - httpAuth: []
   /api/v1.0/btg/wallet:
     get:
+      tags:
+      - btg
       operationId: getApi/v1.0BtgWallet
       parameters:
       - name: limit
@@ -591,6 +637,8 @@ paths:
       security:
       - httpAuth: []
     post:
+      tags:
+      - btg
       operationId: postApi/v1.0BtgWallet
       requestBody:
         content:
@@ -609,6 +657,8 @@ paths:
       - httpAuth: []
   /api/v1.0/btg/wallet/{walletId}:
     get:
+      tags:
+      - btg
       operationId: getApi/v1.0BtgWalletWalletid
       parameters:
       - name: walletId
@@ -627,6 +677,8 @@ paths:
       - httpAuth: []
   /api/v1.0/btg/wallet/{walletId}/address/{address}:
     get:
+      tags:
+      - btg
       operationId: getApi/v1.0BtgWalletWalletidAddressAddress
       parameters:
       - name: walletId
@@ -650,6 +702,8 @@ paths:
       - httpAuth: []
   /api/v1.0/btg/wallet/{walletId}/address:
     get:
+      tags:
+      - btg
       operationId: getApi/v1.0BtgWalletWalletidAddress
       parameters:
       - name: walletId
@@ -677,6 +731,8 @@ paths:
       security:
       - httpAuth: []
     post:
+      tags:
+      - btg
       operationId: postApi/v1.0BtgWalletWalletidAddress
       parameters:
       - name: walletId
@@ -706,6 +762,8 @@ paths:
       - httpAuth: []
   /api/v1.0/btg/key/{keyId}:
     get:
+      tags:
+      - btg
       operationId: getApi/v1.0BtgKeyKeyid
       parameters:
       - name: keyId
@@ -729,6 +787,8 @@ paths:
       - httpAuth: []
   /api/v1.0/btg/key/local:
     post:
+      tags:
+      - btg
       operationId: postApi/v1.0BtgKeyLocal
       requestBody:
         content:
@@ -745,6 +805,8 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_KeyPairResponse'
   /api/v1.0/btg/key/local/decrypt:
     post:
+      tags:
+      - btg
       operationId: postApi/v1.0BtgKeyLocalDecrypt
       requestBody:
         content:
@@ -761,6 +823,8 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_KeyPairResponse'
   /api/v1.0/btg/key/local/encrypt:
     post:
+      tags:
+      - btg
       operationId: postApi/v1.0BtgKeyLocalEncrypt
       requestBody:
         content:
@@ -777,6 +841,8 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_KeyPairResponse'
   /api/v1.0/btg/wallet/{walletId}/send:
     post:
+      tags:
+      - btg
       operationId: postApi/v1.0BtgWalletWalletidSend
       parameters:
       - name: walletId
@@ -801,6 +867,8 @@ paths:
       - httpAuth: []
   /api/v1.0/btg/wallet/{walletId}/webhook/{webhookId}:
     get:
+      tags:
+      - btg
       operationId: getApi/v1.0BtgWalletWalletidWebhookWebhookid
       parameters:
       - name: walletId
@@ -823,6 +891,8 @@ paths:
       security:
       - httpAuth: []
     delete:
+      tags:
+      - btg
       operationId: deleteApi/v1.0BtgWalletWalletidWebhookWebhookid
       parameters:
       - name: walletId
@@ -852,6 +922,8 @@ paths:
       - httpAuth: []
   /api/v1.0/btg/wallet/{walletId}/webhook:
     get:
+      tags:
+      - btg
       operationId: getApi/v1.0BtgWalletWalletidWebhook
       parameters:
       - name: walletId
@@ -879,6 +951,8 @@ paths:
       security:
       - httpAuth: []
     post:
+      tags:
+      - btg
       operationId: postApi/v1.0BtgWalletWalletidWebhook
       parameters:
       - name: walletId
@@ -903,6 +977,8 @@ paths:
       - httpAuth: []
   /api/v1.0/btg/wallet/{walletId}/transfers/{txHash}:
     get:
+      tags:
+      - btg
       operationId: getApi/v1.0BtgWalletWalletidTransfersTxhash
       parameters:
       - name: walletId
@@ -926,6 +1002,8 @@ paths:
       - httpAuth: []
   /api/v1.0/btg/wallet/{walletId}/transfers:
     get:
+      tags:
+      - btg
       operationId: getApi/v1.0BtgWalletWalletidTransfers
       parameters:
       - name: walletId
@@ -954,6 +1032,8 @@ paths:
       - httpAuth: []
   /api/v1.0/fee-rate:
     get:
+      tags:
+      - btc
       operationId: getApi/v1.0Fee-rate
       responses:
         '200':
@@ -1050,7 +1130,9 @@ components:
         xprv:
           type: string
         recipients:
-          $ref: '#/components/schemas/Map'
+          type: array
+          items:
+            $ref: '#/components/schemas/Recipients_IN'
         passphrase:
           type: string
         feeRate:
@@ -1115,6 +1197,16 @@ components:
       type: object
       properties:
         passphrase:
+          type: string
+    Recipients_IN:
+      required:
+      - address
+      - amount
+      type: object
+      properties:
+        address:
+          type: string
+        amount:
           type: string
     Success_OUT_GetAddressResponse:
       required:
