@@ -23,7 +23,7 @@ class TransferApi {
     .in("transfers" / "monthly-summary" / path[Int]("month") / path[Int]("year") / path[String]("fiatCurrency"))
     .out(jsonBody[Success_OUT[UserPeriodSummary]])
 
-  val endpoints: List[Endpoint[_, _, _, _]] = List(monthlySummaryEndpoint, listTransfers)
+  val endpoints: List[Endpoint[_, _, _, _]] = List(monthlySummaryEndpoint, listTransfers).map(_.tag("transfers"))
 }
 
 object TransferApi {

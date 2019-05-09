@@ -90,7 +90,7 @@ object UserApi {
       .in(jsonBody[Disable2faRequest])
       .out(jsonBody[Success_OUT[EmptyResponse]])
 
-    val endpoints: List[Endpoint[_, _, _, _]] = List(confirm2Fa, init2Fa, disable2Fa)
+    val endpoints: List[Endpoint[_, _, _, _]] = List(confirm2Fa, init2Fa, disable2Fa).map(_.tag("user"))
   }
 
   val endpoints: List[Endpoint[_, _, _, _]] = List(register, setupPassword, login, info, logout) ++ TwoFactor.endpoints
