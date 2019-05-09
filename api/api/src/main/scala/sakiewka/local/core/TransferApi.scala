@@ -48,6 +48,7 @@ object TransferApi {
                                               totalOutputsWallet: String,
                                               totalOutputsService: String,
                                               totalOutputsOtherInFiat: BigDecimal,
+                                              totalOutputsWalletInFiat: BigDecimal,
                                               totalOutputsServiceInFiat: BigDecimal)
   }
 }
