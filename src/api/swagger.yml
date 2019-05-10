@@ -1161,6 +1161,7 @@ components:
       - totalOutputsWallet
       - totalOutputsService
       - totalOutputsOtherInFiat
+      - totalOutputsWalletInFiat
       - totalOutputsServiceInFiat
       type: object
       properties:
@@ -1173,6 +1174,8 @@ components:
         totalOutputsService:
           type: string
         totalOutputsOtherInFiat:
+          type: string
+        totalOutputsWalletInFiat:
           type: string
         totalOutputsServiceInFiat:
           type: string
