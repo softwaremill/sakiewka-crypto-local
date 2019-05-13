@@ -144,6 +144,13 @@ export const listAddressesRequest = {
   })
 }
 
+export const listUtxosByAddressRequest = {
+  query: createSchema({
+    nextPageToken: Joi.string(),
+    limit: Joi.string().required()
+  })
+}
+
 export const listTransfersRequest = {
   query: createSchema({
     nextPageToken: Joi.string(),

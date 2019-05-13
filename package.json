@@ -59,7 +59,7 @@
     "express": "4.16.4",
     "joi": "13.7.0",
     "node-fetch": "2.3.0",
-    "sakiewka-crypto": "github:softwaremill/sakiewka-crypto#d233f0f",
+    "sakiewka-crypto": "github:softwaremill/sakiewka-crypto#a93af47bad26a466e996cffa50b2f7c9091e7cbb",
     "swagger-ui-express": "4.0.1",
     "winston": "^3.1.0",
     "yamljs": "0.3.0"
