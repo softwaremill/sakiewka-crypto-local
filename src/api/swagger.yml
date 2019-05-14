@@ -611,6 +611,41 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_ListBtcTransfer'
       security:
       - httpAuth: []
+  /api/v1.0/btc/wallet/{walletId}/{address}/utxo:
+    get:
+      tags:
+      - btc
+      operationId: getApi/v1.0BtcWalletWalletidAddressUtxo
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: address
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: integer
+      - name: nextPageToken
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_ListUtxosByAddress'
+      security:
+      - httpAuth: []
   /api/v1.0/btg/wallet:
     get:
       tags:
@@ -1042,6 +1077,41 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Success_OUT_GetFeeRate_OUT'
+  /api/v1.0/btg/wallet/{walletId}/{address}/utxo:
+    get:
+      tags:
+      - btg
+      operationId: getApi/v1.0BtgWalletWalletidAddressUtxo
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: address
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: integer
+      - name: nextPageToken
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_ListUtxosByAddress'
+      security:
+      - httpAuth: []
 components:
   schemas:
     CreateWebhookRequest:
@@ -1271,6 +1341,16 @@ components:
           $ref: '#/components/schemas/ClassifiedRecipients'
         outputs:
           $ref: '#/components/schemas/ClassifiedRecipients'
+    Success_OUT_ListUtxosByAddress:
+      required:
+      - data
+      - status
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ListUtxosByAddress'
+        status:
+          type: string
     CreateAddressResponse:
       required:
       - address
@@ -1478,6 +1558,17 @@ components:
           type: string
     User:
       type: object
+    ListUtxosByAddress:
+      required:
+      - outputs
+      type: object
+      properties:
+        outputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/BitcoinUnspentOutputWithPath'
+        nextPageToken:
+          type: string
     Success_OUT_String:
       required:
       - data
@@ -1734,6 +1825,22 @@ components:
       properties:
         login:
           type: string
+    BitcoinUnspentOutputWithPath:
+      required:
+      - txHash
+      - n
+      - amount
+      - path
+      type: object
+      properties:
+        txHash:
+          type: string
+        n:
+          type: integer
+        amount:
+          type: string
+        path:
+          $ref: '#/components/schemas/BIP45DerivationPath'
     Success_OUT_CreateWalletResponse:
       required:
       - data
