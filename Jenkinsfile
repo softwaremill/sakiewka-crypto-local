@@ -44,10 +44,9 @@ spec:
             }
             container('dind') {
                 stage('Build docker image') {
-                    sh """
-                    set -e
-                    docker build . -t ${dockerRepository}:${gitCommitHash} -t ${dockerRepository}:latest
-                    """
+                    container('node10') {
+                        sh"""npm dockerPublishLocal"""
+                    }
                 }
                 stage('Push to Docker Hub') {
                     withCredentials([usernamePassword(
@@ -59,10 +58,7 @@ spec:
                             docker login -u \$DOCKERHUB_USERNAME -p \$DOCKERHUB_PASSWORD
                         """
                         if (env.BRANCH_NAME == 'master') {
-                            sh """
-                                docker push ${dockerRepository}:${gitCommitHash}
-                                docker push ${dockerRepository}:latest
-                            """
+                            sh """npm dockerPush"""
                         } else {
                             def safeBranchName = env.BRANCH_NAME.replace('/', '-')
                             sh """
