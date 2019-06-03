@@ -26,7 +26,6 @@ class WebhookApi(val currency: String) {
 
   private val deleteWebhook = secureEndpoint.delete
     .in(webhookIdPathInput)
-    .in(jsonBody[CreateWebhookRequest])
     .out(jsonBody[Success_OUT[EmptyResponse]])
 
   private val getWebhook = secureEndpoint.get
