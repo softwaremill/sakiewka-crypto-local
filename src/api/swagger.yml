@@ -486,12 +486,6 @@ paths:
         required: true
         schema:
           type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateWebhookRequest'
-        required: true
       responses:
         '200':
           description: ''
@@ -611,6 +605,18 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_ListBtcTransfer'
       security:
       - httpAuth: []
+  /api/v1.0/btc/fee-rate:
+    get:
+      tags:
+      - btc
+      operationId: getApi/v1.0BtcFee-rate
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_GetFeeRate_OUT'
   /api/v1.0/btc/wallet/{walletId}/{address}/utxo:
     get:
       tags:
@@ -940,12 +946,6 @@ paths:
         required: true
         schema:
           type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateWebhookRequest'
-        required: true
       responses:
         '200':
           description: ''
@@ -1065,11 +1065,11 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_ListBtcTransfer'
       security:
       - httpAuth: []
-  /api/v1.0/fee-rate:
+  /api/v1.0/btg/fee-rate:
     get:
       tags:
-      - btc
-      operationId: getApi/v1.0Fee-rate
+      - btg
+      operationId: getApi/v1.0BtgFee-rate
       responses:
         '200':
           description: ''
