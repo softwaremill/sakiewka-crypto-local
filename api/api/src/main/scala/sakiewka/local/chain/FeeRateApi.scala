@@ -11,7 +11,7 @@ class FeeRateApi(val currency: String) {
   import FeeRateApi.Response._
 
   private val getFeeRate = baseEndpoint.get
-    .in("fee-rate")
+    .in(currency / "fee-rate")
     .out(jsonBody[Success_OUT[GetFeeRate_OUT]])
 
   val endpoints: List[Endpoint[_, _, _, _]] = List(getFeeRate)
