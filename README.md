@@ -8,7 +8,7 @@ Run:
 1. `npm ci`
 2. `npm run build`
 
-Api documentation is available at `/api/v1.0/docs`
+Api documentation is available at `/api/docs`
 
 ### package.json modification:
 
