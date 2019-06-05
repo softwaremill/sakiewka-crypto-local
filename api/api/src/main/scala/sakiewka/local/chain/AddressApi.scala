@@ -20,7 +20,6 @@ class AddressApi(currency: String) {
 
   private val createAddress = secureEndpoint.post
     .in(walletIdPathInput / "address")
-    .in(query[Option[Boolean]]("change"))
     .in(jsonBody[CreateAddressRequest])
     .out(jsonBody[Success_OUT[CreateAddressResponse]])
 
@@ -40,7 +39,7 @@ object AddressApi {
 
   object Request {
 
-    case class CreateAddressRequest(name: Option[String])
+    case class CreateAddressRequest(name: Option[String], isChange: Option[Boolean])
 
   }
 

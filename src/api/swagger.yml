@@ -321,11 +321,6 @@ paths:
         required: true
         schema:
           type: string
-      - name: change
-        in: query
-        required: false
-        schema:
-          type: boolean
       requestBody:
         content:
           application/json:
@@ -781,11 +776,6 @@ paths:
         required: true
         schema:
           type: string
-      - name: change
-        in: query
-        required: false
-        schema:
-          type: boolean
       requestBody:
         content:
           application/json:
@@ -1254,6 +1244,8 @@ components:
       properties:
         name:
           type: string
+        isChange:
+          type: boolean
     Success_OUT_GetFeeRate_OUT:
       required:
       - data
