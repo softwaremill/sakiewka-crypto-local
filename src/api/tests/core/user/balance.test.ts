@@ -24,15 +24,6 @@ describe('/user/balance', () => {
     expect(response.body.errors[0].message).to.be.equal('Request header Authorization is required.')
   })
 
-  it('should not accept request without authorisation', async () => {
-    const response = await supertest(app)
-      .get(`/${constants.BASE_API_PATH}/user/balance`)
-      .send({ fiatCurrency: 'USD' })
-
-    expect(response.status).to.be.equal(400)
-    expect(response.body.errors[0].message).to.be.equal('Request header Authorization is required.')
-  })
-
   it('should fetch user balance', async () => {
     const token = 'testToken'
 
