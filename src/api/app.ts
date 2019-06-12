@@ -27,6 +27,7 @@ import { errorResponse } from './response'
 import { init2fa } from './handlers/core/user/init2fa'
 import { confirm2fa } from './handlers/core/user/confirm2fa'
 import { disable2fa } from './handlers/core/user/disable2fa'
+import { balance } from './handlers/core/user/balance'
 import maxTransferAmount from './handlers/chain/bitcoin/max-transfer-amount'
 import setupPassword from './handlers/core/user/setup-password'
 import chainNetworkType from './handlers/chain-network-type'
@@ -115,6 +116,7 @@ app.post(`/${constants.BASE_API_PATH}/user/2fa/init`, errorHandled(init2fa(sakie
 app.post(`/${constants.BASE_API_PATH}/user/2fa/confirm`, errorHandled(confirm2fa(sakiewkaApiModule)))
 app.post(`/${constants.BASE_API_PATH}/user/2fa/disable`, errorHandled(disable2fa(sakiewkaApiModule)))
 app.post(`/${constants.BASE_API_PATH}/user/setup-password`, errorHandled(setupPassword(sakiewkaApiModule)))
+app.get(`/${constants.BASE_API_PATH}/user/balance`, errorHandled(balance(sakiewkaApiModule)))
 
 const currencies = [Currency.BTC, Currency.BTG]
 currencies.forEach((currency) => {
