@@ -1487,6 +1487,7 @@ components:
       - token
       - tokenInfo
       - expiry
+      - twoFaEnabled
       type: object
       properties:
         email:
@@ -1498,6 +1499,8 @@ components:
         expiry:
           type: string
           format: date-time
+        twoFaEnabled:
+          type: boolean
     Success_OUT_GetKeyResponse:
       required:
       - data
