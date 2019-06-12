@@ -226,3 +226,9 @@ export const listWalletsForPolicyRequest = {
     policyId: Joi.string()
   })
 }
+
+export const balanceRequest = {
+  body: createSchema({
+    fiatCurrency: Joi.string().required()
+  })
+}
