@@ -34,7 +34,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Success_OUT_EmptyResponse'
+                $ref: '#/components/schemas/Success_OUT_SetupPasswordResponse'
       security:
       - httpAuth: []
   /api/v1.0/user/login:
@@ -1258,6 +1258,13 @@ components:
           type: string
     Backup:
       type: object
+    SetupPasswordResponse:
+      required:
+      - token
+      type: object
+      properties:
+        token:
+          type: string
     CreateKeyRequest:
       type: object
       properties:
@@ -1333,6 +1340,16 @@ components:
           $ref: '#/components/schemas/ClassifiedRecipients'
         outputs:
           $ref: '#/components/schemas/ClassifiedRecipients'
+    Success_OUT_SetupPasswordResponse:
+      required:
+      - data
+      - status
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/SetupPasswordResponse'
+        status:
+          type: string
     Success_OUT_ListUtxosByAddress:
       required:
       - data

@@ -2,12 +2,11 @@ package sakiewka.local.core
 
 import java.time.Instant
 
+import io.circe.generic.auto._
 import sakiewka.local.Common.baseEndpoint
 import sakiewka.local.{EmptyResponse, Success_OUT}
-import tapir.Endpoint
-import tapir._
+import tapir.{Endpoint, _}
 import tapir.json.circe._
-import io.circe.generic.auto._
 
 object UserApi {
 
@@ -37,6 +36,8 @@ object UserApi {
 
     case class Init2FaResponse(qrCodeUrl: String, email: String, secretKey: String)
 
+    case class SetupPasswordResponse(token: String)
+
   }
 
   import Request._
@@ -53,7 +54,7 @@ object UserApi {
     .in(auth.bearer)
     .in("setup-password")
     .in(jsonBody[SetupPasswordRequest])
-    .out(jsonBody[Success_OUT[EmptyResponse]])
+    .out(jsonBody[Success_OUT[SetupPasswordResponse]])
 
   private val login = userBaseEndpoint.post
     .in("login")
