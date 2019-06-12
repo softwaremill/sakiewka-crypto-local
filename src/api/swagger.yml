@@ -5,6 +5,8 @@ info:
 paths:
   /api/v1.0/user/register:
     post:
+      tags:
+      - user
       operationId: postApi/v1.0UserRegister
       requestBody:
         content:
@@ -21,6 +23,8 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_EmptyResponse'
   /api/v1.0/user/setup-password:
     post:
+      tags:
+      - user
       operationId: postApi/v1.0UserSetup-password
       requestBody:
         content:
@@ -39,6 +43,8 @@ paths:
       - httpAuth: []
   /api/v1.0/user/login:
     post:
+      tags:
+      - user
       operationId: postApi/v1.0UserLogin
       requestBody:
         content:
@@ -55,6 +61,8 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_LoginResponse'
   /api/v1.0/user/info:
     get:
+      tags:
+      - user
       operationId: getApi/v1.0UserInfo
       responses:
         '200':
@@ -67,6 +75,8 @@ paths:
       - httpAuth: []
   /api/v1.0/user/logout:
     post:
+      tags:
+      - user
       operationId: postApi/v1.0UserLogout
       responses:
         '200':
