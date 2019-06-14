@@ -14,7 +14,7 @@ const listWallets = (sakiewkaCrypto, currency: Currency) => async (req: Request,
   }
 
   const backendResponse = await wallet.listWallets(
-    req.header('authorization'), queryParams.limit, queryParams.nextPageToken
+    req.header('authorization'), queryParams.limit, queryParams.searchPhrase, queryParams.nextPageToken
   )
 
   jsonResponse(res, backendResponse)

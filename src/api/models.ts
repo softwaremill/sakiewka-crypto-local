@@ -81,7 +81,8 @@ export const getWalletRequest = {}
 export const listWalletsRequest = {
   query: createSchema({
     nextPageToken: Joi.string(),
-    limit: Joi.string().required()
+    limit: Joi.string().required(),
+    searchPhrase: Joi.string()
   })
 }
 
