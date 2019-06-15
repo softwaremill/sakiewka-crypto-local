@@ -32,7 +32,11 @@ object UserApi {
 
     case class TokenInfo(scope: List[String])
 
-    case class UserInfoResponse(email: String, token: String, tokenInfo: TokenInfo, expiry: Instant)
+    case class UserInfoResponse(email: String,
+                                token: String,
+                                tokenInfo: TokenInfo,
+                                expiry: Instant,
+                                twoFaEnabled: Boolean)
 
     case class Init2FaResponse(qrCodeUrl: String, email: String, secretKey: String)
 
