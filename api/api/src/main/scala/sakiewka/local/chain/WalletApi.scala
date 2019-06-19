@@ -28,6 +28,7 @@ class WalletApi(val currency: String) {
 
   private val getWallets = walletEndpoint.get
     .in(pagingInput)
+    .in(query[Option[String]]("searchPhrase"))
     .out(jsonBody[Success_OUT[ListWalletsResponse]])
 
   private val getWallet = secureEndpoint.get

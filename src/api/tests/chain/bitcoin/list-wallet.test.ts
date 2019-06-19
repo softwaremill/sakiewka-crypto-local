@@ -33,7 +33,7 @@ describe(`/${currency}/wallet`, () => {
     const token = 'testToken'
 
     const response = await supertest(app)
-      .get(`/${constants.BASE_API_PATH}/${currency}/wallet?limit=20`)
+      .get(`/${constants.BASE_API_PATH}/${currency}/wallet?limit=20&searchPhrase=phrase`)
       .set('Authorization', `Bearer ${token}`)
 
     const callArgs = mockFn.mock.calls[0]
@@ -43,6 +43,7 @@ describe(`/${currency}/wallet`, () => {
     expect(data).to.eq('test wallet')
     expect(callArgs[0]).to.eq(`Bearer ${token}`)
     expect(callArgs[1]).to.eq('20')
-    expect(callArgs[2]).to.eq(undefined)
+    expect(callArgs[2]).to.eq('phrase')
+    expect(callArgs[3]).to.eq(undefined)
   })
 })
