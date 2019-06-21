@@ -87,6 +87,39 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_EmptyResponse'
       security:
       - httpAuth: []
+  /api/v1.0/user/auth-token:
+    post:
+      tags:
+      - user
+      operationId: postApi/v1.0UserAuth-token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTokenRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_CreateTokenResponse'
+      security:
+      - httpAuth: []
+    delete:
+      tags:
+      - user
+      operationId: deleteApi/v1.0UserAuth-token
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success_OUT_EmptyResponse'
+      security:
+      - httpAuth: []
   /api/v1.0/user/2fa/confirm:
     post:
       tags:
@@ -214,6 +247,11 @@ paths:
         schema:
           type: integer
       - name: nextPageToken
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: searchPhrase
         in: query
         required: false
         schema:
@@ -669,6 +707,11 @@ paths:
         schema:
           type: integer
       - name: nextPageToken
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: searchPhrase
         in: query
         required: false
         schema:
@@ -1407,6 +1450,16 @@ components:
           $ref: '#/components/schemas/ListAddressesResponse'
         status:
           type: string
+    Success_OUT_CreateTokenResponse:
+      required:
+      - data
+      - status
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/CreateTokenResponse'
+        status:
+          type: string
     BIP45DerivationPath:
       required:
       - cosignerIndex
@@ -1555,6 +1608,19 @@ components:
           $ref: '#/components/schemas/MaxTransferResponse'
         status:
           type: string
+    CreateTokenRequest:
+      required:
+      - scope
+      type: object
+      properties:
+        duration:
+          type: string
+        ip:
+          type: string
+        scope:
+          type: array
+          items:
+            type: string
     ListWalletsResponse:
       required:
       - data
@@ -1793,6 +1859,13 @@ components:
         id:
           type: string
         balance:
+          type: string
+    CreateTokenResponse:
+      required:
+      - token
+      type: object
+      properties:
+        token:
           type: string
     Success_OUT_UserPeriodSummary:
       required:
