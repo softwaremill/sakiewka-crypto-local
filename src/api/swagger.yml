@@ -218,6 +218,11 @@ paths:
         required: false
         schema:
           type: string
+      - name: searchPhrase
+        in: query
+        required: false
+        schema:
+          type: string
       responses:
         '200':
           description: ''
@@ -669,6 +674,11 @@ paths:
         schema:
           type: integer
       - name: nextPageToken
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: searchPhrase
         in: query
         required: false
         schema:
