@@ -48,6 +48,7 @@ import listWalletTransfers from './handlers/chain/bitcoin/list-wallet-transfers'
 import findTransferByTxHash from './handlers/chain/bitcoin/find-transfer-by-tx-hash'
 import getFeeRate from './handlers/chain/bitcoin/get-fee-rate'
 import listUtxosByAddress from './handlers/chain/bitcoin/list-utxos-by-address'
+import editWallet from "./handlers/chain/bitcoin/edit-wallet";
 
 const swaggerDocument = YAML.load(`${__dirname}/swagger.yml`)
 dotenv.config()
@@ -131,6 +132,7 @@ currencies.forEach((currency) => {
   // wallet
   const BASE_PATH = `${constants.BASE_API_PATH}/${currency}`
   app.post(`/${BASE_PATH}/wallet`, errorHandled(createWallet(sakiewkaApiModule, currency)))
+  app.patch(`/${BASE_PATH}/wallet/:id`, errorHandled(editWallet(sakiewkaApiModule, currency)))
   app.get(`/${BASE_PATH}/wallet`, errorHandled(listWallets(sakiewkaApiModule, currency)))
   app.get(`/${BASE_PATH}/wallet/:id`, errorHandled(getWallet(sakiewkaApiModule, currency)))
   app.post(`/${BASE_PATH}/wallet/:walletId/address`, errorHandled(createAddress(sakiewkaApiModule, currency)))

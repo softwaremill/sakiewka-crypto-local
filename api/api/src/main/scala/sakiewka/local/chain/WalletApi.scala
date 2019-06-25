@@ -31,6 +31,9 @@ class WalletApi(val currency: String) {
     .in(query[Option[String]]("searchPhrase"))
     .out(jsonBody[Success_OUT[ListWalletsResponse]])
 
+  private val editWallet = walletEndpoint.patch
+    .in(jsonBody[EditWalletRequest])
+
   private val getWallet = secureEndpoint.get
     .in(walletIdPathInput)
     .out(jsonBody[Success_OUT[GetWalletResponse]])
@@ -51,6 +54,8 @@ object WalletApi {
                                    passphrase: Option[String],
                                    userPubKey: Option[String],
                                    backupPubKey: Option[String])
+
+    case class EditWalletRequest(name: String)
   }
 
   object Response {
