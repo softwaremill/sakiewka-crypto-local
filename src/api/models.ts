@@ -239,3 +239,11 @@ export const balanceRequest = {
     fiatCurrency: Joi.string().required()
   })
 }
+
+export const createAuthTokenRequest = {
+  body: createSchema({
+    duration: Joi.string(),
+    ip: Joi.string(),
+    scope: Joi.array().items(Joi.string()),
+  })
+}

@@ -24,6 +24,8 @@ object UserApi {
 
     case class Disable2faRequest(password: String, code: Int)
 
+    case class CreateTokenRequest(duration: Option[String], ip: Option[String], scope: List[String])
+
   }
 
   object Response {
@@ -41,6 +43,8 @@ object UserApi {
     case class Init2FaResponse(qrCodeUrl: String, email: String, secretKey: String)
 
     case class SetupPasswordResponse(token: String)
+
+    case class CreateTokenResponse(token: String)
 
   }
 
@@ -75,6 +79,17 @@ object UserApi {
     .in("logout")
     .out(jsonBody[Success_OUT[EmptyResponse]])
 
+  private val createAuthToken = userBaseEndpoint.post
+    .in(auth.bearer)
+    .in("auth-token")
+    .in(jsonBody[CreateTokenRequest])
+    .out(jsonBody[Success_OUT[CreateTokenResponse]])
+
+  private val deleteAuthToken = userBaseEndpoint.delete
+    .in(auth.bearer)
+    .in("auth-token")
+    .out(jsonBody[Success_OUT[EmptyResponse]])
+
   object TwoFactor {
     private val twoFactorEndpoint = userBaseEndpoint
       .in(auth.bearer)
@@ -99,5 +114,6 @@ object UserApi {
   }
 
   val endpoints: List[Endpoint[_, _, _, _]] =
-    (List(register, setupPassword, login, info, logout) ++ TwoFactor.endpoints).map(_.tag("user"))
+    (List(register, setupPassword, login, info, logout, createAuthToken, deleteAuthToken) ++ TwoFactor.endpoints)
+      .map(_.tag("user"))
 }

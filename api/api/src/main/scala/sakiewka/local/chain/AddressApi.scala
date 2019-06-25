@@ -9,7 +9,7 @@ import sakiewka.local.Success_OUT
 import sakiewka.local.TapirSupport._
 import sakiewka.local.chain.WalletApi.Response.Wallet
 import tapir.json.circe._
-import tapir.{path, query, _}
+import tapir._
 
 class AddressApi(currency: String) {
 
