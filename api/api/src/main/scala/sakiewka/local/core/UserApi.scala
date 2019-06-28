@@ -16,7 +16,7 @@ object UserApi {
 
     case class SetupPasswordRequest(password: String)
 
-    case class LoginRequest(login: String, password: String, code: Option[String])
+    case class LoginRequest(login: String, password: String, code: Option[Int])
 
     case class Init2faRequest(password: String)
 
