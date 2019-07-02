@@ -1685,7 +1685,7 @@ components:
         password:
           type: string
         code:
-          type: string
+          type: integer
     EncryptKeyRequest:
       required:
       - keyPair
