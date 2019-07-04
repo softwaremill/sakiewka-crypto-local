@@ -48,13 +48,14 @@ import listWalletTransfers from './handlers/chain/bitcoin/list-wallet-transfers'
 import findTransferByTxHash from './handlers/chain/bitcoin/find-transfer-by-tx-hash'
 import getFeeRate from './handlers/chain/bitcoin/get-fee-rate'
 import listUtxosByAddress from './handlers/chain/bitcoin/list-utxos-by-address'
-import editWallet from "./handlers/chain/bitcoin/edit-wallet";
+import editWallet from './handlers/chain/bitcoin/edit-wallet'
+const correlator = require('express-correlation-id')
 
 const swaggerDocument = YAML.load(`${__dirname}/swagger.yml`)
 dotenv.config()
 
 const app = express()
-app.use(bodyParser.json())
+app.use(bodyParser.json(), correlator({ header: 'X-Correlation-ID' }))
 
 const uuidv4 = require('uuid/v4')
 
@@ -96,7 +97,7 @@ function isApiError(error: any): error is ApiError {
   return error.code !== undefined && error.errors !== undefined
 }
 
-const backendApi = backendFactory(process.env.BACKEND_API_URL)
+const backendApi = backendFactory(process.env.BACKEND_API_URL, correlator.getId)
 const sakiewkaApiModule = sakiewkaApi(backendApi, process.env.BTC_NETWORK)
 // @ts-ignore
 app.sakiewkaApi = sakiewkaApiModule
