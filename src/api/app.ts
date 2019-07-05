@@ -67,7 +67,7 @@ const logFormat = winston.format.combine(
   winston.format.timestamp(),
   winston.format.simple(),
   winston.format.printf(
-    (info: any) => `${info.timestamp} ${info.level}: ${info.message}`
+    (info: any) => `${info.timestamp} ${info.level}: [${info.meta.correlationId}] ${info.message}`
   )
 )
 
@@ -81,14 +81,13 @@ app.use(expressWinston.logger({
       level: 'info'
     }),
     new winstonDailyRotateFile({
-      expressFormat: true,
       format: winston.format.json(),
-      colorize: false,
       filename: './logs/json-access-%DATE%.log',
       datePattern: 'YYYY-MM-DD',
       level: 'info'
     })
   ],
+  expressFormat: true,
   format: logFormat,
   meta: true,
   dynamicMeta: (req: any) => {
