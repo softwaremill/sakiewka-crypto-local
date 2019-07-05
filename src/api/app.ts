@@ -49,21 +49,59 @@ import findTransferByTxHash from './handlers/chain/bitcoin/find-transfer-by-tx-h
 import getFeeRate from './handlers/chain/bitcoin/get-fee-rate'
 import listUtxosByAddress from './handlers/chain/bitcoin/list-utxos-by-address'
 import editWallet from './handlers/chain/bitcoin/edit-wallet'
+
 const correlator = require('express-correlation-id')
+const winston = require('winston')
+const winstonDailyRotateFile = require('winston-daily-rotate-file')
+const expressWinston = require('express-winston')
 
 const swaggerDocument = YAML.load(`${__dirname}/swagger.yml`)
 dotenv.config()
 
-const app = express()
-app.use(bodyParser.json(), correlator({ header: 'X-Correlation-ID' }))
-
 const uuidv4 = require('uuid/v4')
+const app = express()
+app.use(bodyParser.json())
+app.use(correlator({ header: 'X-Correlation-ID' }))
+
+const logFormat = winston.format.combine(
+  winston.format.timestamp(),
+  winston.format.simple(),
+  winston.format.printf(
+    (info: any) => `${info.timestamp} ${info.level}: ${info.message}`
+  )
+)
+
+// winston logging
+app.use(expressWinston.logger({
+  transports: [
+    new winston.transports.Console({ format: logFormat }),
+    new winstonDailyRotateFile({
+      filename: './logs/access-%DATE%.log',
+      datePattern: 'YYYY-MM-DD',
+      level: 'info'
+    }),
+    new winstonDailyRotateFile({
+      expressFormat: true,
+      format: winston.format.json(),
+      colorize: false,
+      filename: './logs/json-access-%DATE%.log',
+      datePattern: 'YYYY-MM-DD',
+      level: 'info'
+    })
+  ],
+  format: logFormat,
+  meta: true,
+  dynamicMeta: (req: any) => {
+    return {
+      correlationId: req.correlationId()
+    }
+  }
+}))
 
 // catches middleware errors
 app.use((err: Error, req: Request, res: Response, next: Function) => {
   if (err) {
     const errorId = uuidv4()
-    logger.error('Middleware error', { err, url: req.url, body: req.body, headers: req.headers })
     errorResponse(res, constants.API_ERROR.BAD_REQUEST, 'Middleware error', errorId)
   }
   next()
