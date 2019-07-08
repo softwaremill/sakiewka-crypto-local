@@ -3,7 +3,7 @@ import bodyParser from 'body-parser'
 import swaggerUI from 'swagger-ui-express'
 import YAML from 'yamljs'
 
-import logger from './logger'
+import logger, { winstonRequestsLogger } from './logger'
 import dotenv from 'dotenv'
 import clientApp from './handlers/client-app'
 import notFound from './handlers/not-found'
@@ -51,10 +51,6 @@ import listUtxosByAddress from './handlers/chain/bitcoin/list-utxos-by-address'
 import editWallet from './handlers/chain/bitcoin/edit-wallet'
 
 const correlator = require('express-correlation-id')
-const winston = require('winston')
-const winstonDailyRotateFile = require('winston-daily-rotate-file')
-const expressWinston = require('express-winston')
-
 const swaggerDocument = YAML.load(`${__dirname}/swagger.yml`)
 dotenv.config()
 
@@ -62,40 +58,7 @@ const uuidv4 = require('uuid/v4')
 const app = express()
 app.use(bodyParser.json())
 app.use(correlator({ header: 'X-Correlation-ID' }))
-
-const logFormat = winston.format.combine(
-  winston.format.timestamp(),
-  winston.format.simple(),
-  winston.format.printf(
-    (info: any) => `${info.timestamp} ${info.level}: [${info.meta.correlationId}] ${info.message}`
-  )
-)
-
-// winston logging
-app.use(expressWinston.logger({
-  transports: [
-    new winston.transports.Console({ format: logFormat }),
-    new winstonDailyRotateFile({
-      filename: './logs/access-%DATE%.log',
-      datePattern: 'YYYY-MM-DD',
-      level: 'info'
-    }),
-    new winstonDailyRotateFile({
-      format: winston.format.json(),
-      filename: './logs/json-access-%DATE%.log',
-      datePattern: 'YYYY-MM-DD',
-      level: 'info'
-    })
-  ],
-  expressFormat: true,
-  format: logFormat,
-  meta: true,
-  dynamicMeta: (req: any) => {
-    return {
-      correlationId: req.correlationId()
-    }
-  }
-}))
+app.use(winstonRequestsLogger)
 
 // catches middleware errors
 app.use((err: Error, req: Request, res: Response, next: Function) => {
