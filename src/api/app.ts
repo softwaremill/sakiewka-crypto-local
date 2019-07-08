@@ -3,7 +3,7 @@ import bodyParser from 'body-parser'
 import swaggerUI from 'swagger-ui-express'
 import YAML from 'yamljs'
 
-import logger from './logger'
+import logger, { winstonRequestsLogger } from './logger'
 import dotenv from 'dotenv'
 import clientApp from './handlers/client-app'
 import notFound from './handlers/not-found'
@@ -48,21 +48,22 @@ import listWalletTransfers from './handlers/chain/bitcoin/list-wallet-transfers'
 import findTransferByTxHash from './handlers/chain/bitcoin/find-transfer-by-tx-hash'
 import getFeeRate from './handlers/chain/bitcoin/get-fee-rate'
 import listUtxosByAddress from './handlers/chain/bitcoin/list-utxos-by-address'
-import editWallet from "./handlers/chain/bitcoin/edit-wallet";
+import editWallet from './handlers/chain/bitcoin/edit-wallet'
 
+const correlator = require('express-correlation-id')
 const swaggerDocument = YAML.load(`${__dirname}/swagger.yml`)
 dotenv.config()
 
+const uuidv4 = require('uuid/v4')
 const app = express()
 app.use(bodyParser.json())
-
-const uuidv4 = require('uuid/v4')
+app.use(correlator())
+app.use(winstonRequestsLogger)
 
 // catches middleware errors
 app.use((err: Error, req: Request, res: Response, next: Function) => {
   if (err) {
     const errorId = uuidv4()
-    logger.error('Middleware error', { err, url: req.url, body: req.body, headers: req.headers })
     errorResponse(res, constants.API_ERROR.BAD_REQUEST, 'Middleware error', errorId)
   }
   next()
@@ -96,7 +97,7 @@ function isApiError(error: any): error is ApiError {
   return error.code !== undefined && error.errors !== undefined
 }
 
-const backendApi = backendFactory(process.env.BACKEND_API_URL)
+const backendApi = backendFactory(process.env.BACKEND_API_URL, correlator.getId)
 const sakiewkaApiModule = sakiewkaApi(backendApi, process.env.BTC_NETWORK)
 // @ts-ignore
 app.sakiewkaApi = sakiewkaApiModule
@@ -125,7 +126,7 @@ app.delete(`/${constants.BASE_API_PATH}/user/auth-token`, errorHandled(deleteAut
 
 const currencies = [Currency.BTC, Currency.BTG]
 currencies.forEach((currency) => {
-  const sakiewkaCryptoModule = sakiewkaModule(currency, process.env.BTC_NETWORK)
+  const sakiewkaCryptoModule = sakiewkaModule(currency, process.env.BTC_NETWORK, correlator.getId)
   // @ts-ignore
   app[currency] = { cryptoModule: sakiewkaCryptoModule }
 
