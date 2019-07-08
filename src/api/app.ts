@@ -57,7 +57,7 @@ dotenv.config()
 const uuidv4 = require('uuid/v4')
 const app = express()
 app.use(bodyParser.json())
-app.use(correlator({ header: 'X-Correlation-ID' }))
+app.use(correlator())
 app.use(winstonRequestsLogger)
 
 // catches middleware errors
