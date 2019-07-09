@@ -126,7 +126,7 @@ app.delete(`/${constants.BASE_API_PATH}/user/auth-token`, errorHandled(deleteAut
 
 const currencies = [Currency.BTC, Currency.BTG]
 currencies.forEach((currency) => {
-  const sakiewkaCryptoModule = sakiewkaModule(currency, process.env.BTC_NETWORK, correlator.getId)
+  const sakiewkaCryptoModule = sakiewkaModule(currency, process.env.BTC_NETWORK)
   // @ts-ignore
   app[currency] = { cryptoModule: sakiewkaCryptoModule }
 
