@@ -121,6 +121,6 @@ object UserApi {
   }
 
   val endpoints: List[Endpoint[_, _, _, _]] =
-    (List(register, setupPassword, login, info, logout, createAuthToken, deleteAuthToken) ++ TwoFactor.endpoints)
+    (List(register, setupPassword, login, info, logout, createAuthToken, deleteAuthToken, addUserSupportSubmission) ++ TwoFactor.endpoints)
       .map(_.tag("user"))
 }
