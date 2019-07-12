@@ -30,6 +30,7 @@ import { disable2fa } from './handlers/core/user/disable2fa'
 import { balance } from './handlers/core/user/balance'
 import { createAuthToken } from './handlers/core/user/create-auth-token'
 import { deleteAuthToken } from './handlers/core/user/delete-auth-token'
+import { addSupportSubmission } from './handlers/core/user/add-support-submission'
 import maxTransferAmount from './handlers/chain/bitcoin/max-transfer-amount'
 import setupPassword from './handlers/core/user/setup-password'
 import chainNetworkType from './handlers/chain-network-type'
@@ -122,6 +123,7 @@ app.post(`/${constants.BASE_API_PATH}/user/2fa/disable`, errorHandled(disable2fa
 app.post(`/${constants.BASE_API_PATH}/user/setup-password`, errorHandled(setupPassword(sakiewkaApiModule)))
 app.get(`/${constants.BASE_API_PATH}/user/balance`, errorHandled(balance(sakiewkaApiModule)))
 app.post(`/${constants.BASE_API_PATH}/user/auth-token`, errorHandled(createAuthToken(sakiewkaApiModule)))
+app.post(`/${constants.BASE_API_PATH}/user/support`, errorHandled(addSupportSubmission(sakiewkaApiModule)))
 app.delete(`/${constants.BASE_API_PATH}/user/auth-token`, errorHandled(deleteAuthToken(sakiewkaApiModule)))
 
 const currencies = [Currency.BTC, Currency.BTG]
