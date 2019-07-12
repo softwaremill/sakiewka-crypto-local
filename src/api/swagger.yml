@@ -120,6 +120,22 @@ paths:
                 $ref: '#/components/schemas/Success_OUT_EmptyResponse'
       security:
       - httpAuth: []
+  /api/v1.0/user/support:
+    post:
+      tags:
+      - user
+      operationId: postApi/v1.0UserSupport
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddUserSupportSubmissionRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+      security:
+      - httpAuth: []
   /api/v1.0/user/2fa/confirm:
     post:
       tags:
@@ -1621,6 +1637,16 @@ components:
           type: array
           items:
             type: string
+    AddUserSupportSubmissionRequest:
+      required:
+      - subject
+      - content
+      type: object
+      properties:
+        subject:
+          type: string
+        content:
+          type: string
     ListWalletsResponse:
       required:
       - data

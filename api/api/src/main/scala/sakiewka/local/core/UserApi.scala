@@ -26,6 +26,8 @@ object UserApi {
 
     case class CreateTokenRequest(duration: Option[String], ip: Option[String], scope: List[String])
 
+    case class AddUserSupportSubmissionRequest(subject: String, content: String)
+
   }
 
   object Response {
@@ -90,6 +92,11 @@ object UserApi {
     .in("auth-token")
     .out(jsonBody[Success_OUT[EmptyResponse]])
 
+  private val addUserSupportSubmission = userBaseEndpoint.post
+    .in(auth.bearer)
+    .in("support")
+    .in(jsonBody[AddUserSupportSubmissionRequest])
+
   object TwoFactor {
     private val twoFactorEndpoint = userBaseEndpoint
       .in(auth.bearer)
@@ -114,6 +121,6 @@ object UserApi {
   }
 
   val endpoints: List[Endpoint[_, _, _, _]] =
-    (List(register, setupPassword, login, info, logout, createAuthToken, deleteAuthToken) ++ TwoFactor.endpoints)
+    (List(register, setupPassword, login, info, logout, createAuthToken, deleteAuthToken, addUserSupportSubmission) ++ TwoFactor.endpoints)
       .map(_.tag("user"))
 }

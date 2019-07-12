@@ -199,6 +199,13 @@ export const setupPasswordRequest = {
   })
 }
 
+export const addSupportSubmissionRequest = {
+  body: createSchema({
+    subject: Joi.string().required(),
+    content: Joi.string().required()
+  })
+}
+
 export const createNewPolicyRequest = {
   body: createSchema({
     name: Joi.string(),
