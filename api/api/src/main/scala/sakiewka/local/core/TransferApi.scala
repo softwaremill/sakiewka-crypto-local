@@ -34,7 +34,7 @@ object TransferApi {
                                timestamp: Instant,
                                transaction: BitcoinTx,
                                block: Option[BitcoinBlock])
-    case class Wallet(id: Id @@ Wallet, balance: String)
+    case class Wallet(id: Id @@ Wallet, name: String, balance: String)
     case class BitcoinTx(hash: TxHash, inputs: ClassifiedRecipients, outputs: ClassifiedRecipients)
     case class ClassifiedRecipients(wallet: Map[AddressValue, String],
                                     service: Map[AddressValue, String],
