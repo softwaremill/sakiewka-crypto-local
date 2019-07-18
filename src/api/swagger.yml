@@ -1518,6 +1518,7 @@ components:
       - currency
       - created
       - keys
+      - canSendFundsUsingPassword
       - balance
       type: object
       properties:
@@ -1534,6 +1535,8 @@ components:
           type: array
           items:
             type: string
+        canSendFundsUsingPassword:
+          type: boolean
         balance:
           $ref: '#/components/schemas/WalletBalance'
     BitcoinBlock:
