@@ -76,6 +76,7 @@ object WalletApi {
                                  currency: String,
                                  created: Instant,
                                  keys: List[StoredKeyType],
+                                 canSendFundsUsingPassword: Boolean,
                                  balance: WalletBalance)
 
     case class MaxTransferResponse(amount: String)
