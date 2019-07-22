@@ -12,7 +12,7 @@ export const jsonResponse = (res: Response, data: object) => {
 }
 
 export const errorResponse = (res: Response, error: ApiError, customMessage?: string, errorId?: string) => {
-  if (customMessage) error.errors = [{message: customMessage}]
+  if (customMessage) error.errors = [{ message: customMessage, code: '' }]
 
   const body = {
     errorId: errorId,
@@ -20,6 +20,6 @@ export const errorResponse = (res: Response, error: ApiError, customMessage?: st
     status: 'error'
   }
 
-  res.status(error.code)
+  res.status(error.code || 400)
   res.json(body)
 }
