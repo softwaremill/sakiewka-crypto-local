@@ -9,7 +9,7 @@
   "scripts": {
     "test-coverage": "jest --forceExit --coverage --verbose",
     "test-single-currency": "jest --forceExit --verbose false --detectOpenHandles",
-    "test": "NODE_ENV=test CURRENCY_UNDER_TEST=BTC BTC_NETWORK=mainnet npm run test-single-currency && NODE_ENV=test CURRENCY_UNDER_TEST=BTG BTC_NETWORK=mainnet npm run test-single-currency",
+    "test": "NODE_ENV=test CURRENCY_UNDER_TEST=BTC BTC_NETWORK=mainnet BACKEND_API_URL=test npm run test-single-currency && NODE_ENV=test CURRENCY_UNDER_TEST=BTG BTC_NETWORK=mainnet BACKEND_API_URL=test npm run test-single-currency",
     "watch-test": "npm run test -- --watchAll",
     "build": "tsc && npm run swagger",
     "swagger": "cp src/api/swagger.yml dist/api/swagger.yml",
