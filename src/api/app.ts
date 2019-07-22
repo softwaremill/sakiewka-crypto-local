@@ -98,8 +98,18 @@ function isApiError(error: any): error is ApiError {
   return error.code !== undefined && error.errors !== undefined
 }
 
-const backendApi = backendFactory(process.env.BACKEND_API_URL || '', correlator.getId)
-const sakiewkaApiModule = sakiewkaApi(backendApi, process.env.BTC_NETWORK || '')
+if (!process.env.BACKEND_API_URL) {
+  throw new Error('Environment variable BACKEND_API_URL need to be defined')
+}
+
+const backendApi = backendFactory(process.env.BACKEND_API_URL, correlator.getId)
+
+if (!process.env.BTC_NETWORK) {
+  throw new Error('Environment variable BTC_NETWORK need to be defined')
+}
+
+const sakiewkaApiModule = sakiewkaApi(backendApi, process.env.BTC_NETWORK)
+
 // @ts-ignore
 app.sakiewkaApi = sakiewkaApiModule
 // @ts-ignore
@@ -128,7 +138,11 @@ app.delete(`/${constants.BASE_API_PATH}/user/auth-token`, errorHandled(deleteAut
 
 const currencies = [Currency.BTC, Currency.BTG]
 currencies.forEach((currency) => {
-  const sakiewkaCryptoModule = sakiewkaModule(currency, process.env.BTC_NETWORK || '')
+  if (!process.env.BTC_NETWORK) {
+    throw new Error('Environment variable BTC_NETWORK need to be defined')
+  }
+
+  const sakiewkaCryptoModule = sakiewkaModule(currency, process.env.BTC_NETWORK)
   // @ts-ignore
   app[currency] = { cryptoModule: sakiewkaCryptoModule }
 
