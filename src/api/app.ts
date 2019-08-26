@@ -292,16 +292,17 @@ currencies.forEach(currency => {
       `/${BASE_PATH}/wallet`,
       errorHandled(createWallet(sakiewkaApi[currency].wallet))
     )
+  } else if (currency === Currency.EOS) {
+    app.post(
+      `/${BASE_PATH}/wallet`,
+      errorHandled(eosCreateWallet(sakiewkaApi[currency].wallet))
+    )
   }
 
   // wallet
   app.get(
     `/${BASE_PATH}/wallet/:walletId/policy`,
     errorHandled(listPoliciesForWallet(sakiewkaApi[currency].wallet))
-  )
-  app.post(
-    `/${BASE_PATH}/wallet`,
-    errorHandled(eosCreateWallet(sakiewkaApi[currency].wallet))
   )
   app.patch(
     `/${BASE_PATH}/wallet/:id`,

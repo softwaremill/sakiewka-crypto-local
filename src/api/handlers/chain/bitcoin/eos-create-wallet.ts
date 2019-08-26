@@ -15,12 +15,13 @@ const eosCreateWallet = (wallet: EosWalletApi) => async (
   }
 
   const token = req.header('authorization') || ''
-  const { passphrase, userPubKey, backupPubKey, name } = body
+  const { passphrase, userPubKey, backupPubKey, name, firstAddressName } = body
   const walletData = await wallet.createWallet(token, {
     passphrase,
     userPubKey,
     backupPubKey,
-    name
+    name,
+    firstAddressName
   })
 
   jsonResponse(res, walletData)
