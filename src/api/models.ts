@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 
 const createSchema = (object: SchemaMap) => Joi.object().keys(object)
 
-const bigNumberJoi = Joi.extend((joi) => ({
+const bigNumberJoi = Joi.extend(joi => ({
   base: joi.string(),
   name: 'bigNumber',
   pre(value, state, options) {
@@ -60,6 +60,16 @@ export const createWalletRequest = {
   })
 }
 
+export const eosCreateWalletRequest = {
+  body: createSchema({
+    name: Joi.string().required(),
+    firstAddressName: Joi.string().required(),
+    userPubKey: Joi.string(),
+    backupPubKey: Joi.string(),
+    passphrase: Joi.string().required()
+  })
+}
+
 export const editWalletRequest = {
   body: createSchema({
     name: Joi.string().required()
@@ -97,10 +107,14 @@ export const getTransferRequest = {}
 export const listUtxoRequest = {
   body: createSchema({
     feeRateSatoshi: Joi.string().required(),
-    recipients: Joi.array().items(Joi.object({
-      address: Joi.string().required(),
-      amount: bigNumberJoi.bigNumber().required()
-    })).required()
+    recipients: Joi.array()
+      .items(
+        Joi.object({
+          address: Joi.string().required(),
+          amount: bigNumberJoi.bigNumber().required()
+        })
+      )
+      .required()
   })
 }
 
@@ -178,10 +192,14 @@ export const sendTransactionRequest = {
   body: createSchema({
     xprv: Joi.string().optional(),
     passphrase: Joi.string().optional(),
-    recipients: Joi.array().items(Joi.object({
-      address: Joi.string().required(),
-      amount: bigNumberJoi.bigNumber().required()
-    })).required(),
+    recipients: Joi.array()
+      .items(
+        Joi.object({
+          address: Joi.string().required(),
+          amount: bigNumberJoi.bigNumber().required()
+        })
+      )
+      .required(),
     feeRate: Joi.number().optional()
   })
 }
@@ -189,7 +207,7 @@ export const sendTransactionRequest = {
 export const maxTransferAmountRequest = {
   query: createSchema({
     feeRate: Joi.number().required(),
-    recipient: Joi.string().required(),
+    recipient: Joi.string().required()
   })
 }
 
@@ -251,6 +269,6 @@ export const createAuthTokenRequest = {
   body: createSchema({
     duration: Joi.string(),
     ip: Joi.string(),
-    scope: Joi.array().items(Joi.string()),
+    scope: Joi.array().items(Joi.string())
   })
 }

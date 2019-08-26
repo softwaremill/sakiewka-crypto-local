@@ -14,6 +14,7 @@ import { monthlySummary } from './handlers/core/transfers/monthly-summary'
 import listTransfers from './handlers/core/transfers/list-transfers'
 import { register } from './handlers/core/user/register'
 import createWallet from './handlers/chain/bitcoin/create-wallet'
+import eosCreateWallet from './handlers/chain/bitcoin/eos-create-wallet'
 import listWallets from './handlers/chain/bitcoin/list-wallet'
 import getWallet from './handlers/chain/bitcoin/get-wallet'
 import createAddress from './handlers/chain/bitcoin/create-address'
@@ -287,6 +288,10 @@ currencies.forEach(currency => {
       `/${BASE_PATH}/fee-rate`,
       errorHandled(getFeeRate(sakiewkaApi[currency].feeRates))
     )
+    app.post(
+      `/${BASE_PATH}/wallet`,
+      errorHandled(createWallet(sakiewkaApi[currency].wallet))
+    )
   }
 
   // wallet
@@ -296,7 +301,7 @@ currencies.forEach(currency => {
   )
   app.post(
     `/${BASE_PATH}/wallet`,
-    errorHandled(createWallet(sakiewkaApi[currency].wallet))
+    errorHandled(eosCreateWallet(sakiewkaApi[currency].wallet))
   )
   app.patch(
     `/${BASE_PATH}/wallet/:id`,
