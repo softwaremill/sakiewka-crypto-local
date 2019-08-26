@@ -1,6 +1,7 @@
 {
   "name": "sakiewka-crypto-local",
   "version": "1.0.0",
+  "dockerRepository": "softwaremill/sakiewka-crypto-local",
   "description": "Client-side Sakiewka app",
   "engines": {
     "node": ">=10.0.0 <11.0.0",
@@ -17,7 +18,9 @@
     "watch": "tsc -w",
     "start": "node $NODE_DEBUG_OPTION dist/api/server.js",
     "serve-debug": "NODE_ENV=dev DEBUG=* nodemon --inspect dist/api/server.js",
-    "watch-debug": "NODE_ENV=dev DEBUG=* concurrently \"npm run watch\" \"npm run serve-debug\""
+    "watch-debug": "NODE_ENV=dev DEBUG=* concurrently \"npm run watch\" \"npm run serve-debug\"",
+    "dockerPublishLocal": "docker build . -t $npm_package_dockerRepository:$(git rev-parse HEAD) -t $npm_package_dockerRepository:latest",
+    "dockerPush": "docker push $npm_package_dockerRepository:$(git rev-parse HEAD) && docker push $npm_package_dockerRepository:latest"
   },
   "repository": {
     "type": "git",
