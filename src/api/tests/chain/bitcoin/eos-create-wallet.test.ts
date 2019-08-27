@@ -27,7 +27,7 @@ describe('/eos/wallet', () => {
       .set('Authorization', 'Bearer abc')
       .send({
         name: 'testLabel',
-        firstAddressName: 'test1',
+        eosAccountName: 'test1',
         passphrase: 'aaa',
         userPubKey: '123',
         backupPubKey: '142',
@@ -52,7 +52,7 @@ describe('/eos/wallet', () => {
       .send({
         userPubKey,
         backupPubKey,
-        firstAddressName: 'myfirstaddr',
+        eosAccountName: 'myfirstaddr',
         name: 'testLabel',
         passphrase: '12345678'
       })
@@ -64,7 +64,7 @@ describe('/eos/wallet', () => {
     expect(data).to.eq('test wallet')
     expect(callArgs[0]).to.eq(`Bearer ${token}`)
     expect(callArgs[1].passphrase).to.eq('12345678')
-    expect(callArgs[1].firstAddressName).to.eq('myfirstaddr')
+    expect(callArgs[1].eosAccountName).to.eq('myfirstaddr')
     expect(callArgs[1].userPubKey).to.eq(userPubKey)
     expect(callArgs[1].backupPubKey).to.eq(backupPubKey)
     expect(callArgs[1].name).to.eq('testLabel')

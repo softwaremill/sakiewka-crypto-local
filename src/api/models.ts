@@ -63,7 +63,7 @@ export const createWalletRequest = {
 export const eosCreateWalletRequest = {
   body: createSchema({
     name: Joi.string().required(),
-    firstAddressName: Joi.string().required(),
+    eosAccountName: Joi.string().required(),
     userPubKey: Joi.string(),
     backupPubKey: Joi.string(),
     passphrase: Joi.string().required()
