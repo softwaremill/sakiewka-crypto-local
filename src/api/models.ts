@@ -188,6 +188,20 @@ export const listWalletTransfersRequest = {
 
 export const findTransferByTxHashRequest = {}
 
+export const eosSendTransactionRequest = {
+  body: createSchema({
+    xprv: Joi.string().optional(),
+    passphrase: Joi.string().optional(),
+    from: Joi.string().required(),
+    to: Joi.string().required(),
+    quantity: Joi.object({
+      amount: Joi.string().required(),
+      currency: Joi.string().required()
+    }),
+    memo: Joi.string().optional()
+  })
+}
+
 export const sendTransactionRequest = {
   body: createSchema({
     xprv: Joi.string().optional(),

@@ -23,6 +23,7 @@ import listAddresses from './handlers/chain/bitcoin/list-address'
 import createKey from './handlers/chain/bitcoin/create-key'
 import getKey from './handlers/chain/bitcoin/get-key'
 import send from './handlers/chain/bitcoin/send'
+import eosSend from './handlers/chain/bitcoin/eos-send'
 import {
   ApiError,
   backendFactory,
@@ -296,6 +297,10 @@ currencies.forEach(currency => {
     app.post(
       `/${BASE_PATH}/wallet`,
       errorHandled(eosCreateWallet(sakiewkaApi[currency].wallet))
+    )
+    app.post(
+      `/${BASE_PATH}/wallet/:walletId/send`,
+      errorHandled(eosSend(sakiewkaApi[currency].transaction))
     )
   }
 
