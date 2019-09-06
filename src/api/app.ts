@@ -127,10 +127,13 @@ const backendApi = backendFactory(
 if (!process.env.BTC_NETWORK) {
   throw new Error('Environment variable BTC_NETWORK need to be defined')
 }
+if (!process.env.EOS_CHAIN_ID) {
+    throw new Error('Environment variable EOS_CHAIN_ID need to be defined')
+}
 
 const sakiewkaApi = sakiewkaApiFactory(
   backendApi,
-  networks()[process.env.BTC_NETWORK]
+  networks(process.env.EOS_CHAIN_ID)[process.env.BTC_NETWORK],
 )
 
 // @ts-ignore
