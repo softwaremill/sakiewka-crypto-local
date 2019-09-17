@@ -62,7 +62,7 @@
     "joi": "13.7.0",
     "node-fetch": "2.3.0",
     "rotating-file-stream": "1.4.2",
-    "sakiewka-crypto": "github:softwaremill/sakiewka-crypto#fe6b178",
+    "sakiewka-crypto": "github:softwaremill/sakiewka-crypto#92b74cd",
     "swagger-ui-express": "4.0.1",
     "winston": "3.2.1",
     "winston-daily-rotate-file": "3.9.0",
