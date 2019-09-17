@@ -20,7 +20,7 @@ object Common {
 
   val baseEndpoint: Endpoint[Unit, Unit, Unit, Nothing] = endpoint.in("api/v1.0")
 
-  val secureEndpoint: Endpoint[TxHash, Unit, Unit, Nothing] = baseEndpoint
+  val secureEndpoint: Endpoint[String, Unit, Unit, Nothing] = baseEndpoint
     .in(auth.bearer)
 
   val pagingInput: EndpointInput[(Int, Option[String])] = query[Int]("limit") and query[Option[String]]("nextPageToken")
