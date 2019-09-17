@@ -1,15 +1,15 @@
 import { Request, Response } from 'express'
 
 import { jsonResponse, errorResponse } from '../../../response'
-import { sendTransactionRequest } from '../../../models'
+import { eosSendTransactionRequest } from '../../../models'
 import validate from '../../../validate'
-import { TransactionApi, constants } from 'sakiewka-crypto'
+import { EosTransactionApi, constants } from 'sakiewka-crypto'
 
-const sendCoins = (transaction: TransactionApi) => async (
+const eosSendCoins = (transaction: EosTransactionApi) => async (
   req: Request,
   res: Response
 ) => {
-  const { errors, body } = validate(req, sendTransactionRequest, true)
+  const { errors, body } = validate(req, eosSendTransactionRequest, true)
 
   if (errors.length > 0) {
     return errorResponse(res, constants.API_ERROR.BAD_REQUEST(errors[0]))
@@ -18,13 +18,15 @@ const sendCoins = (transaction: TransactionApi) => async (
   const backendResponse = await transaction.send(
     req.header('authorization') || '',
     req.params.walletId,
-    body.recipients,
+    body.from,
+    body.to,
+    body.quantity,
+    body.memo,
     body.xprv,
-    body.passphrase,
-    body.feeRate
+    body.passphrase
   )
 
   jsonResponse(res, backendResponse)
 }
 
-export default sendCoins
+export default eosSendCoins

@@ -1,8 +1,12 @@
 import { Request, Response } from 'express'
 
 import { jsonResponse } from '../response'
+import { SakiewkaBackend } from 'sakiewka-crypto'
 
-const chainNetworkType = (backendApi) => async (req: Request, res: Response) => {
+const chainNetworkType = (backendApi: SakiewkaBackend) => async (
+  req: Request,
+  res: Response
+) => {
   const response = await backendApi.core.chainNetworkType()
 
   jsonResponse(res, response)

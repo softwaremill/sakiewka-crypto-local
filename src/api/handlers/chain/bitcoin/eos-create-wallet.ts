@@ -1,29 +1,31 @@
 import { Request, Response } from 'express'
-import { BitcoinWalletApi, constants } from 'sakiewka-crypto'
+import { constants, EosWalletApi } from 'sakiewka-crypto'
 import { errorResponse, jsonResponse } from '../../../response'
-import { createWalletRequest } from '../../../models'
+import { eosCreateWalletRequest } from '../../../models'
 import validate from '../../../validate'
 
-const crateWallet = (wallet: BitcoinWalletApi) => async (
+const eosCreateWallet = (wallet: EosWalletApi) => async (
   req: Request,
   res: Response
 ) => {
-  const { errors, body } = validate(req, createWalletRequest, true)
+  const { errors, body } = validate(req, eosCreateWalletRequest, true)
 
   if (errors.length > 0) {
     return errorResponse(res, constants.API_ERROR.BAD_REQUEST(errors[0]))
   }
 
   const token = req.header('authorization') || ''
-  const { passphrase, userPubKey, backupPubKey, name } = body
+  const { passphrase, userPubKey, backupPubKey, name, eosAccountName } = body
+  console.log('Local wola crypto!!')
   const walletData = await wallet.createWallet(token, {
     passphrase,
     userPubKey,
     backupPubKey,
-    name
+    name,
+    eosAccountName
   })
 
   jsonResponse(res, walletData)
 }
 
-export default crateWallet
+export default eosCreateWallet
