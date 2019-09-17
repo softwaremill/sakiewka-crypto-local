@@ -55,7 +55,7 @@
   },
   "dependencies": {
     "@types/sjcl": "1.0.28",
-    "bitcoinjs-lib": "3.3.2",
+    "bitcoinjs-lib": "5.1.6",
     "body-parser": "1.18.3",
     "chai-uuid": "1.0.6",
     "dotenv": "6.2.0",
