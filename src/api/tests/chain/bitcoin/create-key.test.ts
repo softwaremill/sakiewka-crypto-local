@@ -1,61 +1,65 @@
 import { expect } from 'chai'
 import app from '../../../app'
 import supertest from 'supertest'
-import { currency } from '../../helpers'
 import { constants } from 'sakiewka-crypto'
-// @ts-ignore
-const { key } = app[currency].cryptoModule
+import { forBTCandBTG } from '../../helpers'
+
+forBTCandBTG('create key', (currency) => {
 
 // @ts-ignore
-const mockFnGenerate = jest.fn().mockReturnValue('test key')
+  const { key } = app[currency].cryptoModule
 
 // @ts-ignore
-const mockFnEncrypt = jest.fn().mockReturnValue('test key')
+  const mockFnGenerate = jest.fn().mockReturnValue('test key')
 
-key.generateNewKeyPair = mockFnGenerate
-key.encryptKeyPair = mockFnEncrypt
+// @ts-ignore
+  const mockFnEncrypt = jest.fn().mockReturnValue('test key')
 
-describe(`/${currency}/key/local`, () => {
-  it('should not accept extra parameters', async () => {
-    const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/${currency}/key/local`)
-      .set('Authorization', 'Bearer abc')
-      .send({
-        extraProp: 'test',
-        passphrase: 'aaa'
-      })
+  key.generateNewKeyPair = mockFnGenerate
+  key.encryptKeyPair = mockFnEncrypt
 
-    expect(response.status).to.be.equal(400)
-    expect(response.body.errors[0].message).to.be.equal('"extraProp" is not allowed')
-  })
+  describe(`/${currency}/key/local`, () => {
+    it('should not accept extra parameters', async () => {
+      const response = await supertest(app)
+        .post(`/${constants.BASE_API_PATH}/${currency}/key/local`)
+        .set('Authorization', 'Bearer abc')
+        .send({
+          extraProp: 'test',
+          passphrase: 'aaa'
+        })
 
-  it('should return keys', async () => {
-    const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/${currency}/key/local`)
+      expect(response.status).to.be.equal(400)
+      expect(response.body.errors[0].message).to.be.equal('"extraProp" is not allowed')
+    })
 
-    const callArgs = mockFnGenerate.mock.calls[0]
+    it('should return keys', async () => {
+      const response = await supertest(app)
+        .post(`/${constants.BASE_API_PATH}/${currency}/key/local`)
 
-    expect(response.status).to.be.equal(200)
-    const data = response.body.data
-    expect(data.keyPair).to.eq('test key')
-    expect(callArgs[0]).to.eq(undefined)
-  })
+      const callArgs = mockFnGenerate.mock.calls[0]
 
-  it('should return encrypted key', async () => {
-    const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/${currency}/key/local`)
-      .send({
-        passphrase: 'abcd'
-      })
+      expect(response.status).to.be.equal(200)
+      const data = response.body.data
+      expect(data.keyPair).to.eq('test key')
+      expect(callArgs[0]).to.eq(undefined)
+    })
 
-    const callArgsGenerate = mockFnGenerate.mock.calls[1]
-    const callArgsEncrypt = mockFnEncrypt.mock.calls[0]
+    it('should return encrypted key', async () => {
+      const response = await supertest(app)
+        .post(`/${constants.BASE_API_PATH}/${currency}/key/local`)
+        .send({
+          passphrase: 'abcd'
+        })
 
-    expect(response.status).to.be.equal(200)
-    const data = response.body.data
-    expect(data.keyPair).to.eq('test key')
-    expect(callArgsGenerate[0]).to.eq(undefined)
-    expect(callArgsEncrypt[0]).to.eq('test key')
-    expect(callArgsEncrypt[1]).to.eq('abcd')
+      const callArgsGenerate = mockFnGenerate.mock.calls[1]
+      const callArgsEncrypt = mockFnEncrypt.mock.calls[0]
+
+      expect(response.status).to.be.equal(200)
+      const data = response.body.data
+      expect(data.keyPair).to.eq('test key')
+      expect(callArgsGenerate[0]).to.eq(undefined)
+      expect(callArgsEncrypt[0]).to.eq('test key')
+      expect(callArgsEncrypt[1]).to.eq('abcd')
+    })
   })
 })

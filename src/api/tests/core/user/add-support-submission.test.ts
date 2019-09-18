@@ -45,14 +45,14 @@ describe('/user/support', () => {
       .post(`/${constants.BASE_API_PATH}/user/support`)
       .set('Authorization', 'testToken')
       .send({
-        subject: "subject",
-        content: "content"
+        subject: 'subject',
+        content: 'content'
       })
 
     const callArgs = mockFn.mock.calls[0]
     expect(response.status).to.be.equal(200)
     expect(callArgs[0]).to.eq('testToken')
-    expect(callArgs[1]).to.eq("subject")
-    expect(callArgs[2]).to.eq("content")
+    expect(callArgs[1]).to.eq('subject')
+    expect(callArgs[2]).to.eq('content')
   })
 })
