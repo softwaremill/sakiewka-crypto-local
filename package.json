@@ -66,7 +66,7 @@
     "node-fetch": "2.6.0",
     "rotating-file-stream": "1.4.3",
     "sakiewka-crypto": "github:softwaremill/sakiewka-crypto#37ef612",
-    "swagger-ui-express": "4.0.1",
+    "swagger-ui-express": "4.1.1",
     "winston": "3.2.1",
     "winston-daily-rotate-file": "4.1.0",
     "yamljs": "0.3.0"
