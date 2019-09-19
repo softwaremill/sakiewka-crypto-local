@@ -44,7 +44,7 @@ describe('/btc/user/setup-password', () => {
       .post(`/${constants.BASE_API_PATH}/user/setup-password`)
       .set('Authorization', 'testToken')
       .send({
-        password: "qweqwe"
+        password: 'qweqwe'
       })
 
     const callArgs = mockFn.mock.calls[0]
@@ -52,6 +52,6 @@ describe('/btc/user/setup-password', () => {
     const data = response.body.data
     expect(data).to.eq('test wallet')
     expect(callArgs[0]).to.eq('testToken')
-    expect(callArgs[1]).to.eq(crypto.hashPassword("qweqwe"))
+    expect(callArgs[1]).to.eq(crypto.hashPassword('qweqwe'))
   })
 })

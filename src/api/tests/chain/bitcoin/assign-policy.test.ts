@@ -1,50 +1,53 @@
 import { expect } from 'chai'
 import app from '../../../app'
 import supertest from 'supertest'
-
-import { currency } from '../../helpers'
 import { constants } from 'sakiewka-crypto'
-// @ts-ignore
-const { policy } = app.sakiewkaApi[currency]
+import { forBTCandBTG } from '../../helpers'
+
+forBTCandBTG('assign policy', (currency) => {
 
 // @ts-ignore
-const mockFn = jest.fn().mockResolvedValue('assign policy')
+  const { policy } = app.sakiewkaApi[currency]
 
-policy.assignPolicy = mockFn
+// @ts-ignore
+  const mockFn = jest.fn().mockResolvedValue('assign policy')
 
-describe(`/${currency}/policy/:id/assign`, () => {
-  it('should exist', async () => {
-    const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/${currency}/policy/123/assign`)
+  policy.assignPolicy = mockFn
 
-    expect(response.status).to.not.be.equal(404)
-  })
+  describe(`/${currency}/policy/:id/assign`, () => {
+    it('should exist', async () => {
+      const response = await supertest(app)
+        .post(`/${constants.BASE_API_PATH}/${currency}/policy/123/assign`)
 
-  it('should not accept request with missing header', async () => {
-    const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/${currency}/policy/123/assign`)
+      expect(response.status).to.not.be.equal(404)
+    })
 
-    expect(response.status).to.be.equal(400)
-    expect(response.body.errors[0].message).to.be.equal('Request header Authorization is required.')
-  })
+    it('should not accept request with missing header', async () => {
+      const response = await supertest(app)
+        .post(`/${constants.BASE_API_PATH}/${currency}/policy/123/assign`)
 
-  it('should pass proper arguments to assignPolicy and return result of its call', async () => {
-    const token = 'testToken'
-    const assignPolicy = {
-      walletId: '456'
-    };
-    const response = await supertest(app)
-      .post(`/${constants.BASE_API_PATH}/${currency}/policy/123/assign`)
-      .set('Authorization', `Bearer ${token}`)
-      .send(assignPolicy)
+      expect(response.status).to.be.equal(400)
+      expect(response.body.errors[0].message).to.be.equal('Request header Authorization is required.')
+    })
 
-    const callArgs = mockFn.mock.calls[0]
+    it('should pass proper arguments to assignPolicy and return result of its call', async () => {
+      const token = 'testToken'
+      const assignPolicy = {
+        walletId: '456'
+      }
+      const response = await supertest(app)
+        .post(`/${constants.BASE_API_PATH}/${currency}/policy/123/assign`)
+        .set('Authorization', `Bearer ${token}`)
+        .send(assignPolicy)
 
-    expect(response.status).to.be.equal(200)
-    const data = response.body.data
-    expect(data).to.eq('assign policy')
-    expect(callArgs[0]).to.eq(`Bearer ${token}`)
-    expect(callArgs[1]).to.eq('123')
-    expect(callArgs[2]).to.eq('456')
+      const callArgs = mockFn.mock.calls[0]
+
+      expect(response.status).to.be.equal(200)
+      const data = response.body.data
+      expect(data).to.eq('assign policy')
+      expect(callArgs[0]).to.eq(`Bearer ${token}`)
+      expect(callArgs[1]).to.eq('123')
+      expect(callArgs[2]).to.eq('456')
+    })
   })
 })

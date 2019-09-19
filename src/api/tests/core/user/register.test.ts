@@ -38,7 +38,7 @@ describe('/user/register', () => {
     const response = await supertest(app)
       .post(`/${constants.BASE_API_PATH}/user/register`)
       .send({
-        login,
+        login
       })
 
     const callArgs = mockFn.mock.calls[0]

@@ -1,9 +1,16 @@
-import { Currency } from 'sakiewka-crypto'
+import { Currency } from 'sakiewka-crypto/dist'
 
 export const randomString = () => Math.random().toString(36).substring(7)
 
-const currencyUnderTest = process.env.CURRENCY_UNDER_TEST || ""
-export const currency = Currency[currencyUnderTest]
-if(currency == null) {
-  throw new Error(`CURRENCY_UNDER_TEST env variable is set to '${currencyUnderTest}'. Must be set to one of the following values: ${Object.keys(Currency)}`)
+type TestFunc = (Currency) => void | PromiseLike<void>
+
+const forMultipleCurrencies = (currencies:Currency[]) => (testName, testFunc: TestFunc) => {
+  currencies.forEach(currency => {
+    const mochaFunc = () => testFunc(currency)
+    describe(`${currency} > ${testName}`, mochaFunc)
+  })
 }
+
+export const forBTCandBTG = forMultipleCurrencies([Currency.BTC, Currency.BTG])
+
+export const forAllCurrencies = forMultipleCurrencies([Currency.BTC, Currency.BTG, Currency.EOS])
