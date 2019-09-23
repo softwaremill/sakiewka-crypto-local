@@ -20,13 +20,11 @@ podFactory.withNode10 {
                     }
                     stage('Execute test') {
                         container('node10') {
+                            sh "npm ci"
                             if(cryptoVersionDefined) {
                                 sh "npm install softwaremill/sakiewka-crypto#$cryptoVersion"
                             }
-                            sh """
-                            npm ci
-                            npm test
-                            """
+                            sh "npm test"
                         }
                     }
                     if(!cryptoVersionDefined) {
