@@ -18,8 +18,8 @@ export const monthlySummary = (transfers: TransfersApi) => async (
   const token = req.header('authorization') || ''
   const backendResponse = await transfers.monthlySummary(
     token,
-    req.params.month,
-    req.params.year,
+    parseInt(req.params.month, 10),
+    parseInt(req.params.year, 10),
     req.params.fiatCurrency
   )
 
