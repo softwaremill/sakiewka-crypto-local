@@ -1,3 +1,9 @@
+properties([
+    parameters([
+        string(defaultValue: '', description: 'Sakiewka crypto version', name: 'CRYPTO_VERSION', trim: false)
+    ])
+]) 
+
 @Library(['sml-common', 'sakiewka-jenkins-library']) _
 
 podFactory.withNode10 {
@@ -9,43 +15,47 @@ podFactory.withNode10 {
                     stage('Checkout') {
                         checkout scm
                         gitCommitHash = git.getShortCommitHash()
+                        cryptoVersion = params.CRYPTO_VERSION
+                        cryptoVersionDefined = cryptoVersion != null && cryptoVersion.length() > 0
                     }
                     stage('Execute test') {
                         container('node10') {
-                            sh """
-                            set -e
-                            npm ci
-                            npm test
-                            """
+                            sh "npm ci"
+                            if(cryptoVersionDefined) {
+                                sh "npm install softwaremill/sakiewka-crypto#$cryptoVersion"
+                            }
+                            sh "npm test"
                         }
                     }
-                    container('dind') {
-                        stage('Build docker image') {
-                            sh """
-                            set -e
-                            docker build . -t ${dockerRepository}:${gitCommitHash} -t ${dockerRepository}:latest
-                            """
-                        }
-                        stage('Push to Docker Hub') {
-                            withCredentials([usernamePassword(
-                                    credentialsId: 'jenkins-dockerhub',
-                                    passwordVariable: 'DOCKERHUB_PASSWORD',
-                                    usernameVariable: 'DOCKERHUB_USERNAME')]) {
+                    if(!cryptoVersionDefined) {
+                        container('dind') {
+                            stage('Build docker image') {
                                 sh """
-                                    set -e
-                                    docker login -u \$DOCKERHUB_USERNAME -p \$DOCKERHUB_PASSWORD
+                                set -e
+                                docker build . -t ${dockerRepository}:${gitCommitHash} -t ${dockerRepository}:latest
                                 """
-                                if (env.BRANCH_NAME == 'master') {
+                            }
+                            stage('Push to Docker Hub') {
+                                withCredentials([usernamePassword(
+                                        credentialsId: 'jenkins-dockerhub',
+                                        passwordVariable: 'DOCKERHUB_PASSWORD',
+                                        usernameVariable: 'DOCKERHUB_USERNAME')]) {
                                     sh """
-                                        docker push ${dockerRepository}:${gitCommitHash}
-                                        docker push ${dockerRepository}:latest
+                                        set -e
+                                        docker login -u \$DOCKERHUB_USERNAME -p \$DOCKERHUB_PASSWORD
                                     """
-                                } else {
-                                    def safeBranchName = env.BRANCH_NAME.replace('/', '-')
-                                    sh """
-                                        docker tag ${dockerRepository}:latest ${dockerRepository}:${safeBranchName}
-                                        docker push ${dockerRepository}:${safeBranchName}
-                                    """
+                                    if (env.BRANCH_NAME == 'master') {
+                                        sh """
+                                            docker push ${dockerRepository}:${gitCommitHash}
+                                            docker push ${dockerRepository}:latest
+                                        """
+                                    } else {
+                                        def safeBranchName = env.BRANCH_NAME.replace('/', '-')
+                                        sh """
+                                            docker tag ${dockerRepository}:latest ${dockerRepository}:${safeBranchName}
+                                            docker push ${dockerRepository}:${safeBranchName}
+                                        """
+                                    }
                                 }
                             }
                         }
