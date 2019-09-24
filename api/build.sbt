@@ -7,6 +7,11 @@ lazy val commonSettings = commonSmlBuildSettings ++ acyclicSettings ++ Seq(
 val circeVersion = "0.11.1"
 val tapirVersion = "0.7.6"
 
+lazy val rootProject = (project in file("."))
+  .settings(commonSettings: _*)
+  .settings(publishArtifact := false, name := "root")
+  .aggregate(api)
+  
 lazy val api: Project = (project in file("api"))
   .settings(commonSettings: _*)
   .settings(
