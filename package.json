@@ -63,7 +63,7 @@
     "express-winston": "3.4.0",
     "joi": "14.3.1",
     "node-fetch": "2.6.0",
-    "rotating-file-stream": "1.4.3",
+    "rotating-file-stream": "1.4.4",
     "sakiewka-crypto": "github:softwaremill/sakiewka-crypto#37ef612",
     "swagger-ui-express": "4.1.1",
     "winston": "3.2.1",
