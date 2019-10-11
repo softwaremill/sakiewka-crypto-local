@@ -60,6 +60,7 @@ import findTransferByTxHash from './handlers/chain/bitcoin/find-transfer-by-tx-h
 import getFeeRate from './handlers/chain/bitcoin/get-fee-rate'
 import listUtxosByAddress from './handlers/chain/bitcoin/list-utxos-by-address'
 import editWallet from './handlers/chain/bitcoin/edit-wallet'
+import eosGetReferentialAccountId from './handlers/chain/bitcoin/eos-get-referential-account-id'
 
 const correlator = require('express-correlation-id')
 const swaggerDocument = YAML.load(`${__dirname}/swagger.yml`)
@@ -304,6 +305,10 @@ currencies.forEach(currency => {
     app.post(
       `/${BASE_PATH}/wallet/:walletId/send`,
       errorHandled(eosSend(sakiewkaApi[currency].transaction))
+    )
+    app.get(
+      `/${BASE_PATH}/user-reference-for-fee`,
+      errorHandled(eosGetReferentialAccountId(sakiewkaApi[currency].accountFee))
     )
   }
 
