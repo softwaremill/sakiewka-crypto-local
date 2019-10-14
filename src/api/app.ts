@@ -258,23 +258,6 @@ currencies.forEach(currency => {
       `/${BASE_PATH}/policy/:policyId/wallet`,
       errorHandled(listWalletsForPolicy(sakiewkaApi[currency].policy))
     )
-    // webhooks
-    app.post(
-      `/${BASE_PATH}/wallet/:walletId/webhooks`,
-      errorHandled(createWebhook(sakiewkaApi[currency].webhooks))
-    )
-    app.get(
-      `/${BASE_PATH}/wallet/:walletId/webhooks`,
-      errorHandled(listWebhooks(sakiewkaApi[currency].webhooks))
-    )
-    app.get(
-      `/${BASE_PATH}/wallet/:walletId/webhooks/:webhookId`,
-      errorHandled(getWebhook(sakiewkaApi[currency].webhooks))
-    )
-    app.delete(
-      `/${BASE_PATH}/wallet/:walletId/webhooks/:webhookId`,
-      errorHandled(deleteWebhook(sakiewkaApi[currency].webhooks))
-    )
     // key
     app.get(
       `/${BASE_PATH}/key/:id`,
@@ -333,6 +316,24 @@ currencies.forEach(currency => {
   app.get(
     `/${BASE_PATH}/wallet/:id`,
     errorHandled(getWallet(sakiewkaApi[currency].wallet))
+  )
+
+  // webhooks
+  app.post(
+    `/${BASE_PATH}/wallet/:walletId/webhooks`,
+    errorHandled(createWebhook(sakiewkaApi[currency].webhooks))
+  )
+  app.get(
+    `/${BASE_PATH}/wallet/:walletId/webhooks`,
+    errorHandled(listWebhooks(sakiewkaApi[currency].webhooks))
+  )
+  app.get(
+    `/${BASE_PATH}/wallet/:walletId/webhooks/:webhookId`,
+    errorHandled(getWebhook(sakiewkaApi[currency].webhooks))
+  )
+  app.delete(
+    `/${BASE_PATH}/wallet/:walletId/webhooks/:webhookId`,
+    errorHandled(deleteWebhook(sakiewkaApi[currency].webhooks))
   )
 
   // key local
