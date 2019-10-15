@@ -16,7 +16,6 @@ const eosCreateWallet = (wallet: EosWalletApi) => async (
 
   const token = req.header('authorization') || ''
   const { passphrase, userPubKey, backupPubKey, name, eosAccountName } = body
-  console.log('Local wola crypto!!')
   const walletData = await wallet.createWallet(token, {
     passphrase,
     userPubKey,
