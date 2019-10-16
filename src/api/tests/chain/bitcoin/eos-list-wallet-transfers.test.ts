@@ -9,7 +9,7 @@ const { transfers } = app.sakiewkaApi[Currency.EOS]
 // @ts-ignore
 const mockFn = jest.fn().mockResolvedValue('my-transfers')
 
-transfers.listEosWalletTransfers = mockFn
+transfers.listTransfers = mockFn
 
 describe('/eos/wallet/:id/transfer', () => {
   beforeEach(() => {
@@ -18,7 +18,7 @@ describe('/eos/wallet/:id/transfer', () => {
 
   it('should not accept request with missing limit param', async () => {
     const response = await supertest(app)
-      .get(`/${constants.BASE_API_PATH}/eos/wallet/12/transfer`)
+      .get(`/${constants.BASE_API_PATH}/eos/wallet/1337/transfer`)
       .set('Authorization', 'testToken')
 
     expect(response.status).to.be.equal(400)
@@ -27,7 +27,7 @@ describe('/eos/wallet/:id/transfer', () => {
 
   it('should not accept request with missing header', async () => {
     const response = await supertest(app).get(
-      `/${constants.BASE_API_PATH}/eos/wallet/12/transfer?limit=20`
+      `/${constants.BASE_API_PATH}/eos/wallet/1337/transfer?limit=20`
     )
 
     expect(response.status).to.be.equal(400)
@@ -38,14 +38,14 @@ describe('/eos/wallet/:id/transfer', () => {
 
   it('should return transfers', async () => {
     const response = await supertest(app)
-      .get(`/${constants.BASE_API_PATH}/eos/wallet/12/transfer?limit=20`)
+      .get(`/${constants.BASE_API_PATH}/eos/wallet/1337/transfer?limit=20`)
       .set('Authorization', 'testToken')
 
     expect(response.status).to.be.equal(200)
     expect(response.body.data).to.be.equal('my-transfers')
     const callArgs = mockFn.mock.calls[0]
     expect(callArgs[0]).to.eq('testToken')
-    expect(callArgs[1]).to.eq('12')
+    expect(callArgs[1]).to.eq('1337')
     expect(callArgs[2]).to.eq('20')
   })
 })
