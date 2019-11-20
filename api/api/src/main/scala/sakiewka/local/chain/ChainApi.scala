@@ -1,6 +1,6 @@
 package sakiewka.local.chain
 
-import tapir.Endpoint
+import sttp.tapir.Endpoint
 
 class ChainApi(val currency: String) {
 

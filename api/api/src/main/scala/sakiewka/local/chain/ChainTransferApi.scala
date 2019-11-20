@@ -10,15 +10,15 @@ import sakiewka.local.Json._
 import sakiewka.local.TapirSupport._
 import sakiewka.local.chain.WalletApi.Response.Wallet
 import sakiewka.local.core.TransferApi.Response.{BitcoinBlock, BitcoinTx, ListBtcTransfer}
-import tapir._
-import tapir.json.circe._
+import sttp.tapir._
+import sttp.tapir.json.circe._
 
 class ChainTransferApi(currency: String) {
 
   import ChainTransferApi.Response._
 
   private val walletIdPathInput: EndpointInput[Id @@ Wallet] = currency / "wallet" / path[Id @@ Wallet]("walletId")
-  implicit val schemaForBitcoinTransferHistoryType: SchemaFor[BitcoinTransferHistoryType] = SchemaFor(Schema.SString)
+  implicit val schemaForBitcoinTransferHistoryType: Schema[BitcoinTransferHistoryType] = Schema(SchemaType.SString)
 
   import ChainTransferApi.Response._
 

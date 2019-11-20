@@ -5,8 +5,8 @@ import java.time.Instant
 import io.circe.generic.auto._
 import sakiewka.local.Common.baseEndpoint
 import sakiewka.local.{EmptyResponse, Success_OUT}
-import tapir.{Endpoint, _}
-import tapir.json.circe._
+import sttp.tapir.{Endpoint, _}
+import sttp.tapir.json.circe._
 
 object UserApi {
 

@@ -3,8 +3,8 @@ package sakiewka.local.chain
 import io.circe.generic.auto._
 import sakiewka.local.Common.{SatoshisPerByte, baseEndpoint}
 import sakiewka.local.Success_OUT
-import tapir.json.circe._
-import tapir.{jsonBody, _}
+import sttp.tapir.json.circe._
+import sttp.tapir.{jsonBody, _}
 
 class FeeRateApi(val currency: String) {
 

@@ -2,8 +2,8 @@ package sakiewka.local
 
 import sakiewka.local.chain.ChainApi
 import sakiewka.local.core.{TransferApi, UserApi}
-import tapir.docs.openapi._
-import tapir.openapi.circe.yaml._
+import sttp.tapir.docs.openapi._
+import sttp.tapir.openapi.circe.yaml._
 import java.nio.file.{Paths, Files}
 import java.nio.charset.StandardCharsets
 

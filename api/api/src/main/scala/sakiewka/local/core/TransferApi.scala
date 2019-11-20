@@ -4,12 +4,12 @@ import java.time.Instant
 
 import com.softwaremill.tagging.@@
 import sakiewka.local.Common._
-import tapir._
 import io.circe.generic.auto._
 import sakiewka.local.Json._
-import sakiewka.local.Success_OUT
 import sakiewka.local.TapirSupport._
-import tapir.json.circe._
+import sakiewka.local.Success_OUT
+import sttp.tapir._
+import sttp.tapir.json.circe._
 
 class TransferApi {
 
