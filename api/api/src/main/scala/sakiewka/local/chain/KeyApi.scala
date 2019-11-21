@@ -6,8 +6,8 @@ import io.circe.generic.auto._
 import sakiewka.local.Common.{Id, secureEndpoint, _}
 import sakiewka.local.Success_OUT
 import sakiewka.local.chain.KeyApi.Response.KeyPair
-import tapir.json.circe._
-import tapir.{path, _}
+import sttp.tapir.json.circe._
+import sttp.tapir.{path, _}
 
 class KeyApi(currency: String) {
 

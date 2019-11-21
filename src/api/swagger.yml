@@ -1183,11 +1183,9 @@ components:
         callbackUrl:
           type: string
         type:
-          oneOf:
-          - $ref: '#/components/schemas/Transfer'
+          $ref: '#/components/schemas/WebhookType'
         webhookSettings:
-          oneOf:
-          - $ref: '#/components/schemas/TransferWebhookSettings'
+          $ref: '#/components/schemas/WebhookSettings'
     CreateWalletRequest:
       required:
       - name
@@ -1252,8 +1250,6 @@ components:
         password:
           type: string
     SendRequest:
-      required:
-      - recipients
       type: object
       properties:
         xprv:
@@ -1266,6 +1262,7 @@ components:
           type: string
         feeRate:
           type: integer
+          format: int64
     KeyPair:
       required:
       - pubKey
@@ -1377,8 +1374,6 @@ components:
         status:
           type: string
     ListAddressesResponse:
-      required:
-      - addresses
       type: object
       properties:
         addresses:
@@ -1388,8 +1383,6 @@ components:
         nextPageToken:
           type: string
     UserPeriodSummary:
-      required:
-      - chains
       type: object
       properties:
         chains:
@@ -1439,8 +1432,6 @@ components:
           type: string
         path:
           $ref: '#/components/schemas/BIP45DerivationPath'
-    Map:
-      type: object
     StoredKeyType:
       required:
       - id
@@ -1450,10 +1441,7 @@ components:
         id:
           type: string
         type:
-          oneOf:
-          - $ref: '#/components/schemas/User'
-          - $ref: '#/components/schemas/Service'
-          - $ref: '#/components/schemas/Backup'
+          $ref: '#/components/schemas/KeyType'
     Service:
       type: object
     Success_OUT_ListAddressesResponse:
@@ -1517,7 +1505,6 @@ components:
       - name
       - currency
       - created
-      - keys
       - canSendFundsUsingPassword
       - balance
       type: object
@@ -1550,6 +1537,7 @@ components:
           type: string
         number:
           type: integer
+          format: int64
         timestamp:
           type: string
           format: date-time
@@ -1570,6 +1558,7 @@ components:
       properties:
         recommended:
           type: integer
+          format: int64
     WalletBalance:
       required:
       - available
@@ -1628,8 +1617,6 @@ components:
         status:
           type: string
     CreateTokenRequest:
-      required:
-      - scope
       type: object
       properties:
         duration:
@@ -1650,9 +1637,11 @@ components:
           type: string
         content:
           type: string
+    WebhookSettings:
+      oneOf:
+      - $ref: '#/components/schemas/TransferWebhookSettings'
     ListWalletsResponse:
       required:
-      - data
       - nextPageToken
       type: object
       properties:
@@ -1663,8 +1652,6 @@ components:
         nextPageToken:
           type: string
     GetWebhookListResponse:
-      required:
-      - webhooks
       type: object
       properties:
         webhooks:
@@ -1676,8 +1663,6 @@ components:
     User:
       type: object
     ListUtxosByAddress:
-      required:
-      - outputs
       type: object
       properties:
         outputs:
@@ -1703,6 +1688,9 @@ components:
       properties:
         password:
           type: string
+    WebhookType:
+      oneOf:
+      - $ref: '#/components/schemas/Transfer'
     LoginRequest:
       required:
       - login
@@ -1753,11 +1741,8 @@ components:
         callbackUrl:
           type: string
         settings:
-          oneOf:
-          - $ref: '#/components/schemas/TransferWebhookSettings'
+          $ref: '#/components/schemas/WebhookSettings'
     TokenInfo:
-      required:
-      - scope
       type: object
       properties:
         scope:
@@ -1769,7 +1754,6 @@ components:
       - id
       - initialAddress
       - servicePubKey
-      - keys
       type: object
       properties:
         id:
@@ -1813,6 +1797,11 @@ components:
           $ref: '#/components/schemas/EmptyResponse'
         status:
           type: string
+    KeyType:
+      oneOf:
+      - $ref: '#/components/schemas/User'
+      - $ref: '#/components/schemas/Service'
+      - $ref: '#/components/schemas/Backup'
     ClassifiedRecipients:
       required:
       - wallet
@@ -1821,11 +1810,11 @@ components:
       type: object
       properties:
         wallet:
-          $ref: '#/components/schemas/Map'
+          $ref: '#/components/schemas/Map_String'
         service:
-          $ref: '#/components/schemas/Map'
+          $ref: '#/components/schemas/Map_String'
         other:
-          $ref: '#/components/schemas/Map'
+          $ref: '#/components/schemas/Map_String'
     Success_OUT_Init2FaResponse:
       required:
       - data
@@ -1838,7 +1827,6 @@ components:
           type: string
     Success_OUT_List_BitcoinTransferWithHistoryResponse:
       required:
-      - data
       - status
       type: object
       properties:
@@ -1853,7 +1841,6 @@ components:
       - wallet
       - timestamp
       - transaction
-      - history
       type: object
       properties:
         wallet:
@@ -2027,9 +2014,11 @@ components:
         created:
           type: string
           format: date-time
+    Map_String:
+      type: object
+      additionalProperties:
+        type: string
     ListBtcTransfer:
-      required:
-      - transfers
       type: object
       properties:
         transfers:

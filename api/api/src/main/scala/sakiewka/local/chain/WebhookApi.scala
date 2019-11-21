@@ -7,8 +7,8 @@ import sakiewka.local.Common._
 import sakiewka.local.TapirSupport._
 import sakiewka.local.chain.WalletApi.Response.Wallet
 import sakiewka.local.{EmptyResponse, Success_OUT}
-import tapir.json.circe._
-import tapir.{path, _}
+import sttp.tapir.json.circe._
+import sttp.tapir.{path, _}
 
 class WebhookApi(val currency: String) {
 

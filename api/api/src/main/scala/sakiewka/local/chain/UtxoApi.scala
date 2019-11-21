@@ -7,8 +7,8 @@ import sakiewka.local.Success_OUT
 import sakiewka.local.TapirSupport._
 import sakiewka.local.chain.AddressApi.Response.BIP45DerivationPath
 import sakiewka.local.chain.WalletApi.Response.Wallet
-import tapir.json.circe._
-import tapir.{EndpointInput, path, _}
+import sttp.tapir.json.circe._
+import sttp.tapir.{EndpointInput, path, _}
 
 class UtxoApi(currency: String) {
   import UtxoApi.Response._

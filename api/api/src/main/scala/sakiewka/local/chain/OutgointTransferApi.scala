@@ -6,8 +6,8 @@ import sakiewka.local.Common._
 import sakiewka.local.Success_OUT
 import sakiewka.local.TapirSupport._
 import sakiewka.local.chain.WalletApi.Response.Wallet
-import tapir.json.circe._
-import tapir.{EndpointInput, jsonBody, path, _}
+import sttp.tapir.json.circe._
+import sttp.tapir.{EndpointInput, jsonBody, path, _}
 
 class OutgointTransferApi(val currency: String) {
 

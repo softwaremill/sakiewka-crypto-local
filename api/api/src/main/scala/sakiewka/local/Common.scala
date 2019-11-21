@@ -1,6 +1,6 @@
 package sakiewka.local
 
-import tapir.{Endpoint, EndpointInput, auth, endpoint, query}
+import sttp.tapir.{Endpoint, EndpointInput, auth, endpoint, query}
 
 case class Success_OUT[T](data: T, status: String = "success")
 

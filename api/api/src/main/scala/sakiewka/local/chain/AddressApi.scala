@@ -8,8 +8,8 @@ import sakiewka.local.Common.{AddressValue, Id, secureEndpoint, _}
 import sakiewka.local.Success_OUT
 import sakiewka.local.TapirSupport._
 import sakiewka.local.chain.WalletApi.Response.Wallet
-import tapir.json.circe._
-import tapir._
+import sttp.tapir.json.circe._
+import sttp.tapir._
 
 class AddressApi(currency: String) {
 

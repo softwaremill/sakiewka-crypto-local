@@ -8,16 +8,16 @@ import io.circe.generic.auto._
 import sakiewka.local.Common._
 import sakiewka.local.Success_OUT
 import sakiewka.local.TapirSupport._
-import tapir.json.circe._
+import sttp.tapir.json.circe._
 import sakiewka.local.chain.KeyApi.Response.StoredKeyType
-import tapir.{jsonBody, _}
+import sttp.tapir.{jsonBody, _}
 
 class WalletApi(val currency: String) {
 
   import WalletApi.Request._
   import WalletApi.Response._
 
-  implicit val schemaForStoredKeyType: SchemaFor[StoredKeyType] = SchemaFor(Schema.SString)
+  implicit val schemaForStoredKeyType: Schema[StoredKeyType] = Schema(SchemaType.SString)
 
   private val walletEndpoint = secureEndpoint.in(currency / "wallet")
   private val walletIdPathInput: EndpointInput[Id @@ Wallet] = currency / "wallet" / path[Id @@ Wallet]("walletId")
