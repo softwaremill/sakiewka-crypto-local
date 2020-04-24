@@ -39,7 +39,7 @@
     "@types/joi": "14.3.3",
     "@types/mocha": "5.2.7",
     "@types/node": "12.11.1",
-    "@types/node-fetch": "2.5.2",
+    "@types/node-fetch": "2.5.7",
     "chai": "4.2.0",
     "concurrently": "5.0.0",
     "jest": "24.9.0",
